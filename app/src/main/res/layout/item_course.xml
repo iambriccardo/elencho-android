@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/item_course_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            tools:text="BZ C2.01" />
+
+        <TextView
+            android:id="@+id/item_course_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/item_course_location"
+            android:textColor="#DE000000"
+            android:textSize="14sp"
+            tools:text="10:00 - 12:00" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/item_course_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#DE000000"
+        android:textSize="16sp"
+        tools:text="Mathematics I" />
+
+    <TextView
+        android:id="@+id/item_course_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#60000000"
+        android:textSize="14sp"
+        tools:text="Lecture Bruno Carpenteri" />
+
+</LinearLayout>
