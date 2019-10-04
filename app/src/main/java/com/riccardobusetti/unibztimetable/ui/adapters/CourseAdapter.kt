@@ -20,7 +20,7 @@ class CourseAdapter(private val context: Context) : RecyclerView.Adapter<CourseV
     override fun getItemCount() = courses.size
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
-       holder.bind(courses[position])
+        holder.bind(courses[position])
     }
 
     fun updateCourses(newCourses: List<Course>) {

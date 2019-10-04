@@ -6,7 +6,4 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 class TimetableRepository(
     private val remoteTimetableStrategy: RemoteTimetableStrategy,
     private val cachedTimetableStrategy: CachedTimetableStrategy
-) : Repository {
-
-
-}
+) : Repository

@@ -1,8 +1,8 @@
 package com.riccardobusetti.unibztimetable
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.riccardobusetti.unibztimetable.network.WebSiteLink
 import com.riccardobusetti.unibztimetable.network.WebSiteScraper

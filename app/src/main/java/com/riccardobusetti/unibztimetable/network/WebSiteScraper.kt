@@ -32,7 +32,6 @@ class WebSiteScraper(private val webSiteLink: WebSiteLink) {
         GET_COURSE_LOCATION(".u-push-btm-quarter"),
         GET_COURSE_PROFESSOR(".actionLink"),
         GET_COURSE_TIME_AND_TYPE(".u-push-btm-none:first-of-type")
-
     }
 
     private fun String.compact() = this.replace(" ", "")
@@ -49,15 +48,20 @@ class WebSiteScraper(private val webSiteLink: WebSiteLink) {
 
     private fun Element.selectDayDate() = this.select(CSSQueries.GET_DAY_DATE.cssQuery).text()
 
-    private fun Element.selectCourseTitle() = this.select(CSSQueries.GET_COURSE_TITLE.cssQuery).text()
+    private fun Element.selectCourseTitle() =
+        this.select(CSSQueries.GET_COURSE_TITLE.cssQuery).text()
 
-    private fun Element.selectCourseLocation() = this.select(CSSQueries.GET_COURSE_LOCATION.cssQuery).text()
+    private fun Element.selectCourseLocation() =
+        this.select(CSSQueries.GET_COURSE_LOCATION.cssQuery).text()
 
-    private fun Element.selectCourseProfessor() = this.select(CSSQueries.GET_COURSE_PROFESSOR.cssQuery).text()
+    private fun Element.selectCourseProfessor() =
+        this.select(CSSQueries.GET_COURSE_PROFESSOR.cssQuery).text()
 
-    private fun Element.selectCourseTime() = this.select(CSSQueries.GET_COURSE_TIME_AND_TYPE.cssQuery).text().time()
+    private fun Element.selectCourseTime() =
+        this.select(CSSQueries.GET_COURSE_TIME_AND_TYPE.cssQuery).text().time()
 
-    private fun Element.selectCourseType() = this.select(CSSQueries.GET_COURSE_TIME_AND_TYPE.cssQuery).text().type()
+    private fun Element.selectCourseType() =
+        this.select(CSSQueries.GET_COURSE_TIME_AND_TYPE.cssQuery).text().type()
 
     /**
      * Gets the website as [Document] object which will contain all the [Element]s that
