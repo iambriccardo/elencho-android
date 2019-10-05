@@ -25,10 +25,10 @@ import kotlinx.android.synthetic.main.fragment_today.*
 
 class TodayFragment : ViewModelFragment<TodayViewModel>() {
 
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
-
-    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     override fun initModel(): TodayViewModel {
         val repository = TimetableRepository(
@@ -54,8 +54,8 @@ class TodayFragment : ViewModelFragment<TodayViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         setupUi()
-        startLoading()
         attachObservers()
+        startLoading()
     }
 
     private fun setupUi() {

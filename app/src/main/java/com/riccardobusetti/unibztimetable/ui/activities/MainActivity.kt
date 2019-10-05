@@ -1,6 +1,7 @@
 package com.riccardobusetti.unibztimetable.ui.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.riccardobusetti.unibztimetable.R

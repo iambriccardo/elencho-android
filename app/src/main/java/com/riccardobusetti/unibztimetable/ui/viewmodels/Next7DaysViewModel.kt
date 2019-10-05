@@ -22,6 +22,8 @@ class Next7DaysViewModel(private val next7DaysUseCase: GetNext7DaysTimetableUseC
         page: String
     ) {
         viewModelScope.launch {
+            loading.value = true
+
             val newTimetable = withContext(Dispatchers.IO) {
                 next7DaysUseCase.getNext7DaysTimetable(
                     department,
@@ -31,6 +33,7 @@ class Next7DaysViewModel(private val next7DaysUseCase: GetNext7DaysTimetableUseC
                 )
             }
 
+            loading.value = false
             timetable.value = newTimetable
         }
     }
