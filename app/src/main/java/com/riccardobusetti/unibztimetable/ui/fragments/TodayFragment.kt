@@ -69,14 +69,12 @@ class TodayFragment : ViewModelFragment<TodayViewModel>() {
     }
 
     private fun startLoading() {
-        model?.let {
-            it.loadTodayTimetable(
-                "22",
-                "13205",
-                "16858",
-                "1"
-            )
-        }
+        model?.loadTodayTimetable(
+            "22",
+            "13205",
+            "16858",
+            "1"
+        )
     }
 
     private fun attachObservers() {
@@ -89,6 +87,8 @@ class TodayFragment : ViewModelFragment<TodayViewModel>() {
             })
 
             it.timetable.observe(this, Observer { timetable ->
+                groupAdapter.clear()
+
                 timetable.forEach { day ->
                     val section = Section()
                     section.setHeader(DayItem(day))
