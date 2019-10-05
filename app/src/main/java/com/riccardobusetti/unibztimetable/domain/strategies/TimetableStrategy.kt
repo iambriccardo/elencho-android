@@ -1,6 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.strategies
 
 import com.riccardobusetti.unibztimetable.domain.entities.Day
+import com.riccardobusetti.unibztimetable.network.WebSiteLink
 
 /**
  * Interface describing the behavior that any strategy should implement if they
@@ -11,35 +12,7 @@ import com.riccardobusetti.unibztimetable.domain.entities.Day
 interface TimetableStrategy : Strategy {
 
     /**
-     * Gets the timetable of today.
+     * Gets the timetable from a specific [WebSiteLink].
      */
-    fun getTodayTimetable(
-        department: String,
-        degree: String,
-        academicYear: String,
-        page: String
-    ): List<Day>
-
-    /**
-     * Gets the timetable for the next 7 days of the week.
-     */
-    fun getNext7DaysTimetable(
-        department: String,
-        degree: String,
-        academicYear: String,
-        page: String
-    ): List<Day>
-
-    /**
-     * Gets the timetable with all the parameters free of choice.
-     */
-    fun getTimetable(
-        language: String,
-        department: String,
-        degree: String,
-        academicYear: String,
-        fromDate: String,
-        toDate: String,
-        page: String
-    ): List<Day>
+    fun getTimetable(webSiteLink: WebSiteLink): List<Day>
 }

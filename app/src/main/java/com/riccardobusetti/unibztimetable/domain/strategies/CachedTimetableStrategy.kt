@@ -1,6 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.strategies
 
 import com.riccardobusetti.unibztimetable.domain.entities.Day
+import com.riccardobusetti.unibztimetable.network.WebSiteLink
 
 /**
  * Cached implementation for fetching the timetable.
@@ -12,33 +13,10 @@ import com.riccardobusetti.unibztimetable.domain.entities.Day
  */
 class CachedTimetableStrategy : TimetableStrategy {
 
-    override fun getTodayTimetable(
-        department: String,
-        degree: String,
-        academicYear: String,
-        page: String
-    ): List<Day> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getNext7DaysTimetable(
-        department: String,
-        degree: String,
-        academicYear: String,
-        page: String
-    ): List<Day> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getTimetable(
-        language: String,
-        department: String,
-        degree: String,
-        academicYear: String,
-        fromDate: String,
-        toDate: String,
-        page: String
-    ): List<Day> {
+    /**
+     * @inheritDoc
+     */
+    override fun getTimetable(webSiteLink: WebSiteLink): List<Day> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
