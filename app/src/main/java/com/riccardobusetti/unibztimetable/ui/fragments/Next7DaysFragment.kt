@@ -17,6 +17,7 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
+import com.riccardobusetti.unibztimetable.ui.utils.AdvancedFragment
 import com.riccardobusetti.unibztimetable.ui.viewmodels.Next7DaysViewModel
 import com.riccardobusetti.unibztimetable.ui.viewmodels.factories.Next7DaysViewModelFactory
 import com.xwray.groupie.GroupAdapter
@@ -24,7 +25,7 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import kotlinx.android.synthetic.main.fragment_next_7_days.*
 
-class Next7DaysFragment : ViewModelFragment<Next7DaysViewModel>() {
+class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
@@ -51,15 +52,7 @@ class Next7DaysFragment : ViewModelFragment<Next7DaysViewModel>() {
         return inflater.inflate(R.layout.fragment_next_7_days, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupUi()
-        attachObservers()
-        startLoading()
-    }
-
-    private fun setupUi() {
+    override fun setupUi() {
         recyclerView = fragment_next_7_days_recycler_view
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -69,16 +62,7 @@ class Next7DaysFragment : ViewModelFragment<Next7DaysViewModel>() {
         progressBar = fragment_next_7_days_progress_bar
     }
 
-    private fun startLoading() {
-        model?.loadNext7DaysTimetable(
-            "22",
-            "13205",
-            "16858",
-            "1"
-        )
-    }
-
-    private fun attachObservers() {
+    override fun attachObservers() {
         model?.let {
             it.loading.observe(this, Observer { isLoading ->
                 Log.d("NEXT", "isloading -> $isLoading")
@@ -103,5 +87,14 @@ class Next7DaysFragment : ViewModelFragment<Next7DaysViewModel>() {
                 }
             })
         }
+    }
+
+    override fun startLoadingData() {
+        model?.loadNext7DaysTimetable(
+            "22",
+            "13205",
+            "16858",
+            "1"
+        )
     }
 }

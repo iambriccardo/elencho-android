@@ -16,6 +16,7 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
+import com.riccardobusetti.unibztimetable.ui.utils.AdvancedFragment
 import com.riccardobusetti.unibztimetable.ui.viewmodels.TodayViewModel
 import com.riccardobusetti.unibztimetable.ui.viewmodels.factories.TodayViewModelFactory
 import com.xwray.groupie.GroupAdapter
@@ -23,7 +24,7 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import kotlinx.android.synthetic.main.fragment_today.*
 
-class TodayFragment : ViewModelFragment<TodayViewModel>() {
+class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
@@ -50,15 +51,7 @@ class TodayFragment : ViewModelFragment<TodayViewModel>() {
         return inflater.inflate(R.layout.fragment_today, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupUi()
-        attachObservers()
-        startLoading()
-    }
-
-    private fun setupUi() {
+    override fun setupUi() {
         recyclerView = fragment_today_recycler_view
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -68,16 +61,7 @@ class TodayFragment : ViewModelFragment<TodayViewModel>() {
         progressBar = fragment_today_progress_bar
     }
 
-    private fun startLoading() {
-        model?.loadTodayTimetable(
-            "22",
-            "13205",
-            "16858",
-            "1"
-        )
-    }
-
-    private fun attachObservers() {
+    override fun attachObservers() {
         model?.let {
             it.loading.observe(this, Observer { isLoading ->
                 progressBar.visibility = when (isLoading) {
@@ -102,4 +86,14 @@ class TodayFragment : ViewModelFragment<TodayViewModel>() {
             })
         }
     }
+
+    override fun startLoadingData() {
+        model?.loadTodayTimetable(
+            "22",
+            "13205",
+            "16858",
+            "1"
+        )
+    }
+
 }
