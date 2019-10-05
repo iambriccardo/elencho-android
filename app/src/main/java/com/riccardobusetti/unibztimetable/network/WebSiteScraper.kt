@@ -78,27 +78,17 @@ class WebSiteScraper(private val webSiteLink: WebSiteLink) {
     /**
      * Scrapes and computes all the days from the website.
      */
-    private fun getAllDays(webSite: Document): List<Day> {
-        val days = mutableListOf<Day>()
-
-        for (day in webSite.selectAllDays()) {
-            days.add(
-                Day(
-                    date = day.selectDayDate(),
-                    courses = getAllCourses(day)
-                )
-            )
-        }
-
-        return days
+    private fun getAllDays(webSite: Document) = webSite.selectAllDays().map { day ->
+        Day(
+            date = day.selectDayDate(),
+            courses = getAllCourses(day)
+        )
     }
 
     /**
      * Scrapes and computes all the courses from the website.
      */
     private fun getAllCourses(day: Element): List<Course> {
-        val courses = mutableListOf<Course>()
-
         // This variable is used because there is a possibility in which
         // the location is not specified, thus we will use the previous location.
         // This is done because the previous location following the website design
@@ -108,22 +98,20 @@ class WebSiteScraper(private val webSiteLink: WebSiteLink) {
         //  Mathematics I
         //  Mathematics II
         // These two courses are on the same class but on the HTML the location is only contained once.
-        var prevLocation = "-"
+        var prevLocation = "Error while getting location"
 
-        day.selectAllCourses().forEach { course ->
-            courses.add(
-                Course(
-                    title = course.selectCourseTitle(),
-                    location = if (course.selectCourseLocation().isBlank()) prevLocation else course.selectCourseLocation(),
-                    time = course.selectCourseTime(),
-                    professor = course.selectCourseProfessor(),
-                    type = course.selectCourseType()
-                )
+        return day.selectAllCourses().map { course ->
+            val mappedCourse = Course(
+                title = course.selectCourseTitle(),
+                location = if (course.selectCourseLocation().isBlank()) prevLocation else course.selectCourseLocation(),
+                time = course.selectCourseTime(),
+                professor = course.selectCourseProfessor(),
+                type = course.selectCourseType()
             )
 
             prevLocation = course.selectCourseLocation()
-        }
 
-        return courses
+            return@map mappedCourse
+        }
     }
 }
