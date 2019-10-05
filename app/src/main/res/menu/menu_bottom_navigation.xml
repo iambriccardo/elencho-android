@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_today"
+        android:enabled="true"
+        android:icon="@drawable/ic_today"
+        android:title="Today"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_next_7_days"
+        android:enabled="true"
+        android:icon="@drawable/ic_next_7_days"
+        android:title="Next 7 Days"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_yearly"
+        android:enabled="true"
+        android:icon="@drawable/ic_yearly"
+        android:title="Yearly"
+        app:showAsAction="ifRoom" />
+</menu>

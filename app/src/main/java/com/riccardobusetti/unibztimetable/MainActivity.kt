@@ -1,50 +1,46 @@
 package com.riccardobusetti.unibztimetable
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.riccardobusetti.unibztimetable.network.WebSiteLink
-import com.riccardobusetti.unibztimetable.network.WebSiteScraper
-import com.riccardobusetti.unibztimetable.ui.adapters.DayAdapter
+import androidx.fragment.app.Fragment
+import com.riccardobusetti.unibztimetable.ui.fragments.Next7DaysFragment
+import com.riccardobusetti.unibztimetable.ui.fragments.TodayFragment
+import com.riccardobusetti.unibztimetable.ui.fragments.YearlyFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
-    private var adapter = DayAdapter(this)
+    private val fragmentsMap = mapOf(
+        R.id.action_today to TodayFragment(),
+        R.id.action_next_7_days to Next7DaysFragment(),
+        R.id.action_yearly to YearlyFragment()
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val layoutManager = LinearLayoutManager(this)
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        setupUi()
+        attachListeners()
+    }
 
-        activity_main_recycler_view.layoutManager = layoutManager
-        activity_main_recycler_view.adapter = adapter
+    private fun setupUi() {
+        mountFragment(TodayFragment())
+    }
 
-        GlobalScope.launch(Dispatchers.Main) {
-            val webSiteLink = WebSiteLink.Builder()
-                .useDeviceLanguage()
-                .withDepartment("22")
-                .withDegree("13205")
-                .withAcademicYear("16858")
-                .fromToday()
-                .toNext7Days()
-                .atPage("1")
-                .build()
-
-            Log.d("DATE", webSiteLink.toString())
-
-            val timetable = withContext(Dispatchers.IO) {
-                WebSiteScraper(webSiteLink).getTimetable()
+    private fun attachListeners() {
+        activity_main_bottom_navigation.setOnNavigationItemSelectedListener {
+            fragmentsMap[it.itemId]?.let { fragment ->
+                mountFragment(fragment)
             }
 
-            adapter.updateDays(timetable)
+            true
         }
+    }
+
+    private fun mountFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.activity_main_fragment_container, fragment)
+            .commit()
     }
 }

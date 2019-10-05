@@ -5,19 +5,19 @@ import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepositor
 import com.riccardobusetti.unibztimetable.network.WebSiteLink
 
 /**
- * Use case which will manage the next 7 days timetable that is responsible of
- * showing to the user the timetable of the next 7 days.
+ * Use case which will manage the today timetable that is responsible of
+ * showing to the user the timetable of the current day.
  *
  * @author Riccardo Busetti
  */
-class Next7DaysTimetableUseCase(
+class GetTodayTimetableUseCase(
     private val timetableRepository: TimetableRepository
 ) : UseCase {
 
     /**
-     * Gets the timetable for the next 7 days of the week.
+     * Gets the timetable of today.
      */
-    fun getNext7DaysTimetable(
+    fun getTodayTimetable(
         department: String,
         degree: String,
         academicYear: String,
@@ -28,8 +28,7 @@ class Next7DaysTimetableUseCase(
             .withDepartment(department)
             .withDegree(degree)
             .withAcademicYear(academicYear)
-            .fromToday()
-            .toNext7Days()
+            .onlyToday()
             .atPage(page)
             .build()
 
