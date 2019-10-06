@@ -11,9 +11,13 @@ import kotlinx.coroutines.withContext
 
 class TodayViewModel(private val todayUseCase: GetTodayTimetableUseCase) : ViewModel() {
 
-    val loading = MutableLiveData<Boolean>().apply { this.value = false }
+    var currentPage = 1
 
-    val timetable = MutableLiveData<List<Day>>().apply { this.value = mutableListOf() }
+    val error = MutableLiveData<String>()
+
+    val loading = MutableLiveData<Boolean>()
+
+    val timetable = MutableLiveData<List<Day>>()
 
     fun loadTodayTimetable(department: String, degree: String, academicYear: String, page: String) {
         viewModelScope.launch {
@@ -29,7 +33,12 @@ class TodayViewModel(private val todayUseCase: GetTodayTimetableUseCase) : ViewM
             }
 
             loading.value = false
-            timetable.value = newTimetable
+
+            if (newTimetable.isEmpty()) {
+                if (currentPage == 1) error.value = "Non hai corsi, goditi la giornata"
+            } else {
+                timetable.value = newTimetable
+            }
         }
     }
 }

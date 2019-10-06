@@ -14,9 +14,9 @@
         android:title="Next 7 Days"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_yearly"
+        android:id="@+id/action_time_machine"
         android:enabled="true"
-        android:icon="@drawable/ic_yearly"
-        android:title="Yearly"
+        android:icon="@drawable/ic_time_machine"
+        android:title="Time Machine"
         app:showAsAction="ifRoom" />
 </menu>

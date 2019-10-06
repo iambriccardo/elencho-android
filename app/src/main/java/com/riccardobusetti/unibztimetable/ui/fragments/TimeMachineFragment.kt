@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.riccardobusetti.unibztimetable.R
 
-class YearlyFragment : Fragment() {
+class TimeMachineFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_yearly, container, false)
+        return inflater.inflate(R.layout.fragment_time_machine, container, false)
     }
 }

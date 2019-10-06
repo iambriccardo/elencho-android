@@ -11,9 +11,9 @@ import kotlinx.coroutines.withContext
 
 class Next7DaysViewModel(private val next7DaysUseCase: GetNext7DaysTimetableUseCase) : ViewModel() {
 
-    val loading = MutableLiveData<Boolean>().apply { this.value = false }
+    val loading = MutableLiveData<Boolean>()
 
-    val timetable = MutableLiveData<List<Day>>().apply { this.value = mutableListOf() }
+    val timetable = MutableLiveData<List<Day>>()
 
     fun loadNext7DaysTimetable(
         department: String,

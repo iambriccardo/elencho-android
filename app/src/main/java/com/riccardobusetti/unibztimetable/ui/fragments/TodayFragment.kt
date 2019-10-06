@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.SkeletonScreen
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.CachedTimetableStrategy
@@ -29,7 +31,7 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var progressBar: ProgressBar
+    private lateinit var skeleton: SkeletonScreen
 
     override fun initModel(): TodayViewModel {
         val repository = TimetableRepository(
@@ -58,16 +60,17 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
             adapter = groupAdapter
         }
 
-        progressBar = fragment_today_progress_bar
+        skeleton = Skeleton.bind(recyclerView)
+            .adapter(groupAdapter)
+            .load(R.layout.item_skeleton)
+            .color(R.color.colorSkeletonShimmer)
+            .show()
     }
 
     override fun attachObservers() {
         model?.let {
             it.loading.observe(this, Observer { isLoading ->
-                progressBar.visibility = when (isLoading) {
-                    true -> View.VISIBLE
-                    false -> View.GONE
-                }
+                if (isLoading) skeleton.show() else skeleton.hide()
             })
 
             it.timetable.observe(this, Observer { timetable ->

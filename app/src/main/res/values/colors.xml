@@ -4,6 +4,16 @@
     <color name="colorPrimaryDark">#0050b1</color>
     <color name="colorAccent">#62a9ff</color>
 
+    <color name="colorLanguageCenter">#007be4</color>
+    <color name="colorComputerScience">#f86b07</color>
+    <color name="colorEconomics">#ac145a</color>
+    <color name="colorEducation">#6cc3ab</color>
+    <color name="colorDesign">#ed331a</color>
+    <color name="colorScience">#1a8c64</color>
+    <color name="colorStudium">#9c27b3</color>
+
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGrey">#666666</color>
+    <color name="colorSkeleton">#E7ECEA</color>
+    <color name="colorSkeletonShimmer">#EEEFF4</color>
 </resources>
