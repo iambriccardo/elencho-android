@@ -12,6 +12,6 @@
         android:id="@+id/fragment_today_status_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

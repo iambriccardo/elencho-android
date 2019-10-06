@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.CachedTimetableStrategy
@@ -23,10 +25,8 @@ import com.riccardobusetti.unibztimetable.utils.components.AdvancedFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
-import kotlinx.android.synthetic.main.fragment_time_machine.*
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.bottom_sheet_date_interval.view.*
+import kotlinx.android.synthetic.main.fragment_time_machine.*
 
 
 class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
@@ -140,7 +140,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     }
 
     private fun changeBottomSheetState() {
-        model?.bottomSheetState?.value = when(model?.bottomSheetState?.value) {
+        model?.bottomSheetState?.value = when (model?.bottomSheetState?.value) {
             true -> false
             false -> true
             null -> false

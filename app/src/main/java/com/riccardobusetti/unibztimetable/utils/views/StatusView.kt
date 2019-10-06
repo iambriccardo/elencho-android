@@ -18,7 +18,7 @@ class StatusView @JvmOverloads constructor(
     private lateinit var statusText: TextView
 
     init {
-        inflate(getContext(), R.layout.compound_view_status,this)
+        inflate(getContext(), R.layout.compound_view_status, this)
 
         statusImage = compound_view_status_image
         statusText = compound_view_status_text

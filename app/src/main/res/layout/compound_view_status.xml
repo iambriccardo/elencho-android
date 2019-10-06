@@ -15,10 +15,10 @@
             android:id="@+id/compound_view_status_image"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/ic_sad"
-            android:tint="?attr/colorPrimary"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_sad"
+            android:tint="?attr/colorPrimary" />
 
         <TextView
             android:id="@+id/compound_view_status_text"
