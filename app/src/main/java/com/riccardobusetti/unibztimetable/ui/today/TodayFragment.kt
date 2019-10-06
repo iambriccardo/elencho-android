@@ -1,6 +1,7 @@
 package com.riccardobusetti.unibztimetable.ui.today
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCa
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
 import com.riccardobusetti.unibztimetable.utils.components.AdvancedFragment
+import com.riccardobusetti.unibztimetable.utils.views.StatusView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
@@ -28,6 +30,7 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
+    private lateinit var statusView: StatusView
     private lateinit var recyclerView: RecyclerView
     private lateinit var skeleton: SkeletonScreen
 
@@ -55,6 +58,8 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
     }
 
     override fun setupUi() {
+        statusView = fragment_today_status_view
+
         recyclerView = fragment_today_recycler_view
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -86,7 +91,13 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
             })
 
             it.error.observe(this, Observer { error ->
-                Toast.makeText(activity, error, Toast.LENGTH_SHORT).show()
+                Log.d("ERROR", "$it")
+                if (error.isNotEmpty()) {
+                    statusView.setText(error)
+                    statusView.visibility = View.VISIBLE
+                } else {
+                    statusView.visibility = View.GONE
+                }
             })
 
             it.loadingState.observe(this, Observer { isLoading ->

@@ -40,7 +40,10 @@ class Next7DaysViewModel(
 
             loadingState.value = false
             newTimetable?.let {
-                timetable.value = newTimetable
+                if (newTimetable.isEmpty())
+                    error.value = context.getString(R.string.error_no_courses)
+                else
+                    timetable.value = newTimetable
             }
         }
     }

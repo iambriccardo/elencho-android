@@ -17,7 +17,7 @@
             android:id="@+id/item_course_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:textSize="14sp"
             tools:text="BZ C2.01" />
 

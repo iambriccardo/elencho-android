@@ -10,6 +10,9 @@ import com.riccardobusetti.unibztimetable.ui.timemachine.TimeMachineFragment
 import com.riccardobusetti.unibztimetable.ui.today.TodayFragment
 import com.riccardobusetti.unibztimetable.utils.views.NonSwipeableViewPager
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.ComputerScienceTheme)
         setContentView(R.layout.activity_main)
 
         setupUi()
