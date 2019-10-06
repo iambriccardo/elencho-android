@@ -1,6 +1,6 @@
 package com.riccardobusetti.unibztimetable.network
 
-import java.text.SimpleDateFormat
+import com.riccardobusetti.unibztimetable.ui.utils.DateUtils
 import java.util.*
 
 /**
@@ -37,9 +37,6 @@ class WebSiteLink private constructor(val url: String) {
         var toDate: String = "",
         var page: String = "1"
     ) {
-
-        private val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
         private fun String.encodeComma(): String {
             return if (this.contains(","))
                 this.replace(",", "%2C")
@@ -47,7 +44,7 @@ class WebSiteLink private constructor(val url: String) {
                 this
         }
 
-        private fun getTodayDate() = dateFormatter.format(Calendar.getInstance().time)
+        private fun getTodayDate() = DateUtils.getCurrentDateFormatted()
 
         fun useDeviceLanguage() = apply { this.language = Locale.getDefault().language }
 
@@ -68,19 +65,9 @@ class WebSiteLink private constructor(val url: String) {
 
         fun fromDate(fromDate: String) = apply { this.fromDate = fromDate }
 
-        fun toNext7Days() = apply {
-            val calendar = Calendar.getInstance()
-            calendar.add(Calendar.DAY_OF_WEEK, 7)
+        fun toNext7Days() = apply { this.toDate = DateUtils.getCurrentDatePlusDaysFormatted(7) }
 
-            this.toDate = dateFormatter.format(calendar.time)
-        }
-
-        fun toOneYear() = apply {
-            val calendar = Calendar.getInstance()
-            calendar.add(Calendar.YEAR, 1)
-
-            this.toDate = dateFormatter.format(calendar.time)
-        }
+        fun toOneYear() = apply { this.toDate = DateUtils.getCurrentDatePlusYearsFormatted(1) }
 
         fun toDate(toDate: String) = apply { this.toDate = toDate }
 

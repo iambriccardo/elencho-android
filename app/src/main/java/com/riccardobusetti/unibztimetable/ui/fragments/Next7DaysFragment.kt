@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -68,6 +69,10 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
 
     override fun attachObservers() {
         model?.let {
+            it.error.observe(this, Observer { error ->
+                Toast.makeText(activity, error, Toast.LENGTH_SHORT).show()
+            })
+
             it.loading.observe(this, Observer { isLoading ->
                 if (isLoading) skeleton.show() else skeleton.hide()
             })

@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    data class IndexableFragment(val index: Int, val itemId: Int, val fragment: Fragment)
+
     private val indexableFragments = listOf(
         IndexableFragment(0, R.id.action_today, TodayFragment()),
         IndexableFragment(1, R.id.action_next_7_days, Next7DaysFragment()),
@@ -43,6 +45,4 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
-
-    data class IndexableFragment(val index: Int, val itemId: Int, val fragment: Fragment)
 }
