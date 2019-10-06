@@ -2,7 +2,7 @@ package com.riccardobusetti.unibztimetable.ui.adapters
 
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.riccardobusetti.unibztimetable.ui.activities.MainActivity
+import com.riccardobusetti.unibztimetable.ui.main.MainActivity
 
 /**
  * Adapter that will be used by the view pager to display the fragments.

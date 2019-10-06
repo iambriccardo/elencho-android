@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.ui.fragments
+package com.riccardobusetti.unibztimetable.ui.next7days
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,9 +18,7 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
-import com.riccardobusetti.unibztimetable.ui.utils.components.AdvancedFragment
-import com.riccardobusetti.unibztimetable.ui.viewmodels.Next7DaysViewModel
-import com.riccardobusetti.unibztimetable.ui.viewmodels.factories.Next7DaysViewModelFactory
+import com.riccardobusetti.unibztimetable.utils.components.AdvancedFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
@@ -41,7 +39,10 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
 
         return ViewModelProviders.of(
             this,
-            Next7DaysViewModelFactory(context!!, GetNext7DaysTimetableUseCase(repository))
+            Next7DaysViewModelFactory(
+                context!!,
+                GetNext7DaysTimetableUseCase(repository)
+            )
         ).get(Next7DaysViewModel::class.java)
     }
 

@@ -1,24 +1,29 @@
-package com.riccardobusetti.unibztimetable.ui.viewmodels
+package com.riccardobusetti.unibztimetable.ui.next7days
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
-import com.riccardobusetti.unibztimetable.ui.utils.components.TimetableViewModel
+import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
+import com.riccardobusetti.unibztimetable.utils.components.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
-class TodayViewModel(
+class Next7DaysViewModel(
     private val context: Context,
-    private val todayUseCase: GetTodayTimetableUseCase
+    private val next7DaysUseCase: GetNext7DaysTimetableUseCase
 ) : TimetableViewModel() {
 
-    fun loadTodayTimetable(department: String, degree: String, academicYear: String, page: String) {
+    fun loadNext7DaysTimetable(
+        department: String,
+        degree: String,
+        academicYear: String,
+        page: String
+    ) {
         viewModelScope.launchWithSupervisor {
             loadingState.value = true
 
             val work = async(Dispatchers.IO) {
-                todayUseCase.getTodayTimetable(
+                next7DaysUseCase.getNext7DaysTimetable(
                     department,
                     degree,
                     academicYear,

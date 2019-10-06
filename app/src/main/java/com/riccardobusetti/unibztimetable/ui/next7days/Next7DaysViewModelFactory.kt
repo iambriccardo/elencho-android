@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.ui.viewmodels.factories
+package com.riccardobusetti.unibztimetable.ui.next7days
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

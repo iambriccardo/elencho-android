@@ -1,6 +1,6 @@
 package com.riccardobusetti.unibztimetable.network
 
-import com.riccardobusetti.unibztimetable.ui.utils.DateUtils
+import com.riccardobusetti.unibztimetable.utils.DateUtils
 import java.util.*
 
 /**

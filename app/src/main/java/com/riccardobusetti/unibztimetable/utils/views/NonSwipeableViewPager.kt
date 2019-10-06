@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.ui.utils.views
+package com.riccardobusetti.unibztimetable.utils.views
 
 import android.content.Context
 import android.util.AttributeSet

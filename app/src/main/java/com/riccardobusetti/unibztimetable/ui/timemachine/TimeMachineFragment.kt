@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.ui.fragments
+package com.riccardobusetti.unibztimetable.ui.timemachine
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,9 +19,7 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
-import com.riccardobusetti.unibztimetable.ui.utils.components.AdvancedFragment
-import com.riccardobusetti.unibztimetable.ui.viewmodels.TimeMachineViewModel
-import com.riccardobusetti.unibztimetable.ui.viewmodels.factories.TimeMachineViewModelFactory
+import com.riccardobusetti.unibztimetable.utils.components.AdvancedFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
@@ -51,7 +49,10 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
         return ViewModelProviders.of(
             this,
-            TimeMachineViewModelFactory(context!!, GetIntervalDateTimetableUseCase(repository))
+            TimeMachineViewModelFactory(
+                context!!,
+                GetIntervalDateTimetableUseCase(repository)
+            )
         ).get(TimeMachineViewModel::class.java)
     }
 

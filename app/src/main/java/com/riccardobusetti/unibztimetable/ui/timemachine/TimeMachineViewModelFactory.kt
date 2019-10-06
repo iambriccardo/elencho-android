@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.ui.viewmodels.factories
+package com.riccardobusetti.unibztimetable.ui.timemachine
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

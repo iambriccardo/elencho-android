@@ -1,32 +1,45 @@
-package com.riccardobusetti.unibztimetable.ui.viewmodels
+package com.riccardobusetti.unibztimetable.ui.timemachine
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
-import com.riccardobusetti.unibztimetable.ui.utils.components.TimetableViewModel
+import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
+import com.riccardobusetti.unibztimetable.utils.DateUtils
+import com.riccardobusetti.unibztimetable.utils.components.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
-class Next7DaysViewModel(
+class TimeMachineViewModel(
     private val context: Context,
-    private val next7DaysUseCase: GetNext7DaysTimetableUseCase
+    private val intervalDateUseCase: GetIntervalDateTimetableUseCase
 ) : TimetableViewModel() {
 
-    fun loadNext7DaysTimetable(
+    val selectedDateInterval = MutableLiveData<Pair<String, String>>().apply {
+        this.value =
+            DateUtils.getCurrentDateFormatted() to DateUtils.getCurrentDatePlusYearsFormatted(1)
+    }
+
+    val bottomSheetState = MutableLiveData<Boolean>().apply { this.value = false }
+
+    fun loadTimetable(
         department: String,
         degree: String,
         academicYear: String,
+        fromDate: String,
+        toDate: String,
         page: String
     ) {
         viewModelScope.launchWithSupervisor {
             loadingState.value = true
 
             val work = async(Dispatchers.IO) {
-                next7DaysUseCase.getNext7DaysTimetable(
+                intervalDateUseCase.getTimetable(
                     department,
                     degree,
                     academicYear,
+                    fromDate,
+                    toDate,
                     page
                 )
             }

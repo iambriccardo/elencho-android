@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.ui.fragments
+package com.riccardobusetti.unibztimetable.ui.today
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,9 +18,7 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
-import com.riccardobusetti.unibztimetable.ui.utils.components.AdvancedFragment
-import com.riccardobusetti.unibztimetable.ui.viewmodels.TodayViewModel
-import com.riccardobusetti.unibztimetable.ui.viewmodels.factories.TodayViewModelFactory
+import com.riccardobusetti.unibztimetable.utils.components.AdvancedFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
@@ -41,7 +39,10 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
         return ViewModelProviders.of(
             this,
-            TodayViewModelFactory(context!!, GetTodayTimetableUseCase(repository))
+            TodayViewModelFactory(
+                context!!,
+                GetTodayTimetableUseCase(repository)
+            )
         ).get(TodayViewModel::class.java)
     }
 

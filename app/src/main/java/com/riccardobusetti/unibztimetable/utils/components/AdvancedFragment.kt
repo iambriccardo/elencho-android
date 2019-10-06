@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.ui.utils.components
+package com.riccardobusetti.unibztimetable.utils.components
 
 import android.os.Bundle
 import android.view.View

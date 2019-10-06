@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.ui.utils
+package com.riccardobusetti.unibztimetable.utils
 
 import java.text.SimpleDateFormat
 import java.util.*
