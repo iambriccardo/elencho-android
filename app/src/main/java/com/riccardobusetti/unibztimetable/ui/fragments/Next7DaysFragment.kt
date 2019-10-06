@@ -1,7 +1,6 @@
 package com.riccardobusetti.unibztimetable.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +40,7 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
 
         return ViewModelProviders.of(
             this,
-            Next7DaysViewModelFactory(GetNext7DaysTimetableUseCase(repository))
+            Next7DaysViewModelFactory(context!!, GetNext7DaysTimetableUseCase(repository))
         ).get(Next7DaysViewModel::class.java)
     }
 

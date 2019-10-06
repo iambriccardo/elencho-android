@@ -1,17 +1,19 @@
 package com.riccardobusetti.unibztimetable.ui.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.async
 
-class TodayViewModel(private val todayUseCase: GetTodayTimetableUseCase) : ViewModel() {
-
-    var currentPage = 1
+class TodayViewModel(
+    private val context: Context,
+    private val todayUseCase: GetTodayTimetableUseCase
+) : ViewModel() {
 
     val error = MutableLiveData<String>()
 
@@ -20,10 +22,10 @@ class TodayViewModel(private val todayUseCase: GetTodayTimetableUseCase) : ViewM
     val timetable = MutableLiveData<List<Day>>()
 
     fun loadTodayTimetable(department: String, degree: String, academicYear: String, page: String) {
-        viewModelScope.launch {
+        viewModelScope.launchWithSupervisor {
             loading.value = true
 
-            val newTimetable = withContext(Dispatchers.IO) {
+            val work = async(Dispatchers.IO) {
                 todayUseCase.getTodayTimetable(
                     department,
                     degree,
@@ -32,11 +34,15 @@ class TodayViewModel(private val todayUseCase: GetTodayTimetableUseCase) : ViewM
                 )
             }
 
-            loading.value = false
+            val newTimetable = try {
+                work.await()
+            } catch (e: Exception) {
+                error.value = context.getString(R.string.error_fetching)
+                null
+            }
 
-            if (newTimetable.isEmpty()) {
-                if (currentPage == 1) error.value = "Non hai corsi, goditi la giornata"
-            } else {
+            loading.value = false
+            newTimetable?.let {
                 timetable.value = newTimetable
             }
         }
