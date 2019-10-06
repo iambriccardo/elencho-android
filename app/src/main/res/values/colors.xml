@@ -12,8 +12,13 @@
     <color name="colorScience">#1a8c64</color>
     <color name="colorStudium">#9c27b3</color>
 
+    <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGrey">#666666</color>
+
     <color name="colorSkeleton">#E7ECEA</color>
     <color name="colorSkeletonShimmer">#EEEFF4</color>
+
+    <color name="colorDatePickerTextViewOutline">#E7E9EB</color>
+    <color name="colorDatePickerTextViewText">#4B4F52</color>
 </resources>
