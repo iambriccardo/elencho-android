@@ -19,13 +19,17 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
-import com.riccardobusetti.unibztimetable.ui.utils.AdvancedFragment
+import com.riccardobusetti.unibztimetable.ui.utils.components.AdvancedFragment
 import com.riccardobusetti.unibztimetable.ui.viewmodels.TimeMachineViewModel
 import com.riccardobusetti.unibztimetable.ui.viewmodels.factories.TimeMachineViewModelFactory
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import kotlinx.android.synthetic.main.fragment_time_machine.*
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.bottom_sheet_date_interval.view.*
+
 
 class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
@@ -33,7 +37,10 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
     private lateinit var fromDateText: TextView
     private lateinit var toDateText: TextView
+    private lateinit var bottomSheetView: View
+    private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var recyclerView: RecyclerView
+    private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var skeleton: SkeletonScreen
 
     override fun initModel(): TimeMachineViewModel {
@@ -57,21 +64,22 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     }
 
     override fun setupUi() {
-        fromDateText = fragment_time_machine_from_text
-        fromDateText.setOnClickListener {
+        bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_date_interval, null)
+        fromDateText = bottomSheetView.bottom_sheet_date_interval_from_text
+        toDateText = bottomSheetView.bottom_sheet_date_interval_to_text
 
-        }
-
-        toDateText = fragment_time_machine_to_text
-        toDateText.setOnClickListener {
-
-        }
+        bottomSheetDialog = BottomSheetDialog(context!!)
+        bottomSheetDialog.setContentView(bottomSheetView)
+        bottomSheetDialog.setOnCancelListener { changeBottomSheetState() }
 
         recyclerView = fragment_time_machine_recycler_view
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = groupAdapter
         }
+
+        floatingActionButton = fragment_time_machine_fab
+        floatingActionButton.setOnClickListener { changeBottomSheetState() }
 
         skeleton = Skeleton.bind(recyclerView)
             .adapter(groupAdapter)
@@ -82,29 +90,6 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
     override fun attachObservers() {
         model?.let {
-            it.dateInterval.observe(this, Observer { interval ->
-                fromDateText.text = interval.first
-                toDateText.text = interval.second
-
-                // TODO: avoid loading when the fragment is rotated.
-                model?.loadTimetable(
-                    "22",
-                    "13205",
-                    "16858",
-                    interval.first,
-                    interval.second,
-                    "1"
-                )
-            })
-
-            it.error.observe(this, Observer { error ->
-                Toast.makeText(activity, error, Toast.LENGTH_SHORT).show()
-            })
-
-            it.loading.observe(this, Observer { isLoading ->
-                if (isLoading) skeleton.show() else skeleton.hide()
-            })
-
             it.timetable.observe(this, Observer { timetable ->
                 groupAdapter.clear()
 
@@ -119,10 +104,45 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
                     groupAdapter.add(section)
                 }
             })
+
+            it.error.observe(this, Observer { error ->
+                Toast.makeText(activity, error, Toast.LENGTH_SHORT).show()
+            })
+
+            it.loadingState.observe(this, Observer { isLoading ->
+                if (isLoading) skeleton.show() else skeleton.hide()
+            })
+
+            it.selectedDateInterval.observe(this, Observer { interval ->
+                fromDateText.text = interval.first
+                toDateText.text = interval.second
+
+                // TODO: avoid loadingState when the fragment is rotated.
+                model?.loadTimetable(
+                    "22",
+                    "13205",
+                    "16858",
+                    interval.first,
+                    interval.second,
+                    "1"
+                )
+            })
+
+            it.bottomSheetState.observe(this, Observer { showBottomSheet ->
+                if (showBottomSheet) bottomSheetDialog.show() else bottomSheetDialog.hide()
+            })
         }
     }
 
     override fun startLoadingData() {
         // In this fragment we don't load data with this method
+    }
+
+    private fun changeBottomSheetState() {
+        model?.bottomSheetState?.value = when(model?.bottomSheetState?.value) {
+            true -> false
+            false -> true
+            null -> false
+        }
     }
 }

@@ -18,7 +18,7 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
-import com.riccardobusetti.unibztimetable.ui.utils.AdvancedFragment
+import com.riccardobusetti.unibztimetable.ui.utils.components.AdvancedFragment
 import com.riccardobusetti.unibztimetable.ui.viewmodels.TodayViewModel
 import com.riccardobusetti.unibztimetable.ui.viewmodels.factories.TodayViewModelFactory
 import com.xwray.groupie.GroupAdapter
@@ -69,14 +69,6 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
     override fun attachObservers() {
         model?.let {
-            it.error.observe(this, Observer { error ->
-                Toast.makeText(activity, error, Toast.LENGTH_SHORT).show()
-            })
-
-            it.loading.observe(this, Observer { isLoading ->
-                if (isLoading) skeleton.show() else skeleton.hide()
-            })
-
             it.timetable.observe(this, Observer { timetable ->
                 groupAdapter.clear()
 
@@ -90,6 +82,14 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
                     groupAdapter.add(section)
                 }
+            })
+
+            it.error.observe(this, Observer { error ->
+                Toast.makeText(activity, error, Toast.LENGTH_SHORT).show()
+            })
+
+            it.loadingState.observe(this, Observer { isLoading ->
+                if (isLoading) skeleton.show() else skeleton.hide()
             })
         }
     }

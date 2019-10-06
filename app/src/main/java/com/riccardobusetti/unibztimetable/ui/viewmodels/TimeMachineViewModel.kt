@@ -2,30 +2,25 @@ package com.riccardobusetti.unibztimetable.ui.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
 import com.riccardobusetti.unibztimetable.ui.utils.DateUtils
+import com.riccardobusetti.unibztimetable.ui.utils.components.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
 class TimeMachineViewModel(
     private val context: Context,
     private val intervalDateUseCase: GetIntervalDateTimetableUseCase
-) : ViewModel() {
+) : TimetableViewModel() {
 
-    val dateInterval = MutableLiveData<Pair<String, String>>().apply {
+    val selectedDateInterval = MutableLiveData<Pair<String, String>>().apply {
         this.value =
             DateUtils.getCurrentDateFormatted() to DateUtils.getCurrentDatePlusYearsFormatted(1)
     }
 
-    val error = MutableLiveData<String>()
-
-    val loading = MutableLiveData<Boolean>()
-
-    val timetable = MutableLiveData<List<Day>>()
+    val bottomSheetState = MutableLiveData<Boolean>().apply { this.value = false }
 
     fun loadTimetable(
         department: String,
@@ -36,7 +31,7 @@ class TimeMachineViewModel(
         page: String
     ) {
         viewModelScope.launchWithSupervisor {
-            loading.value = true
+            loadingState.value = true
 
             val work = async(Dispatchers.IO) {
                 intervalDateUseCase.getTimetable(
@@ -56,7 +51,7 @@ class TimeMachineViewModel(
                 null
             }
 
-            loading.value = false
+            loadingState.value = false
             newTimetable?.let {
                 timetable.value = newTimetable
             }

@@ -1,29 +1,21 @@
 package com.riccardobusetti.unibztimetable.ui.viewmodels
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
+import com.riccardobusetti.unibztimetable.ui.utils.components.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
 class TodayViewModel(
     private val context: Context,
     private val todayUseCase: GetTodayTimetableUseCase
-) : ViewModel() {
-
-    val error = MutableLiveData<String>()
-
-    val loading = MutableLiveData<Boolean>()
-
-    val timetable = MutableLiveData<List<Day>>()
+) : TimetableViewModel() {
 
     fun loadTodayTimetable(department: String, degree: String, academicYear: String, page: String) {
         viewModelScope.launchWithSupervisor {
-            loading.value = true
+            loadingState.value = true
 
             val work = async(Dispatchers.IO) {
                 todayUseCase.getTodayTimetable(
@@ -41,7 +33,7 @@ class TodayViewModel(
                 null
             }
 
-            loading.value = false
+            loadingState.value = false
             newTimetable?.let {
                 timetable.value = newTimetable
             }

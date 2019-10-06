@@ -18,7 +18,7 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
-import com.riccardobusetti.unibztimetable.ui.utils.AdvancedFragment
+import com.riccardobusetti.unibztimetable.ui.utils.components.AdvancedFragment
 import com.riccardobusetti.unibztimetable.ui.viewmodels.Next7DaysViewModel
 import com.riccardobusetti.unibztimetable.ui.viewmodels.factories.Next7DaysViewModelFactory
 import com.xwray.groupie.GroupAdapter
@@ -69,14 +69,6 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
 
     override fun attachObservers() {
         model?.let {
-            it.error.observe(this, Observer { error ->
-                Toast.makeText(activity, error, Toast.LENGTH_SHORT).show()
-            })
-
-            it.loading.observe(this, Observer { isLoading ->
-                if (isLoading) skeleton.show() else skeleton.hide()
-            })
-
             it.timetable.observe(this, Observer { timetable ->
                 groupAdapter.clear()
 
@@ -90,6 +82,14 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
 
                     groupAdapter.add(section)
                 }
+            })
+
+            it.error.observe(this, Observer { error ->
+                Toast.makeText(activity, error, Toast.LENGTH_SHORT).show()
+            })
+
+            it.loadingState.observe(this, Observer { isLoading ->
+                if (isLoading) skeleton.show() else skeleton.hide()
             })
         }
     }

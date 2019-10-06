@@ -6,7 +6,7 @@ import com.riccardobusetti.unibztimetable.network.WebSiteLink
 /**
  * Cached implementation for fetching the timetable.
  *
- * This implementation will be used to improve the loading speed
+ * This implementation will be used to improve the loadingState speed
  * by leveraging on a key-value pair cache system.
  *
  * @author Riccardo Busetti

@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.ui.utils
+package com.riccardobusetti.unibztimetable.ui.utils.components
 
 import android.os.Bundle
 import android.view.View
@@ -62,9 +62,9 @@ abstract class AdvancedFragment<ViewModel> : Fragment() {
     abstract fun attachObservers()
 
     /**
-     * Starts the loading of data.
+     * Starts the loadingState of data.
      *
-     * In this method you should put all the methods which are loading data which is needed at
+     * In this method you should put all the methods which are loadingState data which is needed at
      * the start. This method is only called at the creation of the view, so if you need to
      * change its behavior just call it in every lifecycle method you want.
      */

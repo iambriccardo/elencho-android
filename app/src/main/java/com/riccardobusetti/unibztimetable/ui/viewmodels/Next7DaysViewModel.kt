@@ -1,25 +1,17 @@
 package com.riccardobusetti.unibztimetable.ui.viewmodels
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
+import com.riccardobusetti.unibztimetable.ui.utils.components.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
 class Next7DaysViewModel(
     private val context: Context,
     private val next7DaysUseCase: GetNext7DaysTimetableUseCase
-) : ViewModel() {
-
-    val error = MutableLiveData<String>()
-
-    val loading = MutableLiveData<Boolean>()
-
-    val timetable = MutableLiveData<List<Day>>()
+) : TimetableViewModel() {
 
     fun loadNext7DaysTimetable(
         department: String,
@@ -28,7 +20,7 @@ class Next7DaysViewModel(
         page: String
     ) {
         viewModelScope.launchWithSupervisor {
-            loading.value = true
+            loadingState.value = true
 
             val work = async(Dispatchers.IO) {
                 next7DaysUseCase.getNext7DaysTimetable(
@@ -46,7 +38,7 @@ class Next7DaysViewModel(
                 null
             }
 
-            loading.value = false
+            loadingState.value = false
             newTimetable?.let {
                 timetable.value = newTimetable
             }
