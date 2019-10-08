@@ -5,5 +5,6 @@ data class Course(
     val location: String,
     val time: String,
     val professor: String,
-    val type: String
+    val type: String,
+    val isOngoing: Boolean = false
 )

@@ -2,9 +2,11 @@ package com.riccardobusetti.unibztimetable.network
 
 import com.riccardobusetti.unibztimetable.domain.entities.Course
 import com.riccardobusetti.unibztimetable.domain.entities.Day
+import com.riccardobusetti.unibztimetable.utils.DateUtils
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
+import java.util.*
 
 /**
  * Class containing all the logic for the scraping of the unibz website.
@@ -80,7 +82,7 @@ class WebSiteScraper(private val webSiteLink: WebSiteLink) {
      */
     private fun getAllDays(webSite: Document) = webSite.selectAllDays().map { day ->
         Day(
-            date = day.selectDayDate(),
+            date = formatDayDate(day.selectDayDate()),
             courses = getAllCourses(day)
         )
     }
@@ -114,4 +116,19 @@ class WebSiteScraper(private val webSiteLink: WebSiteLink) {
             return@map mappedCourse
         }
     }
+
+    private fun formatDayDate(date: String) = date
+        .split(",")
+        .joinToString(separator = ",") {
+            var newValue = if (!it.contains(" "))
+                it.take(3)
+            else it
+
+            newValue = if (DateUtils.getDefaultLocaleGuarded() == Locale.ITALY)
+                newValue.toLowerCase(DateUtils.getDefaultLocaleGuarded())
+            else
+                newValue
+
+            return@joinToString newValue
+        }
 }

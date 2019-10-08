@@ -1,7 +1,6 @@
 package com.riccardobusetti.unibztimetable.network
 
 import com.riccardobusetti.unibztimetable.utils.DateUtils
-import java.util.*
 
 /**
  * Class responsible of building a url to get the timetable from the unibz
@@ -46,7 +45,9 @@ class WebSiteLink private constructor(val url: String) {
 
         private fun getTodayDate() = DateUtils.getCurrentDateFormatted()
 
-        fun useDeviceLanguage() = apply { this.language = Locale.getDefault().language }
+        // TODO: use en, de, it only. If not present use en.
+        fun useDeviceLanguage() =
+            apply { this.language = DateUtils.getDefaultLocaleGuarded().language }
 
         fun withLanguage(language: String) = apply { this.language = language }
 

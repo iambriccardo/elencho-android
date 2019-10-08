@@ -75,6 +75,7 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
     override fun attachObservers() {
         model?.let {
             it.timetable.observe(this, Observer { timetable ->
+                Log.d("TIMETABLE", "$timetable")
                 groupAdapter.clear()
 
                 timetable.forEach { day ->
@@ -90,7 +91,6 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
             })
 
             it.error.observe(this, Observer { error ->
-                Log.d("ERROR", "$it")
                 if (error.isNotEmpty()) {
                     statusView.setText(error)
                     statusView.visibility = View.VISIBLE

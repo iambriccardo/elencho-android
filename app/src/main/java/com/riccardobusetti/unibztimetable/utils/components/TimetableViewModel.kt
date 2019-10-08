@@ -2,7 +2,6 @@ package com.riccardobusetti.unibztimetable.utils.components
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.riccardobusetti.unibztimetable.domain.entities.Day
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
@@ -13,7 +12,7 @@ import kotlinx.coroutines.supervisorScope
  *
  * @author Riccardo Busetti
  */
-open class TimetableViewModel : ViewModel() {
+open class TimetableViewModel<TimetableType> : ViewModel() {
 
     /**
      * Error value if we don't have any error. Refer to the [error] documentation to understand
@@ -24,7 +23,7 @@ open class TimetableViewModel : ViewModel() {
     /**
      * Live data object containing the timetable which has been loaded.
      */
-    val timetable = MutableLiveData<List<Day>>()
+    val timetable = MutableLiveData<TimetableType>()
 
     /**
      * Live data object containing the error which will be displayed. If empty we consider
