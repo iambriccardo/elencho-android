@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
-import com.riccardobusetti.unibztimetable.utils.components.TimetableViewModel
+import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 

@@ -16,8 +16,8 @@ class ExampleUnitTest {
 
     @Test
     fun check_if_date_is_converted() {
-        val dateFormatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm", Locale.ITALIAN)
-        val date = LocalDate.parse("lun, 07 ott 2019 14:00", dateFormatter)
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-mm-dd", Locale.ITALIAN)
+        val date = LocalDate.parse("2019-9-12", dateFormatter)
         println("$date")
     }
 

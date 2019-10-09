@@ -1,5 +1,6 @@
 package com.riccardobusetti.unibztimetable.network
 
+import android.util.Log
 import com.riccardobusetti.unibztimetable.domain.entities.Course
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.utils.DateUtils
@@ -36,6 +37,10 @@ class WebSiteScraper(private val webSiteLink: WebSiteLink) {
         GET_COURSE_TIME_AND_TYPE(".u-push-btm-none:first-of-type")
     }
 
+    companion object {
+        private const val TAG = "WebSiteScraper"
+    }
+
     private fun String.compact() = this.replace(" ", "")
 
     private fun String.divideByDot() = this.split("·")
@@ -69,7 +74,11 @@ class WebSiteScraper(private val webSiteLink: WebSiteLink) {
      * Gets the website as [Document] object which will contain all the [Element]s that
      * the algorithm is going to scrape.
      */
-    private fun getWebSite() = Jsoup.connect(webSiteLink.url).get()
+    private fun getWebSite(): Document {
+        Log.d(TAG, "Scraping the website at url -> ${webSiteLink.url}")
+
+        return Jsoup.connect(webSiteLink.url).get()
+    }
 
     /**
      * Gets the timetable from the website [Document] and returns a [List] of [Day]

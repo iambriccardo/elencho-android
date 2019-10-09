@@ -68,9 +68,10 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/bottom_sheet_date_interval_button"
         style="@style/RoundedButton"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:text="@string/time_travel" />

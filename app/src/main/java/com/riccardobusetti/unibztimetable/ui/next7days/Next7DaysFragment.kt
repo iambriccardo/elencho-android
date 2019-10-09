@@ -18,7 +18,7 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
-import com.riccardobusetti.unibztimetable.utils.components.AdvancedFragment
+import com.riccardobusetti.unibztimetable.utils.custom.AdvancedFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section

@@ -8,7 +8,7 @@ import com.riccardobusetti.unibztimetable.ui.adapters.FragmentsAdapter
 import com.riccardobusetti.unibztimetable.ui.next7days.Next7DaysFragment
 import com.riccardobusetti.unibztimetable.ui.timemachine.TimeMachineFragment
 import com.riccardobusetti.unibztimetable.ui.today.TodayFragment
-import com.riccardobusetti.unibztimetable.utils.views.NonSwipeableViewPager
+import com.riccardobusetti.unibztimetable.utils.custom.views.NonSwipeableViewPager
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

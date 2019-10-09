@@ -22,7 +22,7 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <com.riccardobusetti.unibztimetable.utils.views.NonSwipeableViewPager
+    <com.riccardobusetti.unibztimetable.utils.custom.views.NonSwipeableViewPager
         android:id="@+id/activity_main_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

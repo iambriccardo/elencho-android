@@ -8,7 +8,7 @@ import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
 import com.riccardobusetti.unibztimetable.utils.DateUtils
-import com.riccardobusetti.unibztimetable.utils.components.TimetableViewModel
+import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
@@ -16,6 +16,25 @@ class TimeMachineViewModel(
     private val context: Context,
     private val intervalDateUseCase: GetIntervalDateTimetableUseCase
 ) : TimetableViewModel<List<Day>>() {
+
+    /**
+     * Enum representing the state of the bottomsheet which pops up when the user
+     * needs to check for an interval of dates in order to perform a time travel.
+     */
+    enum class BottomSheetState {
+        OPENED,
+        CLOSED
+    }
+
+    /**
+     * Enum representing the status of the date picker which will be
+     * triggered inside of the bottom sheet for the time travel.
+     */
+    enum class DatePickerState {
+        CLOSED,
+        OPENED_FOR_FROM_DATE,
+        OPENED_FOR_TO_DATE
+    }
 
     companion object {
         private const val TAG = "TimeMachineViewModel"
@@ -26,7 +45,11 @@ class TimeMachineViewModel(
             DateUtils.getCurrentDateFormatted() to DateUtils.getCurrentDatePlusYearsFormatted(1)
     }
 
-    val bottomSheetState = MutableLiveData<Boolean>().apply { this.value = false }
+    val bottomSheetState =
+        MutableLiveData<BottomSheetState>().apply { this.value = BottomSheetState.CLOSED }
+
+    val datePickerState =
+        MutableLiveData<DatePickerState>().apply { this.value = DatePickerState.CLOSED }
 
     fun loadTimetable(
         department: String,

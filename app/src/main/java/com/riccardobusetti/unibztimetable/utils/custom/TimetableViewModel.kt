@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.utils.components
+package com.riccardobusetti.unibztimetable.utils.custom
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
