@@ -19,6 +19,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
             android:textColor="?attr/colorPrimary"
+            android:ellipsize="marquee"
+            android:singleLine="true"
             tools:text="BZ C2.01" />
 
         <TextView
@@ -27,8 +29,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_toEndOf="@id/item_course_location"
+            android:layout_toStartOf="@id/item_course_professor"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
             android:textColor="@color/colorBlack87"
+            android:ellipsize="marquee"
+            android:singleLine="true"
             tools:text="10:00 - 12:00" />
 
         <TextView
@@ -36,9 +41,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_marginStart="4dp"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
             android:textColor="@color/colorGrey"
             android:textSize="14sp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
             tools:text="Bruno Carpenteri" />
 
     </RelativeLayout>
@@ -51,6 +59,8 @@
         android:textAppearance="?android:attr/textAppearanceListItem"
         android:textColor="@color/colorBlack87"
         android:textSize="16sp"
+        android:ellipsize="marquee"
+        android:singleLine="true"
         tools:text="Mathematics I" />
 
     <TextView
@@ -61,6 +71,8 @@
         android:textAppearance="?android:attr/textAppearanceListItemSecondary"
         android:textColor="@color/colorGrey"
         android:textSize="14sp"
+        android:ellipsize="marquee"
+        android:singleLine="true"
         tools:text="Lecture" />
 
 </LinearLayout>

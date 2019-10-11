@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.network
+package com.riccardobusetti.unibztimetable.data.network
 
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 

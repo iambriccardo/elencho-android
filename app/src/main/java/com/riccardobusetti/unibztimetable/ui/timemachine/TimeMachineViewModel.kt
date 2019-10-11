@@ -6,15 +6,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.Day
+import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
+import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 
 class TimeMachineViewModel(
     private val context: Context,
-    private val intervalDateUseCase: GetIntervalDateTimetableUseCase
+    private val getIntervalDateTimetableUseCase: GetIntervalDateTimetableUseCase,
+    private val getUserPrefsUseCase: GetUserPrefsUseCase
 ) : TimetableViewModel<List<Day>>() {
 
     /**
@@ -52,9 +56,6 @@ class TimeMachineViewModel(
         MutableLiveData<DatePickerState>().apply { this.value = DatePickerState.CLOSED }
 
     fun loadTimetable(
-        department: String,
-        degree: String,
-        academicYear: String,
         fromDate: String,
         toDate: String,
         page: String
@@ -62,11 +63,15 @@ class TimeMachineViewModel(
         viewModelScope.launchWithSupervisor {
             loadingState.value = true
 
+            val userPrefs = withContext(Dispatchers.IO) {
+                getUserPrefsUseCase.getUserPrefs()
+            }
+
             val work = async(Dispatchers.IO) {
-                intervalDateUseCase.getTimetable(
-                    department,
-                    degree,
-                    academicYear,
+                getIntervalDateTimetableUseCase.getTimetable(
+                    userPrefs.prefs[UserPrefs.Pref.DEPARTMENT_ID] ?: "",
+                    userPrefs.prefs[UserPrefs.Pref.DEGREE_ID] ?: "",
+                    userPrefs.prefs[UserPrefs.Pref.STUDY_PLAN_ID] ?: "",
                     fromDate,
                     toDate,
                     page
@@ -77,7 +82,9 @@ class TimeMachineViewModel(
                 work.await()
             } catch (e: Exception) {
                 Log.d(TAG, "This error occurred while parsing the timetable -> $e")
+
                 error.value = context.getString(R.string.error_fetching)
+
                 null
             }
 

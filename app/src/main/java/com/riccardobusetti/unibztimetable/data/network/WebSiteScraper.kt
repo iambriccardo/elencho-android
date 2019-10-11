@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.network
+package com.riccardobusetti.unibztimetable.data.network
 
 import android.util.Log
 import com.riccardobusetti.unibztimetable.domain.entities.Course

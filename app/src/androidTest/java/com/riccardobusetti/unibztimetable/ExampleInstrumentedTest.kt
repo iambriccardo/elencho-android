@@ -2,12 +2,10 @@ package com.riccardobusetti.unibztimetable
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
-import com.riccardobusetti.unibztimetable.network.WebSiteLink
-
+import com.riccardobusetti.unibztimetable.data.network.WebSiteLink
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 
 /**
  * Instrumented test, which will execute on an Android device.

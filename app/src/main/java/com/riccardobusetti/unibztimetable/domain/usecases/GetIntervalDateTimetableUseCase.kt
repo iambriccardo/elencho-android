@@ -1,8 +1,8 @@
 package com.riccardobusetti.unibztimetable.domain.usecases
 
+import com.riccardobusetti.unibztimetable.data.network.WebSiteLink
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
-import com.riccardobusetti.unibztimetable.network.WebSiteLink
 
 /**
  * Use case which will manage the time machine function which gets the timetable between two

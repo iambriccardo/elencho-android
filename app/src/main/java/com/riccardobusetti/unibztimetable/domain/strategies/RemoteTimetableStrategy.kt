@@ -1,7 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.strategies
 
-import com.riccardobusetti.unibztimetable.network.WebSiteLink
-import com.riccardobusetti.unibztimetable.network.WebSiteScraper
+import com.riccardobusetti.unibztimetable.data.network.WebSiteLink
+import com.riccardobusetti.unibztimetable.data.network.WebSiteScraper
 
 /**
  * Remote implementation for fetching the timetable.

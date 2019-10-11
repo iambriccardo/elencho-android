@@ -1,7 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.strategies
 
+import com.riccardobusetti.unibztimetable.data.network.WebSiteLink
 import com.riccardobusetti.unibztimetable.domain.entities.Day
-import com.riccardobusetti.unibztimetable.network.WebSiteLink
 
 /**
  * Interface describing the behavior that any strategy should implement if they

@@ -1,0 +1,15 @@
+package com.riccardobusetti.unibztimetable.domain.usecases
+
+import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
+
+/**
+ * Use case that will manage the user preferences.
+ *
+ * @author Riccardo Busetti
+ */
+class GetUserPrefsUseCase(
+    private val userPrefsRepository: UserPrefsRepository
+) : UseCase {
+
+    fun getUserPrefs() = userPrefsRepository.getUserPrefs()
+}

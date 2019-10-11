@@ -17,9 +17,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
-import com.riccardobusetti.unibztimetable.domain.strategies.CachedTimetableStrategy
+import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
+import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
+import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
 import com.riccardobusetti.unibztimetable.utils.DatePickerDialogUtils
@@ -47,16 +49,16 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     private lateinit var skeleton: SkeletonScreen
 
     override fun initModel(): TimeMachineViewModel {
-        val repository = TimetableRepository(
-            RemoteTimetableStrategy(),
-            CachedTimetableStrategy()
-        )
+        val timetableRepository = TimetableRepository(RemoteTimetableStrategy())
+
+        val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(context!!))
 
         return ViewModelProviders.of(
             this,
             TimeMachineViewModelFactory(
                 context!!,
-                GetIntervalDateTimetableUseCase(repository)
+                GetIntervalDateTimetableUseCase(timetableRepository),
+                GetUserPrefsUseCase(userPrefsRepository)
             )
         ).get(TimeMachineViewModel::class.java)
     }
@@ -86,9 +88,6 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         timeTravelButton = bottomSheetView.bottom_sheet_date_interval_button
         timeTravelButton.setOnClickListener {
             model?.loadTimetable(
-                "22",
-                "13205",
-                "16858",
                 model?.selectedDateInterval?.value!!.first,
                 model?.selectedDateInterval?.value!!.second,
                 "1"
@@ -180,9 +179,6 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
     override fun startLoadingData() {
         model?.loadTimetable(
-            "22",
-            "13205",
-            "16858",
             DateUtils.getCurrentDateFormatted(),
             DateUtils.getCurrentDatePlusYearsFormatted(1),
             "1"

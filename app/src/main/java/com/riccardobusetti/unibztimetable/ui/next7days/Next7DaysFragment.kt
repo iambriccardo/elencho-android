@@ -13,9 +13,11 @@ import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
-import com.riccardobusetti.unibztimetable.domain.strategies.CachedTimetableStrategy
+import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
+import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
+import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
 import com.riccardobusetti.unibztimetable.utils.custom.AdvancedFragment
@@ -32,16 +34,16 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
     private lateinit var skeleton: SkeletonScreen
 
     override fun initModel(): Next7DaysViewModel {
-        val repository = TimetableRepository(
-            RemoteTimetableStrategy(),
-            CachedTimetableStrategy()
-        )
+        val timetableRepository = TimetableRepository(RemoteTimetableStrategy())
+
+        val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(context!!))
 
         return ViewModelProviders.of(
             this,
             Next7DaysViewModelFactory(
                 context!!,
-                GetNext7DaysTimetableUseCase(repository)
+                GetNext7DaysTimetableUseCase(timetableRepository),
+                GetUserPrefsUseCase(userPrefsRepository)
             )
         ).get(Next7DaysViewModel::class.java)
     }
@@ -96,11 +98,6 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
     }
 
     override fun startLoadingData() {
-        model?.loadNext7DaysTimetable(
-            "22",
-            "13205",
-            "16858",
-            "1"
-        )
+        model?.loadNext7DaysTimetable("1")
     }
 }

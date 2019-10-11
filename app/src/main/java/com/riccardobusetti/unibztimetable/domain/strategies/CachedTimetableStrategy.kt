@@ -1,7 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.strategies
 
+import com.riccardobusetti.unibztimetable.data.network.WebSiteLink
 import com.riccardobusetti.unibztimetable.domain.entities.Day
-import com.riccardobusetti.unibztimetable.network.WebSiteLink
 
 /**
  * Cached implementation for fetching the timetable.

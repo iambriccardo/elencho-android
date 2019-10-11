@@ -1,7 +1,6 @@
 package com.riccardobusetti.unibztimetable.ui.today
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,11 @@ import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
-import com.riccardobusetti.unibztimetable.domain.strategies.CachedTimetableStrategy
+import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
+import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
+import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
 import com.riccardobusetti.unibztimetable.utils.custom.AdvancedFragment
@@ -34,16 +35,16 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
     private lateinit var skeleton: SkeletonScreen
 
     override fun initModel(): TodayViewModel {
-        val repository = TimetableRepository(
-            RemoteTimetableStrategy(),
-            CachedTimetableStrategy()
-        )
+        val timetableRepository = TimetableRepository(RemoteTimetableStrategy())
+
+        val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(context!!))
 
         return ViewModelProviders.of(
             this,
             TodayViewModelFactory(
                 context!!,
-                GetTodayTimetableUseCase(repository)
+                GetTodayTimetableUseCase(timetableRepository),
+                GetUserPrefsUseCase(userPrefsRepository)
             )
         ).get(TodayViewModel::class.java)
     }
@@ -105,11 +106,6 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
     }
 
     override fun startLoadingData() {
-        model?.loadTodayTimetable(
-            "22",
-            "13205",
-            "16858",
-            "1"
-        )
+        model?.loadTodayTimetable("1")
     }
 }

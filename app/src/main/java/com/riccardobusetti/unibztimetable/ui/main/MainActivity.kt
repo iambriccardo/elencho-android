@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.riccardobusetti.unibztimetable.R
+import com.riccardobusetti.unibztimetable.data.sharedprefs.UserPrefsHelper
+import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.ui.adapters.FragmentsAdapter
 import com.riccardobusetti.unibztimetable.ui.next7days.Next7DaysFragment
 import com.riccardobusetti.unibztimetable.ui.timemachine.TimeMachineFragment
@@ -39,6 +41,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.ComputerScienceTheme)
         setContentView(R.layout.activity_main)
+
+        val helper = UserPrefsHelper(this)
+        helper.putString(UserPrefs.Pref.DEPARTMENT_ID.key, "22")
+        helper.putString(UserPrefs.Pref.DEGREE_ID.key, "13205")
+        helper.putString(UserPrefs.Pref.STUDY_PLAN_ID.key, "16858")
 
         setupUi()
         attachListeners()

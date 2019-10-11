@@ -1,14 +1,17 @@
 package com.riccardobusetti.unibztimetable.domain.repositories
 
-import com.riccardobusetti.unibztimetable.domain.strategies.CachedTimetableStrategy
+import com.riccardobusetti.unibztimetable.data.network.WebSiteLink
 import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
-import com.riccardobusetti.unibztimetable.network.WebSiteLink
 
+/**
+ * Repository implementation which will get the timetable from different strategies depending
+ * on many different conditions.
+ *
+ * @author Riccardo Busetti
+ */
 class TimetableRepository(
-    private val remoteTimetableStrategy: RemoteTimetableStrategy,
-    private val cachedTimetableStrategy: CachedTimetableStrategy
+    private val remoteTimetableStrategy: RemoteTimetableStrategy
 ) : Repository {
 
-    // TODO: implement cache usage when needed
     fun getTimetable(webSiteLink: WebSiteLink) = remoteTimetableStrategy.getTimetable(webSiteLink)
 }
