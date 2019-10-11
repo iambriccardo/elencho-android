@@ -59,8 +59,6 @@
         android:textAppearance="?android:attr/textAppearanceListItem"
         android:textColor="@color/colorBlack87"
         android:textSize="16sp"
-        android:ellipsize="marquee"
-        android:singleLine="true"
         tools:text="Mathematics I" />
 
     <TextView

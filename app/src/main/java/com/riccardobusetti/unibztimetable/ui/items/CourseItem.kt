@@ -17,7 +17,6 @@ class CourseItem(private val course: Course) : Item<GroupieViewHolder>() {
             this.item_course_time.text = course.time
             this.item_course_time.isSelected = true
             this.item_course_title.text = course.title
-            this.item_course_title.isSelected = true
             this.item_course_professor.text = course.professor
             this.item_course_professor.isSelected = true
             this.item_course_type.text = course.type
