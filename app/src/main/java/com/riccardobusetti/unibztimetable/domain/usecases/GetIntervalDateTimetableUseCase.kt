@@ -20,7 +20,7 @@ class GetIntervalDateTimetableUseCase(
     fun getTimetable(
         department: String,
         degree: String,
-        academicYear: String,
+        studyPlan: String,
         fromDate: String,
         toDate: String,
         page: String
@@ -30,7 +30,7 @@ class GetIntervalDateTimetableUseCase(
                 .useDeviceLanguage()
                 .withDepartment(department)
                 .withDegree(degree)
-                .withAcademicYear(academicYear)
+                .withStudyPlan(studyPlan)
                 .fromDate(fromDate)
                 .toDate(toDate)
                 .atPage(page)

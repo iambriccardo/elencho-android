@@ -23,14 +23,14 @@ class GetTodayTimetableUseCase(
     fun getTodayTimetable(
         department: String,
         degree: String,
-        academicYear: String,
+        studyPlan: String,
         page: String
     ): List<Day> {
         val webSiteLink = WebSiteLink.Builder()
             .useDeviceLanguage()
             .withDepartment(department)
             .withDegree(degree)
-            .withAcademicYear(academicYear)
+            .withStudyPlan(studyPlan)
             .onlyToday()
             .atPage(page)
             .build()

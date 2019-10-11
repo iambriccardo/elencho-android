@@ -29,7 +29,7 @@ class ExampleInstrumentedTest {
             .withLanguage("it")
             .withDepartment("44")
             .withDegree("13075,13241")
-            .withAcademicYear("16304")
+            .withStudyPlan("16304")
             .fromDate("2019-10-04")
             .toDate("2020-06-01")
             .build()

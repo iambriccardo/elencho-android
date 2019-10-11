@@ -126,6 +126,10 @@ class WebSiteScraper(private val webSiteLink: WebSiteLink) {
         }
     }
 
+    /**
+     * Formats the day date in order to have a format which is easily converted to enable
+     * any kind of date related features in the app.
+     */
     private fun formatDayDate(date: String) = date
         .split(",")
         .joinToString(separator = ",") {

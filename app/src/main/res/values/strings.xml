@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Unibz Timetable</string>
+    <string name="app_name">Timetable</string>
 
     <string name="choose_from_date">Choose the from date</string>
     <string name="choose_to_date">Choose the to date</string>

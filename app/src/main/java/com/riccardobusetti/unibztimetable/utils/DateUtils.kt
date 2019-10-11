@@ -15,6 +15,10 @@ object DateUtils {
 
     private val supportedLocales = listOf("en", "de", "it")
 
+    infix fun Calendar.addDays(days: Int) = this.apply { this.add(Calendar.DAY_OF_WEEK, days) }
+
+    infix fun Calendar.addYears(years: Int) = this.apply { this.add(Calendar.YEAR, years) }
+
     /**
      * Gets the [Locale.ENGLISH] only if the device has the other languages not supported. This is
      * done because the website supports only english, german and italian timetable.
@@ -26,10 +30,6 @@ object DateUtils {
             Locale.ENGLISH
         }
     }
-
-    infix fun Calendar.addDays(days: Int) = this.apply { this.add(Calendar.DAY_OF_WEEK, days) }
-
-    infix fun Calendar.addYears(years: Int) = this.apply { this.add(Calendar.YEAR, years) }
 
     fun getCurrentCalendar() = Calendar.getInstance()
 

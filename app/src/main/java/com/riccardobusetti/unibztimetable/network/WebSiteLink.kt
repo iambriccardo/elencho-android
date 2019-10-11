@@ -18,7 +18,7 @@ class WebSiteLink private constructor(val url: String) {
 
         private const val DEPARTMENT_URL_PARAM = "department"
         private const val DEGREE_URL_PARAM = "degree"
-        private const val ACADEMIC_YEAR_URL_PARAM = "studyPlan"
+        private const val STUDY_PLAN_URL_PARAM = "studyPlan"
         private const val FROM_DATE_URL_PARAM = "fromDate"
         private const val TO_DATE_URL_PARAM = "toDate"
         private const val PAGE_URL_PARAM = "page"
@@ -31,7 +31,7 @@ class WebSiteLink private constructor(val url: String) {
         var language: String = "en",
         var department: String = "",
         var degree: String = "",
-        var academicYear: String = "",
+        var studyPlan: String = "",
         var fromDate: String = "",
         var toDate: String = "",
         var page: String = "1"
@@ -45,9 +45,7 @@ class WebSiteLink private constructor(val url: String) {
 
         private fun getTodayDate() = DateUtils.getCurrentDateFormatted()
 
-        // TODO: use en, de, it only. If not present use en.
-        fun useDeviceLanguage() =
-            apply { this.language = DateUtils.getDefaultLocaleGuarded().language }
+        fun useDeviceLanguage() = apply { this.language = DateUtils.getDefaultLocaleGuarded().language }
 
         fun withLanguage(language: String) = apply { this.language = language }
 
@@ -55,7 +53,7 @@ class WebSiteLink private constructor(val url: String) {
 
         fun withDegree(degree: String) = apply { this.degree = degree }
 
-        fun withAcademicYear(academicYear: String) = apply { this.academicYear = academicYear }
+        fun withStudyPlan(studyPlan: String) = apply { this.studyPlan = studyPlan }
 
         fun onlyToday() = apply {
             this.fromDate = getTodayDate()
@@ -63,6 +61,8 @@ class WebSiteLink private constructor(val url: String) {
         }
 
         fun fromToday() = apply { this.fromDate = getTodayDate() }
+
+        fun fromTomorrow() = apply { this.fromDate = DateUtils.getCurrentDatePlusDaysFormatted(1) }
 
         fun fromDate(fromDate: String) = apply { this.fromDate = fromDate }
 
@@ -80,7 +80,7 @@ class WebSiteLink private constructor(val url: String) {
                     "/$TIMETABLE_URL_PATH" +
                     "/?$DEPARTMENT_URL_PARAM=${this.department.encodeComma()}" +
                     "&$DEGREE_URL_PARAM=${this.degree.encodeComma()}" +
-                    "&$ACADEMIC_YEAR_URL_PARAM=${this.academicYear.encodeComma()}" +
+                    "&$STUDY_PLAN_URL_PARAM=${this.studyPlan.encodeComma()}" +
                     "&$FROM_DATE_URL_PARAM=${this.fromDate}" +
                     "&$TO_DATE_URL_PARAM=${this.toDate}" +
                     "&$PAGE_URL_PARAM=${this.page}"

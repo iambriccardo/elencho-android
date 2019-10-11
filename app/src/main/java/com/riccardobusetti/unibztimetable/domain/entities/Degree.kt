@@ -1,3 +1,3 @@
 package com.riccardobusetti.unibztimetable.domain.entities
 
-data class Degree(val id: String, val name: String)
+data class Degree(val id: String, val name: String, val studyPlans: List<StudyPlan>)

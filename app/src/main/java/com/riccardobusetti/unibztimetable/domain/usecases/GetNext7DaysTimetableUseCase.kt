@@ -20,7 +20,7 @@ class GetNext7DaysTimetableUseCase(
     fun getNext7DaysTimetable(
         department: String,
         degree: String,
-        academicYear: String,
+        studyPlan: String,
         page: String
     ): List<Day> {
         val webSiteLink =
@@ -28,8 +28,8 @@ class GetNext7DaysTimetableUseCase(
                 .useDeviceLanguage()
                 .withDepartment(department)
                 .withDegree(degree)
-                .withAcademicYear(academicYear)
-                .fromToday()
+                .withStudyPlan(studyPlan)
+                .fromTomorrow()
                 .toNext7Days()
                 .atPage(page)
                 .build()
