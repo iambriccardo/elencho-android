@@ -9,6 +9,7 @@ import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCa
 import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 
 class TodayViewModel(
     private val context: Context,

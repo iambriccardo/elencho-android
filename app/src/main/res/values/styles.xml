@@ -9,43 +9,43 @@
 
     <style name="LanguageCenterTheme" parent="AppTheme">
         <item name="colorPrimary">@color/colorLanguageCenter</item>
-        <item name="colorPrimaryDark">@color/colorLanguageCenter</item>
+        <item name="colorPrimaryDark">@color/colorLanguageCenterDark</item>
         <item name="colorAccent">@color/colorLanguageCenter</item>
     </style>
 
     <style name="ComputerScienceTheme" parent="AppTheme">
         <item name="colorPrimary">@color/colorComputerScience</item>
-        <item name="colorPrimaryDark">@color/colorComputerScience</item>
+        <item name="colorPrimaryDark">@color/colorComputerScienceDark</item>
         <item name="colorAccent">@color/colorComputerScience</item>
     </style>
 
     <style name="EconomicsTheme" parent="AppTheme">
         <item name="colorPrimary">@color/colorEconomics</item>
-        <item name="colorPrimaryDark">@color/colorEconomics</item>
+        <item name="colorPrimaryDark">@color/colorEconomicsDark</item>
         <item name="colorAccent">@color/colorEconomics</item>
     </style>
 
     <style name="EducationTheme" parent="AppTheme">
         <item name="colorPrimary">@color/colorEducation</item>
-        <item name="colorPrimaryDark">@color/colorEducation</item>
+        <item name="colorPrimaryDark">@color/colorEducationDark</item>
         <item name="colorAccent">@color/colorEducation</item>
     </style>
 
     <style name="DesignTheme" parent="AppTheme">
         <item name="colorPrimary">@color/colorDesign</item>
-        <item name="colorPrimaryDark">@color/colorDesign</item>
+        <item name="colorPrimaryDark">@color/colorDesignDark</item>
         <item name="colorAccent">@color/colorDesign</item>
     </style>
 
     <style name="ScienceTheme" parent="AppTheme">
         <item name="colorPrimary">@color/colorScience</item>
-        <item name="colorPrimaryDark">@color/colorScience</item>
+        <item name="colorPrimaryDark">@color/colorScienceDark</item>
         <item name="colorAccent">@color/colorScience</item>
     </style>
 
     <style name="StudiumTheme" parent="AppTheme">
         <item name="colorPrimary">@color/colorStudium</item>
-        <item name="colorPrimaryDark">@color/colorStudium</item>
+        <item name="colorPrimaryDark">@color/colorStudiumDark</item>
         <item name="colorAccent">@color/colorStudium</item>
     </style>
 

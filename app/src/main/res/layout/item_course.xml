@@ -17,8 +17,8 @@
             android:id="@+id/item_course_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
             android:textColor="?attr/colorPrimary"
-            android:textSize="14sp"
             tools:text="BZ C2.01" />
 
         <TextView
@@ -27,26 +27,40 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_toEndOf="@id/item_course_location"
-            android:textColor="#DE000000"
-            android:textSize="14sp"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="@color/colorBlack87"
             tools:text="10:00 - 12:00" />
+
+        <TextView
+            android:id="@+id/item_course_professor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="@color/colorGrey"
+            android:textSize="14sp"
+            tools:text="Bruno Carpenteri" />
 
     </RelativeLayout>
 
     <TextView
         android:id="@+id/item_course_title"
         android:layout_width="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_height="wrap_content"
-        android:textColor="#DE000000"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:textColor="@color/colorBlack87"
         android:textSize="16sp"
         tools:text="Mathematics I" />
 
     <TextView
         android:id="@+id/item_course_type"
         android:layout_width="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_height="wrap_content"
-        android:textColor="#60000000"
+        android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+        android:textColor="@color/colorGrey"
         android:textSize="14sp"
-        tools:text="Lecture Bruno Carpenteri" />
+        tools:text="Lecture" />
 
 </LinearLayout>

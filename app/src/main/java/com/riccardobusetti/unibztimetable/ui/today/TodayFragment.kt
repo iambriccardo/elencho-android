@@ -75,7 +75,6 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
     override fun attachObservers() {
         model?.let {
             it.timetable.observe(this, Observer { timetable ->
-                Log.d("TIMETABLE", "$timetable")
                 groupAdapter.clear()
 
                 timetable.forEach { day ->

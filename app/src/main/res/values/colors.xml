@@ -5,16 +5,31 @@
     <color name="colorAccent">#62a9ff</color>
 
     <color name="colorLanguageCenter">#007be4</color>
+    <color name="colorLanguageCenterDark">#0050b1</color>
+
     <color name="colorComputerScience">#f86b07</color>
+    <color name="colorComputerScienceDark">#be3a00</color>
+
     <color name="colorEconomics">#ac145a</color>
+    <color name="colorEconomicsDark">#770031</color>
+
     <color name="colorEducation">#6cc3ab</color>
+    <color name="colorEducationDark">#3a927c</color>
+
     <color name="colorDesign">#ed331a</color>
+    <color name="colorDesignDark">#b20000</color>
+
     <color name="colorScience">#1a8c64</color>
+    <color name="colorScienceDark">#005e3a</color>
+
     <color name="colorStudium">#9c27b3</color>
+    <color name="colorStudiumDark">#6a0083</color>
 
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGrey">#666666</color>
+
+    <color name="colorBlack87">#DE000000</color>
 
     <color name="colorSkeleton">#E7ECEA</color>
     <color name="colorSkeletonShimmer">#EEEFF4</color>
