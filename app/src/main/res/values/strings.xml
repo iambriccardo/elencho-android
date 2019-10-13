@@ -9,4 +9,7 @@
     <string name="from_date">Start date</string>
     <string name="to_date">End date</string>
     <string name="choose_date_interval">Choose a time interval</string>
+    <string name="title_activity_configuration">ConfigurationActivity</string>
+    <string name="configure_app_header">Lets configure the app in just a few steps</string>
+    <string name="configure_app_description">In order to use this app you will need to configure a few things which will improve your experience.</string>
 </resources>

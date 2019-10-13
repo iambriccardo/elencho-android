@@ -93,6 +93,7 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
             it.error.observe(this, Observer { error ->
                 if (error.isNotEmpty()) {
                     statusView.setText(error)
+                    statusView.setImage(R.drawable.ic_warning)
                     statusView.visibility = View.VISIBLE
                 } else {
                     statusView.visibility = View.GONE

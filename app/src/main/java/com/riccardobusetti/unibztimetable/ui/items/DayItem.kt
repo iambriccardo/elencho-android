@@ -6,7 +6,9 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.item_day.view.*
 
-class DayItem(private val day: Day) : Item<GroupieViewHolder>() {
+class DayItem(
+    private val day: Day
+) : Item<GroupieViewHolder>() {
 
     override fun getLayout() = R.layout.item_day
 

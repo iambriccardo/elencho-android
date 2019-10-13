@@ -6,7 +6,9 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.item_course.view.*
 
-class CourseItem(private val course: Course) : Item<GroupieViewHolder>() {
+class CourseItem(
+    private val course: Course
+) : Item<GroupieViewHolder>() {
 
     override fun getLayout() = R.layout.item_course
 

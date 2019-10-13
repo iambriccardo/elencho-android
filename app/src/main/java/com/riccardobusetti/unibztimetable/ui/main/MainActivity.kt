@@ -1,12 +1,16 @@
 package com.riccardobusetti.unibztimetable.ui.main
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.data.sharedprefs.UserPrefsHelper
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.ui.adapters.FragmentsAdapter
+import com.riccardobusetti.unibztimetable.ui.configuration.ConfigurationActivity
 import com.riccardobusetti.unibztimetable.ui.next7days.Next7DaysFragment
 import com.riccardobusetti.unibztimetable.ui.timemachine.TimeMachineFragment
 import com.riccardobusetti.unibztimetable.ui.today.TodayFragment
@@ -15,7 +19,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    data class IndexableFragment(val index: Int, val itemId: Int, val fragment: Fragment)
+    data class IndexableFragment(
+        val index: Int,
+        val itemId: Int,
+        val fragment: Fragment
+    )
 
     private val indexableFragments = listOf(
         IndexableFragment(
@@ -39,8 +47,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.ComputerScienceTheme)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(activity_main_toolbar)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
 
         val helper = UserPrefsHelper(this)
         helper.putString(UserPrefs.Pref.DEPARTMENT_ID.key, "22")
@@ -49,6 +58,24 @@ class MainActivity : AppCompatActivity() {
 
         setupUi()
         attachListeners()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_activity_main, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_settings -> {
+            startActivity(Intent(this, ConfigurationActivity::class.java))
+            true
+        }
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
     }
 
     private fun setupUi() {

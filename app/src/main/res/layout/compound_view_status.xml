@@ -17,7 +17,6 @@
             android:layout_height="56dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_sad"
             android:tint="?attr/colorPrimary" />
 
         <TextView
@@ -25,8 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/colorBlack"
-            android:textSize="16sp"
+            android:textAppearance="?android:attr/textAppearance"
             tools:text="You don't have any lessons, enjoy!" />
 
     </LinearLayout>
