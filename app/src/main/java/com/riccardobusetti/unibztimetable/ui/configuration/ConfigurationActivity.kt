@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.riccardobusetti.unibztimetable.R
@@ -40,13 +41,26 @@ class ConfigurationActivity : AppCompatActivity() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
+    private lateinit var model: ConfigurationViewModel
+
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_configuration)
 
+        setupModel()
         setupUi()
+    }
+
+    private fun setupModel() {
+        model = ViewModelProviders.of(
+            this,
+            ConfigurationViewModelFactory()
+        )
+            .get(
+                ConfigurationViewModel::class.java
+            )
     }
 
     private fun setupUi() {

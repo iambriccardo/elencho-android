@@ -31,11 +31,9 @@ class SharedPreferencesUserPrefsStrategy(
         val usersPrefsHelper = UserPrefsHelper(context)
 
         return UserPrefs(
-            mapOf(
-                UserPrefs.Pref.DEPARTMENT_ID to usersPrefsHelper.getString(UserPrefs.Pref.DEPARTMENT_ID.key),
-                UserPrefs.Pref.DEGREE_ID to usersPrefsHelper.getString(UserPrefs.Pref.DEGREE_ID.key),
-                UserPrefs.Pref.STUDY_PLAN_ID to usersPrefsHelper.getString(UserPrefs.Pref.STUDY_PLAN_ID.key)
-            )
+            UserPrefs.Pref.values().map {
+                it to usersPrefsHelper.getString(it.key)
+            }.toMap()
         )
     }
 }

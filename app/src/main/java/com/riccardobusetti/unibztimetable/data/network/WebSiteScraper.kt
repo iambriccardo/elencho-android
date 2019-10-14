@@ -21,6 +21,10 @@ import java.util.*
  */
 class WebSiteScraper(private val webSiteLink: WebSiteLink) {
 
+    companion object {
+        private const val TAG = "WebSiteScraper"
+    }
+
     /**
      * Enum containing all the css queries we are going to perform
      * on the html document.
@@ -35,10 +39,6 @@ class WebSiteScraper(private val webSiteLink: WebSiteLink) {
         GET_COURSE_LOCATION(".u-push-btm-quarter"),
         GET_COURSE_PROFESSOR(".actionLink"),
         GET_COURSE_TIME_AND_TYPE(".u-push-btm-none:first-of-type")
-    }
-
-    companion object {
-        private const val TAG = "WebSiteScraper"
     }
 
     private fun String.compact() = this.replace(" ", "")

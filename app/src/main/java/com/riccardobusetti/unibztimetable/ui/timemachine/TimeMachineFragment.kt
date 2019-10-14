@@ -104,7 +104,8 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
             when (datePickerState) {
                 TimeMachineViewModel.DatePickerState.OPENED_FOR_FROM_DATE -> updateFromDate(newDate)
                 TimeMachineViewModel.DatePickerState.OPENED_FOR_TO_DATE -> updateToDate(newDate)
-                else -> {}
+                else -> {
+                }
             }
         }, {
             model?.datePickerState?.value = TimeMachineViewModel.DatePickerState.CLOSED

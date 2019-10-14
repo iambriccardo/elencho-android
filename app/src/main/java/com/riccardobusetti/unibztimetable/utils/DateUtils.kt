@@ -13,11 +13,12 @@ import java.util.*
  */
 object DateUtils {
 
+    private infix fun Calendar.addDays(days: Int) =
+        this.apply { this.add(Calendar.DAY_OF_WEEK, days) }
+
+    private infix fun Calendar.addYears(years: Int) = this.apply { this.add(Calendar.YEAR, years) }
+
     private val supportedLocales = listOf("en", "de", "it")
-
-    infix fun Calendar.addDays(days: Int) = this.apply { this.add(Calendar.DAY_OF_WEEK, days) }
-
-    infix fun Calendar.addYears(years: Int) = this.apply { this.add(Calendar.YEAR, years) }
 
     /**
      * Gets the [Locale.ENGLISH] only if the device has the other languages not supported. This is

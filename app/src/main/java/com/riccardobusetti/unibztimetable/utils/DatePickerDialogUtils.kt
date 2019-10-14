@@ -16,6 +16,12 @@ typealias OnDateSetCallback = (String, TimeMachineViewModel.DatePickerState) -> 
  */
 typealias OnDialogClosedCallback = () -> Unit
 
+/**
+ * Helper class which will wrap the [DatePickerDialog] of the Android framework in order to make it
+ * easier to use in this domain context.
+ *
+ * @author Riccardo Busetti
+ */
 class DatePickerDialogUtils(
     context: Context,
     private val dateSelectedCallback: OnDateSetCallback,
@@ -26,6 +32,11 @@ class DatePickerDialogUtils(
         private const val TAG = "DatePickerDialogUtils"
     }
 
+    /**
+     * Adds a leading zero to the left of a given number of size < 2.
+     *
+     * For example 9 becomes 09.
+     */
     private fun Int.addLeadingZero() = if (this.toString().length < 2) "0${this}" else "${this}"
 
     private var datePickerState = TimeMachineViewModel.DatePickerState.CLOSED

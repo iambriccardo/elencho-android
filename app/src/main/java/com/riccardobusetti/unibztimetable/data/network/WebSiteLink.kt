@@ -45,7 +45,8 @@ class WebSiteLink private constructor(val url: String) {
 
         private fun getTodayDate() = DateUtils.getCurrentDateFormatted()
 
-        fun useDeviceLanguage() = apply { this.language = DateUtils.getDefaultLocaleGuarded().language }
+        fun useDeviceLanguage() =
+            apply { this.language = DateUtils.getDefaultLocaleGuarded().language }
 
         fun withLanguage(language: String) = apply { this.language = language }
 
