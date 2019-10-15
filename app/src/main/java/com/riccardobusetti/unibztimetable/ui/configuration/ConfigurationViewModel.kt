@@ -65,9 +65,11 @@ class ConfigurationViewModel(
         )
     )
 
-    val userPrefsMap = mutableMapOf<UserPrefs.Pref, String>()
-
     val loading = MutableLiveData<Boolean>()
+
+    val success = MutableLiveData<Boolean>()
+
+    val userPrefs = MutableLiveData<Map<UserPrefs.Pref, String>>().apply { this.value = mapOf() }
 
     fun getUserPrefs() {
         viewModelScope.launchWithSupervisor {
@@ -89,33 +91,54 @@ class ConfigurationViewModel(
 
     fun putUserPrefs() {
         viewModelScope.launchWithSupervisor {
+            loading.value = true
+
             val isSuccessful = withContext(Dispatchers.IO) {
-                putUserPrefsUseCase.putUserPrefs(UserPrefs(userPrefsMap))
+                userPrefs.value?.let {
+                    putUserPrefsUseCase.putUserPrefs(UserPrefs(it))
+
+                    return@withContext true
+                }
+
+                return@withContext false
             }
 
-            if (isSuccessful) {
-
-            } else {
-
-            }
+            loading.value = false
+            success.value = isSuccessful
         }
     }
 
-    private fun handleUsernameConfiguration(username: String): Boolean {
-        userPrefsMap[UserPrefs.Pref.USERNAME] = username
-
-        return true
-    }
+    private fun handleUsernameConfiguration(username: String) =
+        putUserPref(UserPrefs.Pref.USERNAME, username)
 
     private fun handleStudyPlanConfiguration(url: String): Boolean {
         val urlValues = URLUtils.parseURL(url)
 
-        userPrefsMap[UserPrefs.Pref.DEPARTMENT_ID] =
-            urlValues[UserPrefs.Pref.DEPARTMENT_ID] ?: return false
-        userPrefsMap[UserPrefs.Pref.DEGREE_ID] = urlValues[UserPrefs.Pref.DEGREE_ID] ?: return false
-        userPrefsMap[UserPrefs.Pref.STUDY_PLAN_ID] =
-            urlValues[UserPrefs.Pref.STUDY_PLAN_ID] ?: return false
+        var result: Boolean
 
-        return true
+        result = putUserPref(UserPrefs.Pref.DEPARTMENT_ID, urlValues[UserPrefs.Pref.DEPARTMENT_ID])
+        result = putUserPref(UserPrefs.Pref.DEGREE_ID, urlValues[UserPrefs.Pref.DEGREE_ID])
+        result = putUserPref(UserPrefs.Pref.STUDY_PLAN_ID, urlValues[UserPrefs.Pref.STUDY_PLAN_ID])
+
+        return result
+    }
+
+    /**
+     * Puts a new user pref inside of the mutable live data object that holds a map with all the
+     * current configured prefs.
+     */
+    private fun putUserPref(pref: UserPrefs.Pref, value: String?): Boolean {
+        if (value == null) return false
+
+        userPrefs.value?.let { oldPrefs ->
+            val newPrefs = mutableMapOf(pref to value)
+            oldPrefs.forEach { newPrefs[it.key] = it.value }
+
+            userPrefs.value = newPrefs
+
+            return true
+        }
+
+        return false
     }
 }

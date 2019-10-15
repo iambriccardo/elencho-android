@@ -1,6 +1,8 @@
 package com.riccardobusetti.unibztimetable.ui.configuration
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -8,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.riccardobusetti.unibztimetable.R
+import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
@@ -56,6 +59,19 @@ class ConfigurationActivity : AppCompatActivity() {
         model.loading.observe(this, Observer {
 
         })
+
+        model.success.observe(this, Observer {
+
+        })
+
+        model.userPrefs.observe(this, Observer {
+            Log.d("NEW PREFS", "$it")
+            if (it.size == UserPrefs.Pref.values().size) {
+                showSaveButton()
+            } else {
+                hideSaveButton()
+            }
+        })
     }
 
     private fun setupUi() {
@@ -75,5 +91,13 @@ class ConfigurationActivity : AppCompatActivity() {
         model.configurations.forEach {
             groupAdapter.add(ConfigurationItem(it))
         }
+    }
+
+    private fun showSaveButton() {
+        saveButton.visibility = View.VISIBLE
+    }
+
+    private fun hideSaveButton() {
+        saveButton.visibility = View.GONE
     }
 }

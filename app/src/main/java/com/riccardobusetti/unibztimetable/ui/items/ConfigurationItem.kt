@@ -1,13 +1,13 @@
 package com.riccardobusetti.unibztimetable.ui.items
 
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.ui.configuration.ConfigurationActivity
+import com.riccardobusetti.unibztimetable.ui.configuration.ConfigurationViewModel
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.item_configuration.view.*
 
 class ConfigurationItem(
-    private val configuration: ConfigurationActivity.Configuration
+    private val configuration: ConfigurationViewModel.Configuration
 ) : Item<GroupieViewHolder>() {
 
     override fun getLayout() = R.layout.item_configuration

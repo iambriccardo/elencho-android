@@ -2,6 +2,11 @@ package com.riccardobusetti.unibztimetable.utils
 
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 
+/**
+ * Class containing helper methods to manage urls.
+ *
+ * @author Riccardo Busetti
+ */
 object URLUtils {
 
     fun parseURL(url: String): Map<UserPrefs.Pref, String> {
