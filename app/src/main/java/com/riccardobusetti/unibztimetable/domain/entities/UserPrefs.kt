@@ -5,7 +5,7 @@ package com.riccardobusetti.unibztimetable.domain.entities
  *
  * @author Riccardo Busetti
  */
-class UserPrefs(val prefs: Map<Pref, String>) {
+class UserPrefs(val prefs: Map<Pref, String> = mutableMapOf()) {
 
     /**
      * Enum containing all the user preferences with their corresponding key.

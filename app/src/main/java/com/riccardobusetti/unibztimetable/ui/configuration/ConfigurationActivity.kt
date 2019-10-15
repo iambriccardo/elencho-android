@@ -1,13 +1,17 @@
 package com.riccardobusetti.unibztimetable.ui.configuration
 
 import android.os.Bundle
-import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.riccardobusetti.unibztimetable.R
+import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
+import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
+import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
+import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.items.ConfigurationItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -15,52 +19,43 @@ import kotlinx.android.synthetic.main.activity_configuration.*
 
 class ConfigurationActivity : AppCompatActivity() {
 
-    data class Configuration(
-        val title: String,
-        val description: String,
-        @IdRes @DrawableRes val iconResId: Int,
-        val clickCallback: () -> Boolean
-    )
-
-    private val configurations = listOf(
-        Configuration(
-            "Write your name",
-            "This is needed in order to further personalize the experience",
-            R.drawable.ic_face
-        ) {
-            true
-        },
-        Configuration(
-            "Choose your study plan",
-            "In order to see the timetable you need to select your study plan",
-            R.drawable.ic_school
-        ) {
-            true
-        }
-    )
-
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     private lateinit var model: ConfigurationViewModel
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var saveButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_configuration)
 
-        setupModel()
+        initModel()
+        attachObservers()
         setupUi()
+        loadConfigurations()
     }
 
-    private fun setupModel() {
+    private fun initModel() {
+        val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(this))
+
         model = ViewModelProviders.of(
             this,
-            ConfigurationViewModelFactory()
+            ConfigurationViewModelFactory(
+                this,
+                GetUserPrefsUseCase(userPrefsRepository),
+                PutUserPrefsUseCase(userPrefsRepository)
+            )
         )
             .get(
                 ConfigurationViewModel::class.java
             )
+    }
+
+    private fun attachObservers() {
+        model.loading.observe(this, Observer {
+
+        })
     }
 
     private fun setupUi() {
@@ -70,7 +65,14 @@ class ConfigurationActivity : AppCompatActivity() {
             adapter = groupAdapter
         }
 
-        configurations.forEach {
+        saveButton = activity_configuration_save_button
+        saveButton.setOnClickListener {
+            model.putUserPrefs()
+        }
+    }
+
+    private fun loadConfigurations() {
+        model.configurations.forEach {
             groupAdapter.add(ConfigurationItem(it))
         }
     }

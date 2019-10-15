@@ -2,9 +2,6 @@ package com.riccardobusetti.unibztimetable.utils.custom
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 
 /**
  * Extension class of the [ViewModel] which provides the basics [MutableLiveData] objects that are
@@ -12,7 +9,7 @@ import kotlinx.coroutines.supervisorScope
  *
  * @author Riccardo Busetti
  */
-open class TimetableViewModel<TimetableType> : ViewModel() {
+open class TimetableViewModel<TimetableType> : AdvancedViewModel() {
 
     /**
      * Error value if we don't have any error. Refer to the [error] documentation to understand
@@ -37,16 +34,4 @@ open class TimetableViewModel<TimetableType> : ViewModel() {
      * Live data object containing the current state of loading.
      */
     val loadingState = MutableLiveData<Boolean>()
-
-    /**
-     * Launches a coroutine and wraps it into the supervisorScope in order to avoid error propagation
-     * of childs to the parent.
-     *
-     * This is done because we want to have error checking inside of the coroutine to make the code
-     * readable and easily mantainable.
-     *
-     * @author Riccardo Busetti
-     */
-    fun CoroutineScope.launchWithSupervisor(block: suspend CoroutineScope.() -> Unit) =
-        this.launch { supervisorScope { block() } }
 }
