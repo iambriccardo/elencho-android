@@ -57,4 +57,13 @@
         android:layout_margin="16dp"
         android:text="@string/save_configuration" />
 
+    <ProgressBar
+        android:id="@+id/activity_configuration_progress_bar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dp"
+        android:visibility="gone" />
+
 </RelativeLayout>

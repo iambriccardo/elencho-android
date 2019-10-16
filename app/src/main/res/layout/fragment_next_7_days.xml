@@ -8,4 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
+        android:id="@+id/fragment_next_7_days_status_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </RelativeLayout>

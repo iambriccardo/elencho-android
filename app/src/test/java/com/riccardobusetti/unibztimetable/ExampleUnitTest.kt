@@ -1,6 +1,5 @@
 package com.riccardobusetti.unibztimetable
 
-import com.riccardobusetti.unibztimetable.utils.DateUtils
 import org.junit.Test
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -31,10 +30,5 @@ class ExampleUnitTest {
     @Test
     fun check_current_locale() {
         println(Locale.getDefault().language)
-    }
-
-    @Test
-    fun check_if_lesson_is_going() {
-        println(DateUtils.isCourseOnGoing("lun, 07 ott 2019 17:00", "lun, 07 ott 2019 18:02"))
     }
 }

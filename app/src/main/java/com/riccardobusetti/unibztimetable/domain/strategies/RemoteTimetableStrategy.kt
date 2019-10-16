@@ -1,7 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.strategies
 
-import com.riccardobusetti.unibztimetable.data.network.WebSiteLink
 import com.riccardobusetti.unibztimetable.data.network.WebSiteScraper
+import com.riccardobusetti.unibztimetable.data.network.WebSiteUrl
 
 /**
  * Remote implementation for fetching the timetable.
@@ -16,5 +16,5 @@ class RemoteTimetableStrategy : TimetableStrategy {
     /**
      * @inheritDoc
      */
-    override fun getTimetable(webSiteLink: WebSiteLink) = WebSiteScraper(webSiteLink).getTimetable()
+    override fun getTimetable(webSiteUrl: WebSiteUrl) = WebSiteScraper(webSiteUrl).getTimetable()
 }

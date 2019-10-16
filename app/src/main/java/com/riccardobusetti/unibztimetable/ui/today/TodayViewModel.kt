@@ -55,6 +55,7 @@ class TodayViewModel(
                 if (newTimetable.isEmpty())
                     error.value = context.getString(R.string.error_no_courses)
                 else
+                    error.value = NO_ERROR
                     timetable.value = newTimetable
             }
         }

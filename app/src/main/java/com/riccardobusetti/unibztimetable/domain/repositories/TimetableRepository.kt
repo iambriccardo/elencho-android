@@ -1,6 +1,6 @@
 package com.riccardobusetti.unibztimetable.domain.repositories
 
-import com.riccardobusetti.unibztimetable.data.network.WebSiteLink
+import com.riccardobusetti.unibztimetable.data.network.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
 
 /**
@@ -13,5 +13,5 @@ class TimetableRepository(
     private val remoteTimetableStrategy: RemoteTimetableStrategy
 ) : Repository {
 
-    fun getTimetable(webSiteLink: WebSiteLink) = remoteTimetableStrategy.getTimetable(webSiteLink)
+    fun getTimetable(webSiteUrl: WebSiteUrl) = remoteTimetableStrategy.getTimetable(webSiteUrl)
 }

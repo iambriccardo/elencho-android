@@ -6,13 +6,11 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.R
+import com.riccardobusetti.unibztimetable.data.network.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
-import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
-import com.riccardobusetti.unibztimetable.utils.URLUtils
 import com.riccardobusetti.unibztimetable.utils.custom.AdvancedViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
 /**
@@ -22,7 +20,6 @@ typealias OnConfigurationClickCallback = (ConfigurationViewModel.Configuration) 
 
 class ConfigurationViewModel(
     private val context: Context,
-    private val getUserPrefsUseCase: GetUserPrefsUseCase,
     private val putUserPrefsUseCase: PutUserPrefsUseCase
 ) : AdvancedViewModel() {
 
@@ -42,7 +39,7 @@ class ConfigurationViewModel(
             }
             2 -> {
                 // TODO: show dialog.
-                handleStudyPlanConfiguration("unibz.it")
+                handleStudyPlanConfiguration("https://www.unibz.it/en/timetable/?department=22&degree=13205&studyPlan=16858&fromDate=2019-10-08&toDate=2019-10-14&page=1")
             }
             else -> false
         }
@@ -71,24 +68,6 @@ class ConfigurationViewModel(
 
     val userPrefs = MutableLiveData<Map<UserPrefs.Pref, String>>().apply { this.value = mapOf() }
 
-    fun getUserPrefs() {
-        viewModelScope.launchWithSupervisor {
-            val work = async(Dispatchers.IO) {
-                getUserPrefsUseCase.getUserPrefs()
-            }
-
-            val userPrefs = try {
-                work.await()
-            } catch (e: Exception) {
-                null
-            }
-
-            userPrefs?.let {
-
-            }
-        }
-    }
-
     fun putUserPrefs() {
         viewModelScope.launchWithSupervisor {
             loading.value = true
@@ -112,7 +91,7 @@ class ConfigurationViewModel(
         putUserPref(UserPrefs.Pref.USERNAME, username)
 
     private fun handleStudyPlanConfiguration(url: String): Boolean {
-        val urlValues = URLUtils.parseURL(url)
+        val urlValues = WebSiteUrl.parseUrl(url)
 
         var result: Boolean
 

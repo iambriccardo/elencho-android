@@ -19,7 +19,7 @@ import java.util.*
  *
  * @author Riccardo Busetti
  */
-class WebSiteScraper(private val webSiteLink: WebSiteLink) {
+class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
 
     companion object {
         private const val TAG = "WebSiteScraper"
@@ -75,9 +75,9 @@ class WebSiteScraper(private val webSiteLink: WebSiteLink) {
      * the algorithm is going to scrape.
      */
     private fun getWebSite(): Document {
-        Log.d(TAG, "Scraping the website at url -> ${webSiteLink.url}")
+        Log.d(TAG, "Scraping the website at url -> ${webSiteUrl.url}")
 
-        return Jsoup.connect(webSiteLink.url).get()
+        return Jsoup.connect(webSiteUrl.url).get()
     }
 
     /**

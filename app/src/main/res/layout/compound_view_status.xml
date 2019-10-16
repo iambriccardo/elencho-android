@@ -15,6 +15,7 @@
             android:id="@+id/compound_view_status_image"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:src="@drawable/ic_warning"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
             android:tint="?attr/colorPrimary" />

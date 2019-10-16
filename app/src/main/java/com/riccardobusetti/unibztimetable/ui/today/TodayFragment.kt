@@ -36,7 +36,6 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
     override fun initModel(): TodayViewModel {
         val timetableRepository = TimetableRepository(RemoteTimetableStrategy())
-
         val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(context!!))
 
         return ViewModelProviders.of(
@@ -92,11 +91,9 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
             it.error.observe(this, Observer { error ->
                 if (error.isNotEmpty()) {
-                    statusView.setText(error)
-                    statusView.setImage(R.drawable.ic_warning)
-                    statusView.visibility = View.VISIBLE
+                    showStatusView(error)
                 } else {
-                    statusView.visibility = View.GONE
+                    hideStatusView()
                 }
             })
 
@@ -108,5 +105,16 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
     override fun startLoadingData() {
         model?.loadTodayTimetable("1")
+    }
+
+    private fun showStatusView(error: String) {
+        statusView.setText(error)
+        statusView.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+    }
+
+    private fun hideStatusView() {
+        statusView.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
     }
 }

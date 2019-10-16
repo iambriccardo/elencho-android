@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +20,7 @@ import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
 import com.riccardobusetti.unibztimetable.utils.custom.AdvancedFragment
+import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
@@ -30,12 +30,12 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
+    private lateinit var statusView: StatusView
     private lateinit var recyclerView: RecyclerView
     private lateinit var skeleton: SkeletonScreen
 
     override fun initModel(): Next7DaysViewModel {
         val timetableRepository = TimetableRepository(RemoteTimetableStrategy())
-
         val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(context!!))
 
         return ViewModelProviders.of(
@@ -57,6 +57,8 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
     }
 
     override fun setupUi() {
+        statusView = fragment_next_7_days_status_view
+
         recyclerView = fragment_next_7_days_recycler_view
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -88,7 +90,11 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
             })
 
             it.error.observe(this, Observer { error ->
-                Toast.makeText(activity, error, Toast.LENGTH_SHORT).show()
+                if (error.isNotEmpty()) {
+                    showStatusView(error)
+                } else {
+                    hideStatusView()
+                }
             })
 
             it.loadingState.observe(this, Observer { isLoading ->
@@ -99,5 +105,16 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
 
     override fun startLoadingData() {
         model?.loadNext7DaysTimetable("1")
+    }
+
+    private fun showStatusView(error: String) {
+        statusView.setText(error)
+        statusView.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+    }
+
+    private fun hideStatusView() {
+        statusView.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
     }
 }

@@ -1,6 +1,6 @@
 package com.riccardobusetti.unibztimetable.domain.strategies
 
-import com.riccardobusetti.unibztimetable.data.network.WebSiteLink
+import com.riccardobusetti.unibztimetable.data.network.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 
 /**
@@ -16,7 +16,7 @@ class CachedTimetableStrategy : TimetableStrategy {
     /**
      * @inheritDoc
      */
-    override fun getTimetable(webSiteLink: WebSiteLink): List<Day> {
+    override fun getTimetable(webSiteUrl: WebSiteUrl): List<Day> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

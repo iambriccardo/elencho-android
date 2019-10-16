@@ -7,8 +7,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.data.sharedprefs.UserPrefsHelper
-import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.ui.adapters.FragmentsAdapter
 import com.riccardobusetti.unibztimetable.ui.configuration.ConfigurationActivity
 import com.riccardobusetti.unibztimetable.ui.next7days.Next7DaysFragment
@@ -50,11 +48,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(activity_main_toolbar)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
-
-        val helper = UserPrefsHelper(this)
-        helper.putString(UserPrefs.Pref.DEPARTMENT_ID.key, "22")
-        helper.putString(UserPrefs.Pref.DEGREE_ID.key, "13205")
-        helper.putString(UserPrefs.Pref.STUDY_PLAN_ID.key, "16858")
 
         setupUi()
         attachListeners()

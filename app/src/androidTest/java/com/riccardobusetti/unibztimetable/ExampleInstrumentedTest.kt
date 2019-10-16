@@ -2,7 +2,7 @@ package com.riccardobusetti.unibztimetable
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
-import com.riccardobusetti.unibztimetable.data.network.WebSiteLink
+import com.riccardobusetti.unibztimetable.data.network.WebSiteUrl
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,7 +23,7 @@ class ExampleInstrumentedTest {
 
     @Test
     fun is_link_builded_correctly() {
-        val link = WebSiteLink.Builder()
+        val link = WebSiteUrl.Builder()
             .withLanguage("it")
             .withDepartment("44")
             .withDegree("13075,13241")

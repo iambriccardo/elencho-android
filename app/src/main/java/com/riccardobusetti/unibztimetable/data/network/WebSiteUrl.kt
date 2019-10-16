@@ -1,5 +1,7 @@
 package com.riccardobusetti.unibztimetable.data.network
 
+import android.net.Uri
+import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 
 /**
@@ -8,7 +10,7 @@ import com.riccardobusetti.unibztimetable.utils.DateUtils
  *
  * @author Riccardo Busetti
  */
-class WebSiteLink private constructor(val url: String) {
+class WebSiteUrl private constructor(val url: String) {
 
     companion object {
 
@@ -22,10 +24,23 @@ class WebSiteLink private constructor(val url: String) {
         private const val FROM_DATE_URL_PARAM = "fromDate"
         private const val TO_DATE_URL_PARAM = "toDate"
         private const val PAGE_URL_PARAM = "page"
+
+        /**
+         * Parses the url in order to get information about the selected study plan.
+         */
+        fun parseUrl(url: String): Map<UserPrefs.Pref, String> {
+            val uri = Uri.parse(url)
+
+            return mapOf(
+                UserPrefs.Pref.DEPARTMENT_ID to (uri.getQueryParameter(DEPARTMENT_URL_PARAM) ?: ""),
+                UserPrefs.Pref.DEGREE_ID to (uri.getQueryParameter(DEGREE_URL_PARAM) ?: ""),
+                UserPrefs.Pref.STUDY_PLAN_ID to (uri.getQueryParameter(STUDY_PLAN_URL_PARAM) ?: "")
+            )
+        }
     }
 
     /**
-     * Nested class which is used to build the [WebSiteLink] for the remote timetable request.
+     * Nested class which is used to build the [WebSiteUrl] for the remote timetable request.
      */
     data class Builder(
         var language: String = "en",
@@ -75,7 +90,7 @@ class WebSiteLink private constructor(val url: String) {
 
         fun atPage(page: String) = apply { this.page = page }
 
-        fun build() = WebSiteLink(
+        fun build() = WebSiteUrl(
             BASE_URL +
                     "/$language" +
                     "/$TIMETABLE_URL_PATH" +

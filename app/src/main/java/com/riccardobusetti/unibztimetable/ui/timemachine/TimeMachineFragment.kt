@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +26,7 @@ import com.riccardobusetti.unibztimetable.ui.items.DayItem
 import com.riccardobusetti.unibztimetable.utils.DatePickerDialogUtils
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.riccardobusetti.unibztimetable.utils.custom.AdvancedFragment
+import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
@@ -38,6 +38,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
+    private lateinit var statusView: StatusView
     private lateinit var bottomSheetView: View
     private lateinit var fromDateText: TextView
     private lateinit var toDateText: TextView
@@ -72,6 +73,8 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     }
 
     override fun setupUi() {
+        statusView = fragment_time_machine_status_view
+
         bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_date_interval, null)
 
         fromDateText = bottomSheetView.bottom_sheet_date_interval_from_text
@@ -145,7 +148,11 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
             })
 
             it.error.observe(this, Observer { error ->
-                Toast.makeText(activity, error, Toast.LENGTH_SHORT).show()
+                if (error.isNotEmpty()) {
+                    showStatusView(error)
+                } else {
+                    hideStatusView()
+                }
             })
 
             it.loadingState.observe(this, Observer { isLoading ->
@@ -200,5 +207,16 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
     private fun updateToDate(newDate: String) {
         model?.selectedDateInterval?.value = model?.selectedDateInterval?.value!!.first to newDate
+    }
+
+    private fun showStatusView(error: String) {
+        statusView.setText(error)
+        statusView.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+    }
+
+    private fun hideStatusView() {
+        statusView.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
     }
 }
