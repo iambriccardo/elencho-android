@@ -3,6 +3,7 @@ package com.riccardobusetti.unibztimetable.ui.configuration
 import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.R
@@ -24,13 +25,13 @@ class ConfigurationViewModel(
 ) : AdvancedViewModel() {
 
     enum class Configuration(
-        val title: String,
-        val description: String,
+        @IdRes @StringRes val titleResId: Int,
+        @IdRes @StringRes val descriptionResId: Int,
         @IdRes @DrawableRes val iconResId: Int
     ) {
         STUDY_PLAN(
-            "Choose your study plan",
-            "In order to see the timetable you need to select your study plan",
+            R.string.configuration_study_plan_title,
+            R.string.configuration_study_plan_description,
             R.drawable.ic_school
         )
     }

@@ -13,16 +13,24 @@
 
     <!-- ConfigurationActivity -->
     <string name="configure_app_header">Lets configure the app in just a few steps</string>
-    <string name="configure_app_description">In order to use this app you will need to configure a few things which will improve your experience.</string>
+    <string name="configure_app_description">This process is needed in order for the app to work. Don\'t worry it will take only a few minutes.</string>
     <string name="save_configuration">Save preferences</string>
+
+    <!-- Configurations -->
+    <string name="configuration_study_plan_title">Setup your study plan</string>
+    <string name="configuration_study_plan_description">In order to be able to use this app you will need to select the course you want to see the timetable of.</string>
 
     <!-- Dialogs -->
     <string name="study_plan_dialog_title">Choose your study plan</string>
     <string name="study_plan_dialog_hint">Paste the timetable url</string>
 
+    <!-- UrlListenBottomSheet -->
+    <string name="listen_url_title">Waiting for url</string>
+    <string name="listen_url_description">Go on the <a href="https://www.unibz.it/en/timetable">unibz.it/timetable</a> website, select your course and copy the url, then come back to this app.</string>
+    <string name="success_while_parsing_url">The url is valid, go back to the app :)</string>
+    <string name="error_while_parsing_url">This url doesn\'t seem to belong to unibz domain :(</string>
+
     <!-- Other -->
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
-    <string name="waiting_for_url">Waiting for url</string>
-    <string name="error_while_parsing_url">The url is invalid, try again.</string>
 </resources>

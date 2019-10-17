@@ -26,6 +26,8 @@ class WebSiteUrl private constructor(val url: String) {
         private const val TO_DATE_URL_PARAM = "toDate"
         private const val PAGE_URL_PARAM = "page"
 
+        const val DEFAULT_URL_PARAM_VALUE = "-1"
+
         /**
          * Parses the url in order to get information about the selected study plan.
          */
@@ -35,13 +37,17 @@ class WebSiteUrl private constructor(val url: String) {
             val uri = Uri.parse(url)
 
             return mapOf(
-                UserPrefs.Pref.DEPARTMENT_ID to (uri.getQueryParameter(DEPARTMENT_URL_PARAM) ?: ""),
-                UserPrefs.Pref.DEGREE_ID to (uri.getQueryParameter(DEGREE_URL_PARAM) ?: ""),
-                UserPrefs.Pref.STUDY_PLAN_ID to (uri.getQueryParameter(STUDY_PLAN_URL_PARAM) ?: "")
+                UserPrefs.Pref.DEPARTMENT_ID to (uri.getQueryParameter(DEPARTMENT_URL_PARAM)
+                    ?: DEFAULT_URL_PARAM_VALUE),
+                UserPrefs.Pref.DEGREE_ID to (uri.getQueryParameter(DEGREE_URL_PARAM)
+                    ?: DEFAULT_URL_PARAM_VALUE),
+                UserPrefs.Pref.STUDY_PLAN_ID to (uri.getQueryParameter(STUDY_PLAN_URL_PARAM)
+                    ?: DEFAULT_URL_PARAM_VALUE)
             )
         }
 
-        private fun validateUrl(url: String) = url.contains(BASE_URL)
+        private fun validateUrl(url: String) =
+            url.contains(BASE_URL) && url.contains(TIMETABLE_URL_PATH)
     }
 
     /**
@@ -57,6 +63,8 @@ class WebSiteUrl private constructor(val url: String) {
         var toDate: String = "",
         var page: String = "1"
     ) {
+        private fun String.replaceDefaultUrlParam() = this.replace(DEFAULT_URL_PARAM_VALUE, "")
+
         private fun String.encodeSpaces() = this.replace(" ", "+")
 
         private fun String.encodeComma(): String {
@@ -106,9 +114,9 @@ class WebSiteUrl private constructor(val url: String) {
                     "/$language" +
                     "/$TIMETABLE_URL_PATH" +
                     "/?$SEARCH_BY_KEYWORDS_URL_PARAM=${this.searchByKeywords.encodeSpaces()}" +
-                    "&$DEPARTMENT_URL_PARAM=${this.department.encodeComma()}" +
-                    "&$DEGREE_URL_PARAM=${this.degree.encodeComma()}" +
-                    "&$STUDY_PLAN_URL_PARAM=${this.studyPlan.encodeComma()}" +
+                    "&$DEPARTMENT_URL_PARAM=${this.department.replaceDefaultUrlParam().encodeComma()}" +
+                    "&$DEGREE_URL_PARAM=${this.degree.replaceDefaultUrlParam().encodeComma()}" +
+                    "&$STUDY_PLAN_URL_PARAM=${this.studyPlan.replaceDefaultUrlParam().encodeComma()}" +
                     "&$FROM_DATE_URL_PARAM=${this.fromDate}" +
                     "&$TO_DATE_URL_PARAM=${this.toDate}" +
                     "&$PAGE_URL_PARAM=${this.page}"

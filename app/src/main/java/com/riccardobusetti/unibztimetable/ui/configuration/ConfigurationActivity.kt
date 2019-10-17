@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -25,6 +26,7 @@ import com.riccardobusetti.unibztimetable.ui.main.MainActivity
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_configuration.*
+import kotlinx.android.synthetic.main.bottom_sheet_url_listen.view.*
 
 
 class ConfigurationActivity : AppCompatActivity() {
@@ -95,6 +97,8 @@ class ConfigurationActivity : AppCompatActivity() {
 
     private fun setupUi() {
         bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_url_listen, null)
+        bottomSheetView.bottom_sheet_url_listen_description.movementMethod =
+            LinkMovementMethod.getInstance()
 
         bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(bottomSheetView)
@@ -115,7 +119,7 @@ class ConfigurationActivity : AppCompatActivity() {
 
     private fun loadConfigurations() {
         ConfigurationViewModel.Configuration.values().forEach {
-            groupAdapter.add(ConfigurationItem(it) { configuration, successful ->
+            groupAdapter.add(ConfigurationItem(this, it) { configuration, successful ->
                 handleConfigurationClick(configuration, successful)
             })
         }
@@ -137,6 +141,12 @@ class ConfigurationActivity : AppCompatActivity() {
 
                         if (clipDescription!!.hasMimeType(MIMETYPE_TEXT_PLAIN)) {
                             if (model.handleStudyPlanConfiguration("${clipData!!.getItemAt(0).text}")) {
+                                Toast.makeText(
+                                    this,
+                                    R.string.success_while_parsing_url,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
                                 successful(true)
                                 bottomSheetDialog.hide()
                             } else {
