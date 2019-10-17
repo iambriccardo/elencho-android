@@ -13,12 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name=".ui.launch.LaunchActivity"
-            android:configChanges="orientation"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+        <activity android:name=".ui.launch.LaunchActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
