@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.datetime.datePicker
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -23,7 +25,6 @@ import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetab
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
-import com.riccardobusetti.unibztimetable.utils.DatePickerDialogUtils
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.riccardobusetti.unibztimetable.utils.custom.AdvancedFragment
 import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
@@ -32,6 +33,7 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import kotlinx.android.synthetic.main.bottom_sheet_date_interval.view.*
 import kotlinx.android.synthetic.main.fragment_time_machine.*
+import java.util.*
 
 
 class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
@@ -44,7 +46,6 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     private lateinit var toDateText: TextView
     private lateinit var timeTravelButton: Button
     private lateinit var bottomSheetDialog: BottomSheetDialog
-    private lateinit var datePickerDialogUtils: DatePickerDialogUtils
     private lateinit var recyclerView: RecyclerView
     private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var skeleton: SkeletonScreen
@@ -79,13 +80,24 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
         fromDateText = bottomSheetView.bottom_sheet_date_interval_from_text
         fromDateText.setOnClickListener {
-            model?.datePickerState?.value =
-                TimeMachineViewModel.DatePickerState.OPENED_FOR_FROM_DATE
+            MaterialDialog(context!!).show {
+                datePicker(
+                    currentDate = getCurrentFromDate()
+                ) { _, date ->
+                    updateFromDate(DateUtils.formatDateToString(date.time))
+                }
+            }
         }
 
         toDateText = bottomSheetView.bottom_sheet_date_interval_to_text
         toDateText.setOnClickListener {
-            model?.datePickerState?.value = TimeMachineViewModel.DatePickerState.OPENED_FOR_TO_DATE
+            MaterialDialog(context!!).show {
+                datePicker(
+                    currentDate = getCurrentToDate()
+                ) { _, date ->
+                    updateToDate(DateUtils.formatDateToString(date.time))
+                }
+            }
         }
 
         timeTravelButton = bottomSheetView.bottom_sheet_date_interval_button
@@ -102,17 +114,6 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         bottomSheetDialog = BottomSheetDialog(context!!)
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.setOnCancelListener { changeBottomSheetState() }
-
-        datePickerDialogUtils = DatePickerDialogUtils(context!!, { newDate, datePickerState ->
-            when (datePickerState) {
-                TimeMachineViewModel.DatePickerState.OPENED_FOR_FROM_DATE -> updateFromDate(newDate)
-                TimeMachineViewModel.DatePickerState.OPENED_FOR_TO_DATE -> updateToDate(newDate)
-                else -> {
-                }
-            }
-        }, {
-            model?.datePickerState?.value = TimeMachineViewModel.DatePickerState.CLOSED
-        })
 
         recyclerView = fragment_time_machine_recycler_view
         recyclerView.apply {
@@ -171,17 +172,6 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
                     else -> bottomSheetDialog.hide()
                 }
             })
-
-            it.datePickerState.observe(this, Observer { datePickerState ->
-                when (datePickerState) {
-                    TimeMachineViewModel.DatePickerState.CLOSED -> datePickerDialogUtils.hide()
-                    TimeMachineViewModel.DatePickerState.OPENED_FOR_FROM_DATE,
-                    TimeMachineViewModel.DatePickerState.OPENED_FOR_TO_DATE -> datePickerDialogUtils.show(
-                        datePickerState
-                    )
-                    else -> datePickerDialogUtils.hide()
-                }
-            })
         }
     }
 
@@ -201,8 +191,28 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         }
     }
 
+    private fun getCurrentFromDate(): Calendar? {
+        val fromDate = DateUtils.formatStringToDate(model?.selectedDateInterval?.value?.first!!)
+
+        return if (fromDate != null) {
+            DateUtils.getCalendarFromDate(fromDate)
+        } else {
+            null
+        }
+    }
+
     private fun updateFromDate(newDate: String) {
         model?.selectedDateInterval?.value = newDate to model?.selectedDateInterval?.value!!.second
+    }
+
+    private fun getCurrentToDate(): Calendar? {
+        val fromDate = DateUtils.formatStringToDate(model?.selectedDateInterval?.value?.second!!)
+
+        return if (fromDate != null) {
+            DateUtils.getCalendarFromDate(fromDate)
+        } else {
+            null
+        }
     }
 
     private fun updateToDate(newDate: String) {

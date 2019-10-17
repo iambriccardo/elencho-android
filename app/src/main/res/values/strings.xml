@@ -1,16 +1,26 @@
 <resources>
     <string name="app_name">Timetable</string>
 
-    <string name="time_travel">Time travel</string>
-
+    <!-- Errors -->
     <string name="error_no_courses">You don\'t have any courses for today, enjoy!</string>
     <string name="error_fetching">Error while fetching data, try again.</string>
 
+    <!-- DateIntervalBottomSheet -->
     <string name="from_date">Start date</string>
     <string name="to_date">End date</string>
     <string name="choose_date_interval">Choose a time interval</string>
-    <string name="title_activity_configuration">ConfigurationActivity</string>
+    <string name="time_travel">Time travel</string>
+
+    <!-- ConfigurationActivity -->
     <string name="configure_app_header">Lets configure the app in just a few steps</string>
     <string name="configure_app_description">In order to use this app you will need to configure a few things which will improve your experience.</string>
     <string name="save_configuration">Save preferences</string>
+
+    <!-- Dialogs -->
+    <string name="study_plan_dialog_title">Choose your study plan</string>
+    <string name="study_plan_dialog_hint">Paste the timetable url</string>
+
+    <!-- Other -->
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

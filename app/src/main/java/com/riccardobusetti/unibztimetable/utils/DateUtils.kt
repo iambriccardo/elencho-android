@@ -13,6 +13,8 @@ import java.util.*
  */
 object DateUtils {
 
+    private const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd"
+
     private infix fun Calendar.addDays(days: Int) =
         this.apply { this.add(Calendar.DAY_OF_WEEK, days) }
 
@@ -36,7 +38,7 @@ object DateUtils {
 
     fun getCurrentDate() = getCurrentCalendar().time
 
-    fun getCurrentDateFormatted(dateFormat: String = "yyyy-MM-dd") =
+    fun getCurrentDateFormatted(dateFormat: String = DEFAULT_DATE_FORMAT) =
         formatDateToString(getCurrentDate(), dateFormat)
 
     fun getCurrentTimeFormatted(): String {
@@ -54,10 +56,23 @@ object DateUtils {
     fun getCurrentDatePlusYearsFormatted(years: Int) =
         formatDateToString((getCurrentCalendar() addYears years).time)
 
-    fun formatDateToString(date: Date, dateFormat: String = "yyyy-MM-dd"): String {
+    fun getCalendarFromDate(date: Date): Calendar {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+
+        return calendar
+    }
+
+    fun formatDateToString(date: Date, dateFormat: String = DEFAULT_DATE_FORMAT): String {
         val dateFormatter = SimpleDateFormat(dateFormat, getDefaultLocaleGuarded())
 
         return dateFormatter.format(date)
+    }
+
+    fun formatStringToDate(date: String, dateFormat: String = DEFAULT_DATE_FORMAT): Date? {
+        val dateFormatter = SimpleDateFormat(dateFormat, getDefaultLocaleGuarded())
+
+        return dateFormatter.parse(date)
     }
 
     fun isCourseOnGoing(courseStartDate: String, courseEndDate: String): Boolean {

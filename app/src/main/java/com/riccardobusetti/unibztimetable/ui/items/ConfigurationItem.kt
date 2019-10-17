@@ -19,8 +19,11 @@ class ConfigurationItem(
             this.item_configuration_icon.setImageResource(configuration.iconResId)
 
             this.setOnClickListener {
-                if (configuration.clickCallback(configuration)) {
-                    this.item_configuration_icon.setImageResource(R.drawable.ic_check)
+                configuration.clickCallback(configuration) { isSuccessful ->
+                    if (isSuccessful) {
+                        this.item_configuration_icon.setImageResource(R.drawable.ic_check)
+                        this.setOnClickListener(null)
+                    }
                 }
             }
         }
