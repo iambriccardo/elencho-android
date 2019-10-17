@@ -15,7 +15,15 @@ class LaunchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launch)
+    }
 
+    override fun onResume() {
+        super.onResume()
+
+        checkLaunch()
+    }
+
+    private fun checkLaunch() {
         if (isApplicationConfigured()) {
             launchMain()
         } else {

@@ -23,4 +23,6 @@
     <!-- Other -->
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="waiting_for_url">Waiting for url</string>
+    <string name="error_while_parsing_url">The url is invalid, try again.</string>
 </resources>

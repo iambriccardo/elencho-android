@@ -25,7 +25,7 @@ class GetIntervalDateTimetableUseCase(
         toDate: String,
         page: String
     ): List<Day> {
-        val webSiteLink =
+        val webSiteUrl =
             WebSiteUrl.Builder()
                 .useDeviceLanguage()
                 .withDepartment(department)
@@ -36,6 +36,6 @@ class GetIntervalDateTimetableUseCase(
                 .atPage(page)
                 .build()
 
-        return timetableRepository.getTimetable(webSiteLink)
+        return timetableRepository.getTimetable(webSiteUrl)
     }
 }

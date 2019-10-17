@@ -26,7 +26,7 @@ class GetTodayTimetableUseCase(
         studyPlan: String,
         page: String
     ): List<Day> {
-        val webSiteLink = WebSiteUrl.Builder()
+        val websiteUrl = WebSiteUrl.Builder()
             .useDeviceLanguage()
             .withDepartment(department)
             .withDegree(degree)
@@ -35,7 +35,7 @@ class GetTodayTimetableUseCase(
             .atPage(page)
             .build()
 
-        return timetableRepository.getTimetable(webSiteLink)
+        return timetableRepository.getTimetable(websiteUrl)
     }
 
     // TODO: test why the algorithm fails.

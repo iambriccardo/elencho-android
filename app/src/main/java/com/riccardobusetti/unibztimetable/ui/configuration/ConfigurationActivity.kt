@@ -1,15 +1,20 @@
 package com.riccardobusetti.unibztimetable.ui.configuration
 
+import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
@@ -21,12 +26,15 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_configuration.*
 
+
 class ConfigurationActivity : AppCompatActivity() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     private lateinit var model: ConfigurationViewModel
 
+    private lateinit var bottomSheetView: View
+    private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var recyclerView: RecyclerView
     private lateinit var saveButton: Button
     private lateinit var progressBar: ProgressBar
@@ -86,6 +94,11 @@ class ConfigurationActivity : AppCompatActivity() {
     }
 
     private fun setupUi() {
+        bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_url_listen, null)
+
+        bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetDialog.setContentView(bottomSheetView)
+
         recyclerView = activity_configuration_recycler_view
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@ConfigurationActivity)
@@ -101,8 +114,42 @@ class ConfigurationActivity : AppCompatActivity() {
     }
 
     private fun loadConfigurations() {
-        model.configurations.forEach {
-            groupAdapter.add(ConfigurationItem(it))
+        ConfigurationViewModel.Configuration.values().forEach {
+            groupAdapter.add(ConfigurationItem(it) { configuration, successful ->
+                handleConfigurationClick(configuration, successful)
+            })
+        }
+    }
+
+    private fun handleConfigurationClick(
+        configuration: ConfigurationViewModel.Configuration,
+        successful: (Boolean) -> Unit
+    ) {
+        when (configuration) {
+            ConfigurationViewModel.Configuration.STUDY_PLAN -> {
+                bottomSheetDialog.show()
+
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                clipboard.addPrimaryClipChangedListener {
+                    if (clipboard.hasPrimaryClip()) {
+                        val clipData = clipboard.primaryClip
+                        val clipDescription = clipboard.primaryClipDescription
+
+                        if (clipDescription!!.hasMimeType(MIMETYPE_TEXT_PLAIN)) {
+                            if (model.handleStudyPlanConfiguration("${clipData!!.getItemAt(0).text}")) {
+                                successful(true)
+                                bottomSheetDialog.hide()
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    R.string.error_while_parsing_url,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

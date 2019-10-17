@@ -18,6 +18,7 @@ class WebSiteUrl private constructor(val url: String) {
 
         private const val TIMETABLE_URL_PATH = "timetable"
 
+        private const val SEARCH_BY_KEYWORDS_URL_PARAM = "searchByKeywords"
         private const val DEPARTMENT_URL_PARAM = "department"
         private const val DEGREE_URL_PARAM = "degree"
         private const val STUDY_PLAN_URL_PARAM = "studyPlan"
@@ -28,7 +29,9 @@ class WebSiteUrl private constructor(val url: String) {
         /**
          * Parses the url in order to get information about the selected study plan.
          */
-        fun parseUrl(url: String): Map<UserPrefs.Pref, String> {
+        fun parseUrl(url: String): Map<UserPrefs.Pref, String>? {
+            if (!validateUrl(url)) return null
+
             val uri = Uri.parse(url)
 
             return mapOf(
@@ -37,6 +40,8 @@ class WebSiteUrl private constructor(val url: String) {
                 UserPrefs.Pref.STUDY_PLAN_ID to (uri.getQueryParameter(STUDY_PLAN_URL_PARAM) ?: "")
             )
         }
+
+        private fun validateUrl(url: String) = url.contains(BASE_URL)
     }
 
     /**
@@ -44,6 +49,7 @@ class WebSiteUrl private constructor(val url: String) {
      */
     data class Builder(
         var language: String = "en",
+        var searchByKeywords: String = "",
         var department: String = "",
         var degree: String = "",
         var studyPlan: String = "",
@@ -51,6 +57,8 @@ class WebSiteUrl private constructor(val url: String) {
         var toDate: String = "",
         var page: String = "1"
     ) {
+        private fun String.encodeSpaces() = this.replace(" ", "+")
+
         private fun String.encodeComma(): String {
             return if (this.contains(","))
                 this.replace(",", "%2C")
@@ -62,6 +70,9 @@ class WebSiteUrl private constructor(val url: String) {
 
         fun useDeviceLanguage() =
             apply { this.language = DateUtils.getDefaultLocaleGuarded().language }
+
+        fun withSearchKeywords(searchByKeywords: String) =
+            apply { this.searchByKeywords = searchByKeywords }
 
         fun withLanguage(language: String) = apply { this.language = language }
 
@@ -94,7 +105,8 @@ class WebSiteUrl private constructor(val url: String) {
             BASE_URL +
                     "/$language" +
                     "/$TIMETABLE_URL_PATH" +
-                    "/?$DEPARTMENT_URL_PARAM=${this.department.encodeComma()}" +
+                    "/?$SEARCH_BY_KEYWORDS_URL_PARAM=${this.searchByKeywords.encodeSpaces()}" +
+                    "&$DEPARTMENT_URL_PARAM=${this.department.encodeComma()}" +
                     "&$DEGREE_URL_PARAM=${this.degree.encodeComma()}" +
                     "&$STUDY_PLAN_URL_PARAM=${this.studyPlan.encodeComma()}" +
                     "&$FROM_DATE_URL_PARAM=${this.fromDate}" +

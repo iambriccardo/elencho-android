@@ -1,13 +1,10 @@
 package com.riccardobusetti.unibztimetable.ui.configuration
 
 import android.content.Context
-import android.text.InputType
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.input.input
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.data.network.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
@@ -26,46 +23,17 @@ class ConfigurationViewModel(
     private val putUserPrefsUseCase: PutUserPrefsUseCase
 ) : AdvancedViewModel() {
 
-    data class Configuration(
-        val id: Int,
+    enum class Configuration(
         val title: String,
         val description: String,
-        @IdRes @DrawableRes val iconResId: Int,
-        val clickCallback: OnConfigurationClickCallback
-    )
-
-    private val handleConfigurationClick: OnConfigurationClickCallback =
-        { configuration, isSuccessful ->
-            when (configuration.id) {
-            1 -> {
-                MaterialDialog(context).show {
-                    title(R.string.study_plan_dialog_title)
-                    positiveButton(R.string.save)
-                    negativeButton(R.string.cancel)
-                    input(
-                        hint = context.getString(R.string.study_plan_dialog_hint),
-                        inputType = InputType.TYPE_TEXT_VARIATION_URI
-                    ) { _, text ->
-                        handleStudyPlanConfiguration("$text")
-                        isSuccessful(true)
-                    }
-                }
-
-                isSuccessful(false)
-            }
-                else -> isSuccessful(false)
-        }
-    }
-
-    val configurations = listOf(
-        Configuration(
-            1,
+        @IdRes @DrawableRes val iconResId: Int
+    ) {
+        STUDY_PLAN(
             "Choose your study plan",
             "In order to see the timetable you need to select your study plan",
-            R.drawable.ic_school,
-            handleConfigurationClick
+            R.drawable.ic_school
         )
-    )
+    }
 
     val loading = MutableLiveData<Boolean>()
 
@@ -92,14 +60,18 @@ class ConfigurationViewModel(
         }
     }
 
-    private fun handleStudyPlanConfiguration(url: String): Boolean {
+    fun handleStudyPlanConfiguration(url: String): Boolean {
         val urlValues = WebSiteUrl.parseUrl(url)
 
-        var result: Boolean
+        var result = false
 
-        result = putUserPref(UserPrefs.Pref.DEPARTMENT_ID, urlValues[UserPrefs.Pref.DEPARTMENT_ID])
-        result = putUserPref(UserPrefs.Pref.DEGREE_ID, urlValues[UserPrefs.Pref.DEGREE_ID])
-        result = putUserPref(UserPrefs.Pref.STUDY_PLAN_ID, urlValues[UserPrefs.Pref.STUDY_PLAN_ID])
+        urlValues?.let {
+            result =
+                putUserPref(UserPrefs.Pref.DEPARTMENT_ID, urlValues[UserPrefs.Pref.DEPARTMENT_ID])
+            result = putUserPref(UserPrefs.Pref.DEGREE_ID, urlValues[UserPrefs.Pref.DEGREE_ID])
+            result =
+                putUserPref(UserPrefs.Pref.STUDY_PLAN_ID, urlValues[UserPrefs.Pref.STUDY_PLAN_ID])
+        }
 
         return result
     }

@@ -2,12 +2,14 @@ package com.riccardobusetti.unibztimetable.ui.items
 
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.ui.configuration.ConfigurationViewModel
+import com.riccardobusetti.unibztimetable.ui.configuration.OnConfigurationClickCallback
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.item_configuration.view.*
 
 class ConfigurationItem(
-    private val configuration: ConfigurationViewModel.Configuration
+    private val configuration: ConfigurationViewModel.Configuration,
+    private val clickCallback: OnConfigurationClickCallback
 ) : Item<GroupieViewHolder>() {
 
     override fun getLayout() = R.layout.item_configuration
@@ -19,7 +21,7 @@ class ConfigurationItem(
             this.item_configuration_icon.setImageResource(configuration.iconResId)
 
             this.setOnClickListener {
-                configuration.clickCallback(configuration) { isSuccessful ->
+                clickCallback(configuration) { isSuccessful ->
                     if (isSuccessful) {
                         this.item_configuration_icon.setImageResource(R.drawable.ic_check)
                         this.setOnClickListener(null)

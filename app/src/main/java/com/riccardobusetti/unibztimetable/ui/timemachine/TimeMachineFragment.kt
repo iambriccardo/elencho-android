@@ -40,12 +40,12 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
-    private lateinit var statusView: StatusView
     private lateinit var bottomSheetView: View
+    private lateinit var bottomSheetDialog: BottomSheetDialog
+    private lateinit var statusView: StatusView
     private lateinit var fromDateText: TextView
     private lateinit var toDateText: TextView
     private lateinit var timeTravelButton: Button
-    private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var recyclerView: RecyclerView
     private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var skeleton: SkeletonScreen
@@ -74,9 +74,13 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     }
 
     override fun setupUi() {
-        statusView = fragment_time_machine_status_view
-
         bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_date_interval, null)
+
+        bottomSheetDialog = BottomSheetDialog(context!!)
+        bottomSheetDialog.setContentView(bottomSheetView)
+        bottomSheetDialog.setOnCancelListener { changeBottomSheetState() }
+
+        statusView = fragment_time_machine_status_view
 
         fromDateText = bottomSheetView.bottom_sheet_date_interval_from_text
         fromDateText.setOnClickListener {
@@ -110,10 +114,6 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
             changeBottomSheetState()
         }
-
-        bottomSheetDialog = BottomSheetDialog(context!!)
-        bottomSheetDialog.setContentView(bottomSheetView)
-        bottomSheetDialog.setOnCancelListener { changeBottomSheetState() }
 
         recyclerView = fragment_time_machine_recycler_view
         recyclerView.apply {
