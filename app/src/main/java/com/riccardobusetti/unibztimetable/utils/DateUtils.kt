@@ -13,12 +13,12 @@ import java.util.*
  */
 object DateUtils {
 
-    private const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd"
-
     private infix fun Calendar.addDays(days: Int) =
         this.apply { this.add(Calendar.DAY_OF_WEEK, days) }
 
     private infix fun Calendar.addYears(years: Int) = this.apply { this.add(Calendar.YEAR, years) }
+
+    private const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd"
 
     private val supportedLocales = listOf("en", "de", "it")
 

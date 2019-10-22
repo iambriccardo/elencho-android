@@ -22,7 +22,7 @@ class TodayViewModel(
         private const val TAG = "TodayViewModel"
     }
 
-    fun loadTodayTimetable(page: String) {
+    fun loadTodayTimetable(page: String = DEFAULT_PAGE) {
         viewModelScope.launchWithSupervisor {
             loadingState.value = true
 

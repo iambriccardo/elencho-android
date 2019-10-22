@@ -45,7 +45,7 @@ class TimeMachineViewModel(
     fun loadTimetable(
         fromDate: String,
         toDate: String,
-        page: String
+        page: String = DEFAULT_PAGE
     ) {
         viewModelScope.launchWithSupervisor {
             loadingState.value = true

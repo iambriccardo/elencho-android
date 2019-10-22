@@ -28,6 +28,10 @@ open class TimetableViewModel<TimetableType> : AdvancedViewModel() {
         ERROR_WHILE_GETTING_TIMETABLE(R.string.error_while_getting_timetable, R.drawable.ic_warning)
     }
 
+    companion object {
+        const val DEFAULT_PAGE = "1"
+    }
+
     /**
      * Live data object containing the timetable which has been loaded.
      */
@@ -49,5 +53,5 @@ open class TimetableViewModel<TimetableType> : AdvancedViewModel() {
     /**
      * Live data object containing the current page.
      */
-    val currentPage = MutableLiveData<String>().apply { this.value = "1" }
+    val currentPage = MutableLiveData<String>().apply { this.value = DEFAULT_PAGE }
 }

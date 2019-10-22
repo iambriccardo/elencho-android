@@ -22,7 +22,7 @@ class Next7DaysViewModel(
         private const val TAG = "Next7DaysViewModel"
     }
 
-    fun loadNext7DaysTimetable(page: String) {
+    fun loadNext7DaysTimetable(page: String = DEFAULT_PAGE) {
         viewModelScope.launchWithSupervisor {
             loadingState.value = true
 

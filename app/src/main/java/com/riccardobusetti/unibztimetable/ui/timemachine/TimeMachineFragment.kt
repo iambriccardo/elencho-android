@@ -107,8 +107,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         timeTravelButton.setOnClickListener {
             model?.loadTimetable(
                 model?.selectedDateInterval?.value!!.first,
-                model?.selectedDateInterval?.value!!.second,
-                "1"
+                model?.selectedDateInterval?.value!!.second
             )
 
             changeBottomSheetState()
@@ -119,9 +118,9 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
             layoutManager = LinearLayoutManager(activity)
             adapter = groupAdapter
             onEndReached { currentPage ->
-                //                model?.let {
-//                    it.currentPage.value = currentPage
-//                }
+                model?.let {
+                    it.currentPage.value = currentPage
+                }
             }
         }
 
@@ -167,7 +166,11 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
             })
 
             it.currentPage.observe(this, Observer { currentPage ->
-                loadData(currentPage)
+                model?.loadTimetable(
+                    DateUtils.getCurrentDateFormatted(),
+                    DateUtils.getCurrentDatePlusYearsFormatted(1),
+                    currentPage
+                )
             })
 
             it.selectedDateInterval.observe(this, Observer { interval ->
@@ -186,15 +189,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     }
 
     override fun startLoadingData() {
-
-    }
-
-    private fun loadData(page: String) {
-        model?.loadTimetable(
-            DateUtils.getCurrentDateFormatted(),
-            DateUtils.getCurrentDatePlusYearsFormatted(1),
-            page
-        )
+        // This method is not needed for this particular use case.
     }
 
     private fun changeBottomSheetState() {

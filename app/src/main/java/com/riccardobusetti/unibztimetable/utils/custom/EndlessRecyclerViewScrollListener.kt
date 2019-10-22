@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * Custom scroll listener for the recyclerview which detects when the user reached the bottom of
  * the list and keeps track of the current page.
+ *
+ * @see [https://github.com/codepath/android_guides/wiki/Endless-Scrolling-with-AdapterViews-and-RecyclerView]
  */
 class EndlessRecyclerViewScrollListener(
     private val mLayoutManager: RecyclerView.LayoutManager,

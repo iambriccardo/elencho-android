@@ -14,16 +14,26 @@ import androidx.recyclerview.widget.RecyclerView
  */
 abstract class AdvancedFragment<ViewModel> : Fragment() {
 
+    /**
+     * [RecyclerView] extension function which will handle the endless scroll of the list, by
+     * calling a specific function whenever the end has been reached.
+     */
+    fun RecyclerView.onEndReached(block: (String) -> Unit) {
+        this.addOnScrollListener(
+            EndlessRecyclerViewScrollListener(this.layoutManager as LinearLayoutManager) {
+                if (it > 1) block("$it")
+            })
+    }
+
     companion object {
         private const val IS_DEVICE_ROTATED_KEY = "IS_DEVICE_ROTATED"
     }
 
-    fun RecyclerView.onEndReached(block: (String) -> Unit) {
-        this.addOnScrollListener(EndlessRecyclerViewScrollListener(this.layoutManager as LinearLayoutManager) {
-            if (it > 1) block("$it")
-        })
-    }
-
+    /**
+     * This variable holds the [ViewModel] which is coupled with an [Activity] or [Fragment].
+     * It is important to note that the model is only available after the [onCreate] method will
+     * be called, thus it is nullable.
+     */
     protected var model: ViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
