@@ -54,4 +54,6 @@ open class TimetableViewModel<TimetableType> : AdvancedViewModel() {
      * Live data object containing the current page.
      */
     val currentPage = MutableLiveData<String>().apply { this.value = DEFAULT_PAGE }
+
+    fun isCurrentPageFirstPage() = currentPage.value == DEFAULT_PAGE
 }

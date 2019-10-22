@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,13 +24,10 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
-import com.riccardobusetti.unibztimetable.ui.items.CourseItem
-import com.riccardobusetti.unibztimetable.ui.items.DayItem
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.riccardobusetti.unibztimetable.utils.custom.AdvancedFragment
 import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
-import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.bottom_sheet_date_interval.view.*
@@ -104,11 +102,10 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         }
 
         timeTravelButton = bottomSheetView.bottom_sheet_date_interval_button
-        timeTravelButton.setOnClickListener {
-            model?.loadTimetable(
-                model?.selectedDateInterval?.value!!.first,
-                model?.selectedDateInterval?.value!!.second
-            )
+        timeTravelButton.setOnClickListener { _ ->
+            model?.let {
+                it.currentPage.value = TimetableViewModel.DEFAULT_PAGE
+            }
 
             changeBottomSheetState()
         }
@@ -137,17 +134,10 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     override fun attachObservers() {
         model?.let {
             it.timetable.observe(this, Observer { timetable ->
-                val groups = mutableListOf<Group>()
-
-                timetable.forEach { day ->
-                    groups.add(DayItem(day))
-
-                    day.courses.forEach { course ->
-                        groups.add(CourseItem(course))
-                    }
+                groupAdapter.apply {
+                    if (model?.isCurrentPageFirstPage()!!) clear()
+                    addTimetable(timetable)
                 }
-
-                groupAdapter.update(groups)
             })
 
             it.error.observe(this, Observer { error ->
@@ -157,18 +147,23 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
             })
 
             it.loadingState.observe(this, Observer { isLoading ->
-                if (isLoading) {
-                    hideStatusView()
-                    skeleton.show()
-                } else {
-                    skeleton.hide()
+                if (model?.isCurrentPageFirstPage()!!) {
+                    if (isLoading) {
+                        hideStatusView()
+                        skeleton.show()
+                    } else {
+                        skeleton.hide()
+                    }
+                } else if (isLoading) {
+                    Toast.makeText(context!!, R.string.loading_new_page, Toast.LENGTH_SHORT).show()
                 }
             })
 
             it.currentPage.observe(this, Observer { currentPage ->
+                // TODO: develop a way to put all the load calls inside of a queue of execution.
                 model?.loadTimetable(
-                    DateUtils.getCurrentDateFormatted(),
-                    DateUtils.getCurrentDatePlusYearsFormatted(1),
+                    model?.selectedDateInterval?.value!!.first,
+                    model?.selectedDateInterval?.value!!.second,
                     currentPage
                 )
             })

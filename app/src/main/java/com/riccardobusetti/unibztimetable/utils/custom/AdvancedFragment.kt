@@ -5,6 +5,12 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.riccardobusetti.unibztimetable.domain.entities.Day
+import com.riccardobusetti.unibztimetable.ui.items.CourseItem
+import com.riccardobusetti.unibztimetable.ui.items.DayItem
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.Section
 
 /**
  * Extension of the [Fragment] class which enhances its functionality by creating a standardized
@@ -21,7 +27,7 @@ abstract class AdvancedFragment<ViewModel> : Fragment() {
     fun RecyclerView.onEndReached(block: (String) -> Unit) {
         this.addOnScrollListener(
             EndlessRecyclerViewScrollListener(this.layoutManager as LinearLayoutManager) {
-                if (it > 1) block("$it")
+                block("${it + 1}")
             })
     }
 
@@ -87,4 +93,30 @@ abstract class AdvancedFragment<ViewModel> : Fragment() {
      * change its behavior just call it in every lifecycle method you want.
      */
     abstract fun startLoadingData()
+
+    /**
+     * Adds the timetable to a specific adapter.
+     * This method doesn't remove the existing items, so the logic must be handled separately.
+     */
+    fun GroupAdapter<GroupieViewHolder>.addTimetable(days: List<Day>) {
+        days.forEach { day ->
+            val section = Section()
+            section.setHeader(DayItem(day))
+
+            day.courses.forEach { course ->
+                section.add(CourseItem(course))
+            }
+
+            add(section)
+        }
+    }
+
+
+    /**
+     * Clears the list and adds the new timetable.
+     */
+    fun GroupAdapter<GroupieViewHolder>.clearAndAddTimetable(days: List<Day>) {
+        clear()
+        addTimetable(days)
+    }
 }

@@ -17,14 +17,11 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
-import com.riccardobusetti.unibztimetable.ui.items.CourseItem
-import com.riccardobusetti.unibztimetable.ui.items.DayItem
 import com.riccardobusetti.unibztimetable.utils.custom.AdvancedFragment
 import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.Section
 import kotlinx.android.synthetic.main.fragment_next_7_days.*
 
 class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
@@ -76,18 +73,7 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
     override fun attachObservers() {
         model?.let {
             it.timetable.observe(this, Observer { timetable ->
-                groupAdapter.clear()
-
-                timetable.forEach { day ->
-                    val section = Section()
-                    section.setHeader(DayItem(day))
-
-                    day.courses.forEach { course ->
-                        section.add(CourseItem(course))
-                    }
-
-                    groupAdapter.add(section)
-                }
+                groupAdapter.clearAndAddTimetable(timetable)
             })
 
             it.error.observe(this, Observer { error ->

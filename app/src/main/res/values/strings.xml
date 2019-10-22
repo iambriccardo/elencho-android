@@ -35,4 +35,5 @@
     <string name="cancel">Cancel</string>
     <string name="empty_timetable">Lucky you, you don\'t have any courses, enjoy!</string>
     <string name="error_while_getting_timetable">Oh no, an error occurred and the timetable cannot be shown, try again.</string>
+    <string name="loading_new_page">Loading new page...</string>
 </resources>
