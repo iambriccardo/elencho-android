@@ -20,6 +20,7 @@ import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
 import com.riccardobusetti.unibztimetable.utils.custom.AdvancedFragment
+import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -90,15 +91,18 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
             })
 
             it.error.observe(this, Observer { error ->
-                if (error.isNotEmpty()) {
+                error?.let {
                     showStatusView(error)
-                } else {
-                    hideStatusView()
                 }
             })
 
             it.loadingState.observe(this, Observer { isLoading ->
-                if (isLoading) skeleton.show() else skeleton.hide()
+                if (isLoading) {
+                    hideStatusView()
+                    skeleton.show()
+                } else {
+                    skeleton.hide()
+                }
             })
         }
     }
@@ -107,8 +111,8 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
         model?.loadNext7DaysTimetable("1")
     }
 
-    private fun showStatusView(error: String) {
-        statusView.setText(error)
+    private fun showStatusView(error: TimetableViewModel.TimetableError) {
+        statusView.setError(error)
         statusView.visibility = View.VISIBLE
         recyclerView.visibility = View.GONE
     }

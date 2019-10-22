@@ -3,7 +3,6 @@ package com.riccardobusetti.unibztimetable.ui.next7days
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
@@ -45,7 +44,7 @@ class Next7DaysViewModel(
             } catch (e: Exception) {
                 Log.d(TAG, "This error occurred while parsing the timetable -> $e")
 
-                error.value = context.getString(R.string.error_fetching)
+                error.value = TimetableError.ERROR_WHILE_GETTING_TIMETABLE
 
                 null
             }
@@ -53,9 +52,9 @@ class Next7DaysViewModel(
             loadingState.value = false
             newTimetable?.let {
                 if (newTimetable.isEmpty())
-                    error.value = context.getString(R.string.error_no_courses)
+                    error.value = TimetableError.EMPTY_TIMETABLE
                 else
-                    error.value = NO_ERROR
+                    error.value = null
                     timetable.value = newTimetable
             }
         }

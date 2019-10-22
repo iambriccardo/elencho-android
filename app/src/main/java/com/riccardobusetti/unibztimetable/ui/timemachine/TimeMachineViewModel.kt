@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
@@ -14,6 +13,7 @@ import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class TimeMachineViewModel(
     private val context: Context,
@@ -30,16 +30,6 @@ class TimeMachineViewModel(
         CLOSED
     }
 
-    /**
-     * Enum representing the status of the date picker which will be
-     * triggered inside of the bottom sheet for the time travel.
-     */
-    enum class DatePickerState {
-        CLOSED,
-        OPENED_FOR_FROM_DATE,
-        OPENED_FOR_TO_DATE
-    }
-
     companion object {
         private const val TAG = "TimeMachineViewModel"
     }
@@ -51,9 +41,6 @@ class TimeMachineViewModel(
 
     val bottomSheetState =
         MutableLiveData<BottomSheetState>().apply { this.value = BottomSheetState.CLOSED }
-
-    val datePickerState =
-        MutableLiveData<DatePickerState>().apply { this.value = DatePickerState.CLOSED }
 
     fun loadTimetable(
         fromDate: String,
@@ -83,7 +70,7 @@ class TimeMachineViewModel(
             } catch (e: Exception) {
                 Log.d(TAG, "This error occurred while parsing the timetable -> $e")
 
-                error.value = context.getString(R.string.error_fetching)
+                error.value = TimetableError.ERROR_WHILE_GETTING_TIMETABLE
 
                 null
             }
@@ -91,11 +78,39 @@ class TimeMachineViewModel(
             loadingState.value = false
             newTimetable?.let {
                 if (newTimetable.isEmpty())
-                    error.value = context.getString(R.string.error_no_courses)
+                    error.value = TimetableError.EMPTY_TIMETABLE
                 else
-                    error.value = NO_ERROR
+                    error.value = null
                     timetable.value = newTimetable
             }
         }
+    }
+
+    fun getCurrentFromDate(): Calendar? {
+        val fromDate = DateUtils.formatStringToDate(selectedDateInterval.value!!.first)
+
+        return if (fromDate != null) {
+            DateUtils.getCalendarFromDate(fromDate)
+        } else {
+            null
+        }
+    }
+
+    fun updateFromDate(newDate: String) {
+        selectedDateInterval.value = newDate to selectedDateInterval.value!!.second
+    }
+
+    fun getCurrentToDate(): Calendar? {
+        val fromDate = DateUtils.formatStringToDate(selectedDateInterval.value!!.second)
+
+        return if (fromDate != null) {
+            DateUtils.getCalendarFromDate(fromDate)
+        } else {
+            null
+        }
+    }
+
+    fun updateToDate(newDate: String) {
+        selectedDateInterval.value = selectedDateInterval.value!!.first to newDate
     }
 }

@@ -3,6 +3,8 @@ package com.riccardobusetti.unibztimetable.utils.custom
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Extension of the [Fragment] class which enhances its functionality by creating a standardized
@@ -14,6 +16,12 @@ abstract class AdvancedFragment<ViewModel> : Fragment() {
 
     companion object {
         private const val IS_DEVICE_ROTATED_KEY = "IS_DEVICE_ROTATED"
+    }
+
+    fun RecyclerView.onEndReached(block: (String) -> Unit) {
+        this.addOnScrollListener(EndlessRecyclerViewScrollListener(this.layoutManager as LinearLayoutManager) {
+            if (it > 1) block("$it")
+        })
     }
 
     protected var model: ViewModel? = null

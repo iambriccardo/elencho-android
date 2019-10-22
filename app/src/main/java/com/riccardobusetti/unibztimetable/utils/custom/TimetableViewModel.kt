@@ -1,7 +1,11 @@
 package com.riccardobusetti.unibztimetable.utils.custom
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.riccardobusetti.unibztimetable.R
 
 /**
  * Extension class of the [ViewModel] which provides the basics [MutableLiveData] objects that are
@@ -12,10 +16,17 @@ import androidx.lifecycle.ViewModel
 open class TimetableViewModel<TimetableType> : AdvancedViewModel() {
 
     /**
-     * Error value if we don't have any error. Refer to the [error] documentation to understand
-     * why this exists.
+     * Enum class representing all the possible errors which can occur while getting the timetable.
+     *
+     * @author Riccardo Busetti
      */
-    protected val NO_ERROR = ""
+    enum class TimetableError(
+        @IdRes @StringRes val descriptionResId: Int,
+        @IdRes @DrawableRes val imageResId: Int
+    ) {
+        EMPTY_TIMETABLE(R.string.empty_timetable, R.drawable.ic_happy),
+        ERROR_WHILE_GETTING_TIMETABLE(R.string.error_while_getting_timetable, R.drawable.ic_warning)
+    }
 
     /**
      * Live data object containing the timetable which has been loaded.
@@ -28,10 +39,15 @@ open class TimetableViewModel<TimetableType> : AdvancedViewModel() {
      *
      * The empty state is used as a signal for the observer to remove the error view.
      */
-    val error = MutableLiveData<String>()
+    val error = MutableLiveData<TimetableError?>()
 
     /**
      * Live data object containing the current state of loading.
      */
     val loadingState = MutableLiveData<Boolean>()
+
+    /**
+     * Live data object containing the current page.
+     */
+    val currentPage = MutableLiveData<String>().apply { this.value = "1" }
 }

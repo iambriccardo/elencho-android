@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import com.riccardobusetti.unibztimetable.R
+import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import kotlinx.android.synthetic.main.compound_view_status.view.*
 
 /**
@@ -30,6 +31,11 @@ class StatusView @JvmOverloads constructor(
 
         statusImage = compound_view_status_image
         statusText = compound_view_status_text
+    }
+
+    fun setError(error: TimetableViewModel.TimetableError) {
+        statusText.text = context.getString(error.descriptionResId)
+        statusImage.setImageResource(error.imageResId)
     }
 
     fun setText(text: String) {

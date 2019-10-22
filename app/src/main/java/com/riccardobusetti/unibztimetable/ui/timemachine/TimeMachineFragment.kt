@@ -27,14 +27,13 @@ import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.riccardobusetti.unibztimetable.utils.custom.AdvancedFragment
+import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
+import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.Section
 import kotlinx.android.synthetic.main.bottom_sheet_date_interval.view.*
 import kotlinx.android.synthetic.main.fragment_time_machine.*
-import java.util.*
-
 
 class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
@@ -86,9 +85,9 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         fromDateText.setOnClickListener {
             MaterialDialog(context!!).show {
                 datePicker(
-                    currentDate = getCurrentFromDate()
+                    currentDate = model?.getCurrentFromDate()
                 ) { _, date ->
-                    updateFromDate(DateUtils.formatDateToString(date.time))
+                    model?.updateFromDate(DateUtils.formatDateToString(date.time))
                 }
             }
         }
@@ -97,9 +96,9 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         toDateText.setOnClickListener {
             MaterialDialog(context!!).show {
                 datePicker(
-                    currentDate = getCurrentToDate()
+                    currentDate = model?.getCurrentToDate()
                 ) { _, date ->
-                    updateToDate(DateUtils.formatDateToString(date.time))
+                    model?.updateToDate(DateUtils.formatDateToString(date.time))
                 }
             }
         }
@@ -119,6 +118,11 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = groupAdapter
+            onEndReached { currentPage ->
+                //                model?.let {
+//                    it.currentPage.value = currentPage
+//                }
+            }
         }
 
         floatingActionButton = fragment_time_machine_fab
@@ -134,30 +138,36 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     override fun attachObservers() {
         model?.let {
             it.timetable.observe(this, Observer { timetable ->
-                groupAdapter.clear()
+                val groups = mutableListOf<Group>()
 
                 timetable.forEach { day ->
-                    val section = Section()
-                    section.setHeader(DayItem(day))
+                    groups.add(DayItem(day))
 
                     day.courses.forEach { course ->
-                        section.add(CourseItem(course))
+                        groups.add(CourseItem(course))
                     }
-
-                    groupAdapter.add(section)
                 }
+
+                groupAdapter.update(groups)
             })
 
             it.error.observe(this, Observer { error ->
-                if (error.isNotEmpty()) {
+                error?.let {
                     showStatusView(error)
-                } else {
-                    hideStatusView()
                 }
             })
 
             it.loadingState.observe(this, Observer { isLoading ->
-                if (isLoading) skeleton.show() else skeleton.hide()
+                if (isLoading) {
+                    hideStatusView()
+                    skeleton.show()
+                } else {
+                    skeleton.hide()
+                }
+            })
+
+            it.currentPage.observe(this, Observer { currentPage ->
+                loadData(currentPage)
             })
 
             it.selectedDateInterval.observe(this, Observer { interval ->
@@ -176,10 +186,14 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     }
 
     override fun startLoadingData() {
+
+    }
+
+    private fun loadData(page: String) {
         model?.loadTimetable(
             DateUtils.getCurrentDateFormatted(),
             DateUtils.getCurrentDatePlusYearsFormatted(1),
-            "1"
+            page
         )
     }
 
@@ -191,36 +205,8 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         }
     }
 
-    private fun getCurrentFromDate(): Calendar? {
-        val fromDate = DateUtils.formatStringToDate(model?.selectedDateInterval?.value?.first!!)
-
-        return if (fromDate != null) {
-            DateUtils.getCalendarFromDate(fromDate)
-        } else {
-            null
-        }
-    }
-
-    private fun updateFromDate(newDate: String) {
-        model?.selectedDateInterval?.value = newDate to model?.selectedDateInterval?.value!!.second
-    }
-
-    private fun getCurrentToDate(): Calendar? {
-        val fromDate = DateUtils.formatStringToDate(model?.selectedDateInterval?.value?.second!!)
-
-        return if (fromDate != null) {
-            DateUtils.getCalendarFromDate(fromDate)
-        } else {
-            null
-        }
-    }
-
-    private fun updateToDate(newDate: String) {
-        model?.selectedDateInterval?.value = model?.selectedDateInterval?.value!!.first to newDate
-    }
-
-    private fun showStatusView(error: String) {
-        statusView.setText(error)
+    private fun showStatusView(error: TimetableViewModel.TimetableError) {
+        statusView.setError(error)
         statusView.visibility = View.VISIBLE
         recyclerView.visibility = View.GONE
     }
