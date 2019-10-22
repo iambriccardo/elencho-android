@@ -21,6 +21,7 @@ class LaunchActivity : AppCompatActivity() {
         super.onResume()
 
         checkLaunch()
+        finish()
     }
 
     private fun checkLaunch() {
@@ -41,15 +42,15 @@ class LaunchActivity : AppCompatActivity() {
     }
 
     private fun launchMain() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-        startActivity(intent)
+        launchActivity(MainActivity::class.java)
     }
 
     private fun launchConfiguration() {
-        val intent = Intent(this, ConfigurationActivity::class.java)
+        launchActivity(ConfigurationActivity::class.java)
+    }
+
+    private fun <T> launchActivity(clazz: Class<T>) {
+        val intent = Intent(this, clazz)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
