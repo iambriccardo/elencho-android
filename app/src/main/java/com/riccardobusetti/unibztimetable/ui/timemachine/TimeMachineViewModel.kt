@@ -48,7 +48,7 @@ class TimeMachineViewModel(
         page: String = DEFAULT_PAGE
     ) {
         viewModelScope.launchWithSupervisor {
-            loadingState.value = true
+            if (isCurrentPageFirstPage()) loadingState.value = true
 
             val userPrefs = withContext(Dispatchers.IO) {
                 getUserPrefsUseCase.getUserPrefs()
@@ -75,7 +75,7 @@ class TimeMachineViewModel(
                 null
             }
 
-            loadingState.value = false
+            if (isCurrentPageFirstPage()) loadingState.value = false
             newTimetable?.let {
                 if (newTimetable.isEmpty() && isCurrentPageFirstPage())
                     error.value = TimetableError.EMPTY_TIMETABLE

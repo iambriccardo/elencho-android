@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -147,15 +146,11 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
             })
 
             it.loadingState.observe(this, Observer { isLoading ->
-                if (model?.isCurrentPageFirstPage()!!) {
-                    if (isLoading) {
-                        hideStatusView()
-                        skeleton.show()
-                    } else {
-                        skeleton.hide()
-                    }
-                } else if (isLoading) {
-                    Toast.makeText(context!!, R.string.loading_new_page, Toast.LENGTH_SHORT).show()
+                if (isLoading) {
+                    hideStatusView()
+                    skeleton.show()
+                } else {
+                    skeleton.hide()
                 }
             })
 
