@@ -9,7 +9,6 @@ import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -27,6 +26,10 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_configuration.*
 import kotlinx.android.synthetic.main.bottom_sheet_url_listen.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class ConfigurationActivity : AppCompatActivity() {
@@ -131,36 +134,43 @@ class ConfigurationActivity : AppCompatActivity() {
     ) {
         when (configuration) {
             ConfigurationViewModel.Configuration.STUDY_PLAN -> {
-                bottomSheetDialog.show()
+                // TODO: change coroutine scope from Global to Activity specific.
+                GlobalScope.launch(Dispatchers.Main) {
+                    showUrlReading()
 
-                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                clipboard.addPrimaryClipChangedListener {
-                    if (clipboard.hasPrimaryClip()) {
-                        val clipData = clipboard.primaryClip
-                        val clipDescription = clipboard.primaryClipDescription
+                    bottomSheetDialog.show()
 
-                        if (clipDescription!!.hasMimeType(MIMETYPE_TEXT_PLAIN)) {
-                            if (model.handleStudyPlanConfiguration("${clipData!!.getItemAt(0).text}")) {
-                                Toast.makeText(
-                                    this,
-                                    R.string.success_while_parsing_url,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                    delay(1000)
 
-                                successful(true)
-                                bottomSheetDialog.hide()
-                            } else {
-                                Toast.makeText(
-                                    this,
-                                    R.string.error_while_parsing_url,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
+                    if (checkClipboardContent()) {
+                        showUrlReadingSuccess()
+                        successful(true)
+                    } else {
+                        showUrlReadingError()
+                        successful(false)
                     }
+
+                    delay(5000)
+
+                    bottomSheetDialog.hide()
                 }
             }
         }
+    }
+
+    private fun checkClipboardContent(): Boolean {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+        val clipData = clipboard.primaryClip
+        val clipDescription = clipboard.primaryClipDescription
+
+        if (clipDescription!!.hasMimeType(MIMETYPE_TEXT_PLAIN)) {
+            if (model.handleStudyPlanConfiguration("${clipData!!.getItemAt(0).text}")) {
+                return true
+            }
+        }
+
+        return false
     }
 
     private fun showSaveButton() {
@@ -177,5 +187,28 @@ class ConfigurationActivity : AppCompatActivity() {
 
     private fun hideProgressBar() {
         progressBar.visibility = View.GONE
+    }
+
+    private fun showUrlReading() {
+        bottomSheetView.bottom_sheet_url_listen_title.text = getString(R.string.listen_url_title)
+        bottomSheetView.bottom_sheet_url_listen_description.text =
+            getString(R.string.listen_url_description)
+        bottomSheetView.bottom_sheet_url_listen_progress_bar.visibility = View.VISIBLE
+    }
+
+    private fun showUrlReadingSuccess() {
+        bottomSheetView.bottom_sheet_url_listen_title.text =
+            getString(R.string.listen_url_description_success)
+        bottomSheetView.bottom_sheet_url_listen_description.text =
+            getString(R.string.listen_url_description_success)
+        bottomSheetView.bottom_sheet_url_listen_progress_bar.visibility = View.GONE
+    }
+
+    private fun showUrlReadingError() {
+        bottomSheetView.bottom_sheet_url_listen_title.text =
+            getString(R.string.listen_url_title_error)
+        bottomSheetView.bottom_sheet_url_listen_description.text =
+            getString(R.string.listen_url_description_error)
+        bottomSheetView.bottom_sheet_url_listen_progress_bar.visibility = View.GONE
     }
 }
