@@ -50,9 +50,8 @@
 
     <Button
         android:id="@+id/activity_configuration_save_button"
-        style="@style/RoundedButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         android:text="@string/save_configuration" />

@@ -38,4 +38,7 @@
     <string name="empty_timetable">Lucky you, you don\'t have any courses, enjoy!</string>
     <string name="error_while_getting_timetable">Oh no, an error occurred and the timetable cannot be shown, try again.</string>
     <string name="loading_new_page">Loading new page…</string>
+    <string name="preference_category_personalization_title">Personalization</string>
+    <string name="preference_configuration_title">Configure the app</string>
+    <string name="preference_configuration_summary">Configure the application for the best experience</string>
 </resources>

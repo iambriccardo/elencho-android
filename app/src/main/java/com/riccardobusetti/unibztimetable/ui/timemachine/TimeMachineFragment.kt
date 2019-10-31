@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,8 +38,8 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     private lateinit var bottomSheetView: View
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var statusView: StatusView
-    private lateinit var fromDateText: TextView
-    private lateinit var toDateText: TextView
+    private lateinit var fromDateText: Button
+    private lateinit var toDateText: Button
     private lateinit var timeTravelButton: Button
     private lateinit var recyclerView: RecyclerView
     private lateinit var floatingActionButton: FloatingActionButton

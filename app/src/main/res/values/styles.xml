@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
@@ -47,22 +47,6 @@
         <item name="colorPrimary">@color/colorStudium</item>
         <item name="colorPrimaryDark">@color/colorStudiumDark</item>
         <item name="colorAccent">@color/colorStudium</item>
-    </style>
-
-    <style name="DatePickerTextView">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/colorDatePickerTextViewText</item>
-        <item name="android:padding">16dp</item>
-        <item name="android:foreground">?attr/selectableItemBackground</item>
-        <item name="android:background">@drawable/round_text_view_background</item>
-        <item name="android:clickable">true</item>
-    </style>
-
-    <style name="RoundedButton">
-        <item name="android:textColor">@color/colorWhite</item>
-        <item name="android:foreground">?attr/selectableItemBackground</item>
-        <item name="android:background">@drawable/round_button_background</item>
-        <item name="android:clickable">true</item>
     </style>
 
 </resources>

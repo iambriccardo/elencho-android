@@ -13,11 +13,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorBlack" />
 
-    <TextView
+    <Button
         android:id="@+id/bottom_sheet_date_interval_from_text"
-        style="@style/DatePickerTextView"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="56dp"
+        android:textAlignment="viewStart" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,15 +29,15 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorBlack" />
 
-    <TextView
+    <Button
         android:id="@+id/bottom_sheet_date_interval_to_text"
-        style="@style/DatePickerTextView"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="56dp"
+        android:textAlignment="viewStart" />
 
     <Button
         android:id="@+id/bottom_sheet_date_interval_button"
-        style="@style/RoundedButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
