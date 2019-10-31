@@ -23,7 +23,7 @@ class ExampleUnitTest {
     @Test
     fun check_local_date() {
         val dateFormatter = SimpleDateFormat("EEE, d MMM yyyy HH:mm", Locale.ITALY)
-        val date = dateFormatter.format(Calendar.getInstance().time)
+        val date = dateFormatter.format("Thu, 31 Oct 2019 08:00")
         println(date)
     }
 

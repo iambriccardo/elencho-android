@@ -31,7 +31,7 @@ class TodayViewModel(
             }
 
             val work = async(Dispatchers.IO) {
-                getTodayTimetableUseCase.getTodayTimetable(
+                getTodayTimetableUseCase.getTodayTimetableWithOnGoingCourse(
                     userPrefs.prefs[UserPrefs.Pref.DEPARTMENT_ID] ?: "",
                     userPrefs.prefs[UserPrefs.Pref.DEGREE_ID] ?: "",
                     userPrefs.prefs[UserPrefs.Pref.STUDY_PLAN_ID] ?: "",

@@ -33,6 +33,7 @@
 
     <color name="colorBlack12">#1F000000</color>
     <color name="colorBlack87">#DE000000</color>
+    <color name="colorWhite87">#DEFFFFFF</color>
 
     <color name="colorSkeleton">#E7ECEA</color>
     <color name="colorSkeletonShimmer">#EEEFF4</color>

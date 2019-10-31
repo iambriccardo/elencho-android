@@ -75,7 +75,7 @@ class TimeMachineViewModel(
                 null
             }
 
-            if (isCurrentPageFirstPage()) loadingState.value = false
+            loadingState.value = false
             newTimetable?.let {
                 if (newTimetable.isEmpty() && isCurrentPageFirstPage())
                     error.value = TimetableError.EMPTY_TIMETABLE

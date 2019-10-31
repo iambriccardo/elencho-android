@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.DayItem
+import com.riccardobusetti.unibztimetable.ui.items.OngoingCourseItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
@@ -104,7 +105,7 @@ abstract class AdvancedFragment<ViewModel> : Fragment() {
             section.setHeader(DayItem(day))
 
             day.courses.forEach { course ->
-                section.add(CourseItem(course))
+                section.add(if (course.isOngoing) OngoingCourseItem(course) else CourseItem(course))
             }
 
             add(section)

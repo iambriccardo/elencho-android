@@ -1,6 +1,7 @@
 package com.riccardobusetti.unibztimetable.utils
 
 import android.os.Build
+import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -75,24 +76,40 @@ object DateUtils {
         return dateFormatter.parse(date)
     }
 
+    fun mergeDayAndCourseTimeData(dayDate: String, courseTime: String) =
+        "$dayDate ${getCurrentCalendar().get(Calendar.YEAR)} $courseTime"
+
+    fun isCourseFinished(courseEndDate: String): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val formattedCourseEndDate = parseLocalDateTime(courseEndDate, "EEE, dd MMM yyyy HH:mm")
+            val formattedCurrentDate =
+                parseLocalDateTime(getCurrentTimeFormatted(), "yyyy-MM-dd HH:mm")
+
+            formattedCurrentDate > formattedCourseEndDate
+        } else {
+            false
+        }
+    }
+
     fun isCourseOnGoing(courseStartDate: String, courseEndDate: String): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val formattedCourseStartDate = LocalDateTime.parse(
-                courseStartDate,
-                DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm", getDefaultLocaleGuarded())
-            )
-            val formattedCourseEndDate = LocalDateTime.parse(
-                courseEndDate,
-                DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm", getDefaultLocaleGuarded())
-            )
-            val formattedCurrentDate = LocalDateTime.parse(
-                getCurrentTimeFormatted(),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", getDefaultLocaleGuarded())
-            )
+            val formattedCourseStartDate =
+                parseLocalDateTime(courseStartDate, "EEE, dd MMM yyyy HH:mm")
+            val formattedCourseEndDate = parseLocalDateTime(courseEndDate, "EEE, dd MMM yyyy HH:mm")
+            val formattedCurrentDate =
+                parseLocalDateTime(getCurrentTimeFormatted(), "yyyy-MM-dd HH:mm")
 
             formattedCurrentDate in formattedCourseStartDate..formattedCourseEndDate
         } else {
             false
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun parseLocalDateTime(date: String, pattern: String) =
+        LocalDateTime.parse(date, getDateTimeFormatter(pattern))
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getDateTimeFormatter(pattern: String) =
+        DateTimeFormatter.ofPattern(pattern, getDefaultLocaleGuarded())
 }

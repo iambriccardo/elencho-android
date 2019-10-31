@@ -1,10 +1,14 @@
 package com.riccardobusetti.unibztimetable.ui.main
 
+import android.annotation.TargetApi
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.Fragment
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.ui.adapters.FragmentsAdapter
@@ -61,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_settings -> {
-            startActivity(Intent(this, ConfigurationActivity::class.java))
+            startActivity(Intent(this@MainActivity, ConfigurationActivity::class.java))
             true
         }
         else -> {
@@ -85,4 +89,31 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
+
+    @TargetApi(Build.VERSION_CODES.P)
+    private fun instanceOfBiometricPrompt(): BiometricPrompt {
+        val executor = mainExecutor
+
+        val callback = object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationFailed() {
+                super.onAuthenticationFailed()
+                Toast.makeText(this@MainActivity, "Error while authenticating", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(result)
+                startActivity(Intent(this@MainActivity, ConfigurationActivity::class.java))
+            }
+        }
+
+        return BiometricPrompt(this, executor, callback)
+    }
+
+    private fun getPromptInfo() = BiometricPrompt.PromptInfo.Builder()
+        .setTitle("Unibz timetable authentication")
+        .setSubtitle("Please login to get access")
+        .setDescription("Biometric authentication is required in order to access the settings")
+        .setDeviceCredentialAllowed(true)
+        .build()
 }
