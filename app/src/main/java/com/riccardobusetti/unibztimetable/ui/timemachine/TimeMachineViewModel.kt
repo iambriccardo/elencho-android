@@ -36,7 +36,7 @@ class TimeMachineViewModel(
 
     val selectedDateInterval = MutableLiveData<Pair<String, String>>().apply {
         this.value =
-            DateUtils.getCurrentDateFormatted() to DateUtils.getCurrentDatePlusYearsFormatted(1)
+            DateUtils.getCurrentDateFormatted() to DateUtils.getCurrentDatePlusDaysFormatted(7)
     }
 
     val bottomSheetState =

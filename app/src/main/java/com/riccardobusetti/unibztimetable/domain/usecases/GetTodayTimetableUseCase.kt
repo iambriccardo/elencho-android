@@ -65,5 +65,5 @@ class GetTodayTimetableUseCase(
                     )
                 )
             })
-        }
+        }.filter { it.courses.isNotEmpty() }
 }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.configuration.ConfigurationActivity">
 
     <ImageView
@@ -48,11 +49,12 @@
         android:paddingBottom="56dp"
         android:layout_marginTop="8dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/activity_configuration_save_button"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
+        app:cornerRadius="20dp"
         android:layout_margin="16dp"
         android:text="@string/save_configuration" />
 

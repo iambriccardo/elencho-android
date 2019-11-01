@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -13,11 +14,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorBlack" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/bottom_sheet_date_interval_from_text"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        app:cornerRadius="20dp"
         android:textAlignment="viewStart" />
 
     <TextView
@@ -29,18 +31,20 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorBlack" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/bottom_sheet_date_interval_to_text"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        app:cornerRadius="20dp"
         android:textAlignment="viewStart" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/bottom_sheet_date_interval_button"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
+        app:cornerRadius="20dp"
         android:text="@string/time_travel" />
 
 </LinearLayout>
