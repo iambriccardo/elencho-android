@@ -33,7 +33,7 @@
             android:ellipsize="marquee"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-            android:textColor="@color/colorBlack87"
+            android:textColor="?android:attr/textColorPrimary"
             tools:text="10:00 - 12:00" />
 
         <TextView
@@ -45,7 +45,7 @@
             android:ellipsize="marquee"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-            android:textColor="@color/colorGrey"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             tools:text="Bruno Carpenteri" />
 
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textAppearance="?android:attr/textAppearanceListItem"
-        android:textColor="@color/colorBlack87"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="16sp"
         tools:text="Mathematics I" />
 
@@ -69,7 +69,7 @@
         android:ellipsize="marquee"
         android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-        android:textColor="@color/colorGrey"
+        android:textColor="?android:attr/textColorSecondary"
         android:textSize="14sp"
         tools:text="Lecture" />
 

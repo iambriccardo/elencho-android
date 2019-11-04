@@ -125,7 +125,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         skeleton = Skeleton.bind(recyclerView)
             .adapter(groupAdapter)
             .load(R.layout.item_skeleton)
-            .color(R.color.colorSkeletonShimmer)
+            .color(R.color.colorSkeletonShimmerDay)
             .show()
     }
 

@@ -66,7 +66,7 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
         skeleton = Skeleton.bind(recyclerView)
             .adapter(groupAdapter)
             .load(R.layout.item_skeleton)
-            .color(R.color.colorSkeletonShimmer)
+            .color(R.color.colorSkeletonShimmerDay)
             .show()
     }
 

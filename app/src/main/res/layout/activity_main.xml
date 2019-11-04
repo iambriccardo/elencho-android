@@ -42,9 +42,9 @@
         android:id="@+id/activity_main_bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
         app:itemIconTint="@color/color_bottom_navigation_item"
         app:itemTextColor="@color/color_bottom_navigation_item"
+        style="@style/Widget.MaterialComponents.BottomNavigationView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu_bottom_navigation" />

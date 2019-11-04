@@ -12,7 +12,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/from_date"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorBlack" />
+        android:textColor="?android:attr/textColorPrimary" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bottom_sheet_date_interval_from_text"
@@ -29,7 +29,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/to_date"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorBlack" />
+        android:textColor="?android:attr/textColorPrimary" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bottom_sheet_date_interval_to_text"

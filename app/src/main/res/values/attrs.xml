@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Theme">
+        <attr name="colorBottomNavigation" format="color" />
+        <attr name="colorSkeletonPrimary" format="color" />
+        <attr name="colorSkeletonAccent" format="color" />
+        <attr name="colorSkeletonShimmer" format="color" />
+    </declare-styleable>
+</resources>

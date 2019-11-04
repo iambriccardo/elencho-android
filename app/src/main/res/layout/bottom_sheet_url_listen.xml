@@ -13,7 +13,7 @@
         android:layout_marginBottom="4dp"
         android:text="@string/listen_url_title"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/colorBlack"
+        android:textColor="?android:attr/textColorPrimary"
         android:textAlignment="center"
         tools:text="@string/listen_url_title" />
 
@@ -27,6 +27,7 @@
         android:text="@string/listen_url_description"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="?android:attr/textColorSecondary"
         tools:text="@string/listen_url_description" />
 
     <ProgressBar
