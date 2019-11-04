@@ -4,9 +4,10 @@
     <color name="colorPrimaryDark">#0050b1</color>
     <color name="colorAccent">#62a9ff</color>
 
-    <color name="colorDay">#FFFFFF</color>
-    <color name="colorNight">#121212</color>
+    <color name="colorBackgroundDay">#FFFFFF</color>
+    <color name="colorBackgroundNight">#121212</color>
 
+    <!-- TODO: unify color palette -->
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGrey">#666666</color>

@@ -9,7 +9,7 @@
         <item name="colorSkeletonPrimary">@color/colorSkeletonPrimaryNight</item>
         <item name="colorSkeletonAccent">@color/colorPrimary</item>
         <item name="colorSkeletonShimmer">@color/colorSkeletonShimmerNight</item>
-        <item name="colorBottomNavigation">@color/colorNight</item>
+        <item name="colorBottomNavigation">@color/colorBackgroundNight</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textColorPrimary">@color/colorWhite87</item>

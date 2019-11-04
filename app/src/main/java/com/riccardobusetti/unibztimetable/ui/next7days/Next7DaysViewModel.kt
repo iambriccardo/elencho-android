@@ -24,7 +24,11 @@ class Next7DaysViewModel(
 
     fun loadNext7DaysTimetable(page: String = DEFAULT_PAGE) {
         viewModelScope.launchWithSupervisor {
-            loadingState.value = true
+            if (isCurrentTimetableEmpty()) {
+                loadingState.value = TimetableLoadingState.LOADING_FROM_SCRATCH
+            } else {
+                loadingState.value = TimetableLoadingState.LOADING_WITH_DATA
+            }
 
             val userPrefs = withContext(Dispatchers.IO) {
                 getUserPrefsUseCase.getUserPrefs()
@@ -49,7 +53,7 @@ class Next7DaysViewModel(
                 null
             }
 
-            loadingState.value = false
+            loadingState.value = TimetableLoadingState.NOT_LOADING
             newTimetable?.let {
                 if (newTimetable.isEmpty())
                     error.value = TimetableError.EMPTY_TIMETABLE
@@ -58,5 +62,13 @@ class Next7DaysViewModel(
                     timetable.value = newTimetable
             }
         }
+    }
+
+    override fun isCurrentTimetableEmpty(): Boolean {
+        timetable.value?.let {
+            return it.isEmpty()
+        }
+
+        return false
     }
 }

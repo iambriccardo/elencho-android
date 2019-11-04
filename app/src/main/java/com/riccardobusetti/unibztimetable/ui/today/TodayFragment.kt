@@ -82,12 +82,10 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
                 }
             })
 
-            it.loadingState.observe(this, Observer { isLoading ->
-                if (isLoading) {
-                    hideStatusView()
-                    skeleton.show()
-                } else {
-                    skeleton.hide()
+            it.loadingState.observe(this, Observer { loadingState ->
+                when (loadingState) {
+                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH -> skeleton.show()
+                    TimetableViewModel.TimetableLoadingState.NOT_LOADING -> skeleton.hide()
                 }
             })
         }
