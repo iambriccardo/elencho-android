@@ -102,6 +102,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         timeTravelButton.setOnClickListener { _ ->
             model?.let {
                 it.currentPage.value = TimetableViewModel.DEFAULT_PAGE
+                loadData()
             }
 
             changeBottomSheetState()
@@ -147,18 +148,11 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
             it.loadingState.observe(this, Observer { loadingState ->
                 when (loadingState) {
-                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH, TimetableViewModel.TimetableLoadingState.LOADING_WITH_DATA -> skeleton.show()
+                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH,
+                    TimetableViewModel.TimetableLoadingState.LOADING_WITH_DATA -> skeleton.show()
                     TimetableViewModel.TimetableLoadingState.NOT_LOADING -> skeleton.hide()
+                    else -> skeleton.hide()
                 }
-            })
-
-            it.currentPage.observe(this, Observer { currentPage ->
-                // TODO: develop a way to put all the load calls inside of a queue of execution.
-                model?.loadTimetable(
-                    model?.selectedDateInterval?.value!!.first,
-                    model?.selectedDateInterval?.value!!.second,
-                    currentPage
-                )
             })
 
             it.selectedDateInterval.observe(this, Observer { interval ->
@@ -176,8 +170,12 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         }
     }
 
-    override fun startLoadingData() {
-        // This method is not needed for this particular use case.
+    override fun loadData() {
+        model?.loadTimetable(
+            model?.selectedDateInterval?.value!!.first,
+            model?.selectedDateInterval?.value!!.second,
+            model?.currentPage?.value!!
+        )
     }
 
     private fun changeBottomSheetState() {

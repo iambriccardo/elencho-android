@@ -54,7 +54,7 @@ abstract class AdvancedFragment<ViewModel> : Fragment() {
 
         setupUi()
         attachObservers()
-        if (savedInstanceState == null) startLoadingData()
+        if (savedInstanceState == null) loadData()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -87,13 +87,13 @@ abstract class AdvancedFragment<ViewModel> : Fragment() {
     abstract fun attachObservers()
 
     /**
-     * Starts the loadingState of data.
+     * Loads data that is needed in the fragment.
      *
      * In this method you should put all the methods which are loadingState data which is needed at
      * the start. This method is only called at the creation of the view, so if you need to
      * change its behavior just call it in every lifecycle method you want.
      */
-    abstract fun startLoadingData()
+    abstract fun loadData()
 
     /**
      * Adds the timetable to a specific adapter.

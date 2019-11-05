@@ -76,22 +76,26 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
             })
 
             it.error.observe(this, Observer { error ->
-                error?.let {
+                if (error != null) {
                     showStatusView(error)
+                } else {
+                    hideStatusView()
                 }
             })
 
             it.loadingState.observe(this, Observer { loadingState ->
                 when (loadingState) {
-                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH -> skeleton.show()
+                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH,
+                    TimetableViewModel.TimetableLoadingState.LOADING_WITH_DATA -> skeleton.show()
                     TimetableViewModel.TimetableLoadingState.NOT_LOADING -> skeleton.hide()
+                    else -> skeleton.hide()
                 }
             })
         }
     }
 
-    override fun startLoadingData() {
-        model?.loadTodayTimetable("1")
+    override fun loadData() {
+        model?.loadTodayTimetable(model?.currentPage?.value!!)
     }
 
     private fun showStatusView(error: TimetableViewModel.TimetableError) {
