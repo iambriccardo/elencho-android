@@ -21,7 +21,8 @@ object DateUtils {
 
     private const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd"
 
-    private val supportedLocales = listOf("en", "de", "it")
+    // TODO: support german (de) after the fix of date parsing.
+    private val supportedLocales = listOf("en", "it")
 
     /**
      * Gets the [Locale.ENGLISH] only if the device has the other languages not supported. This is

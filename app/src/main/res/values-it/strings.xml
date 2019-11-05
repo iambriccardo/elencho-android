@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Orario</string>
+
+    <!-- BottomNavigation -->
+    <string name="bottom_navigation_today">Oggi</string>
+    <string name="bottom_navigation_next_7_days">Prossimi 7 Giorni</string>
+    <string name="bottom_navigation_time_machine">Macchina del Tempo</string>
+    <string name="bottom_navigation_settings">Impostazioni</string>
+
+    <!-- Errors -->
+    <string name="empty_timetable">Fortunato, non hai altri corsi, buona giornata!</string>
+    <string name="error_while_getting_timetable">Oh no, si è verificato un errore e l\'orario non può essere mostrato, riprova.</string>
+
+    <!-- DateIntervalBottomSheet -->
+    <string name="from_date">Data inizio</string>
+    <string name="to_date">Data fine</string>
+    <string name="choose_date_interval">Seleziona un intervallo di tempo</string>
+    <string name="time_travel">Viaggio nel tempo</string>
+
+    <!-- ConfigurationActivity -->
+    <string name="configure_app_header">Configuriamo l\'app in pochi passi</string>
+    <string name="configure_app_description">Questo processo è necessario all\'app per funzionare. Non preoccuparti impiegherà pochi minuti.</string>
+    <string name="save_configuration">Salva impostazioni</string>
+
+    <!-- Configurations -->
+    <string name="configuration_study_plan_title">Configura il tuo piano di studi</string>
+    <string name="configuration_study_plan_description">Per poter usare questa app dovrai selezionare il piano di studi di cui vuoi vedere l\'orario.</string>
+
+    <!-- Dialogs -->
+    <string name="study_plan_dialog_title">Seleziona il tuo piano di studi</string>
+    <string name="study_plan_dialog_hint">Incolla l\'url del piano di studi</string>
+
+    <!-- UrlListenBottomSheet -->
+    <string name="listen_url_title">Sto leggendo l\'url…</string>
+    <string name="listen_url_description">Sto leggendo l\'url, dammi un secondo.</string>
+    <string name="listen_url_success">Lettura url avvenuta con successo</string>
+    <string name="listen_url_description_success">Ora sei apposto, continua la configurazione.</string>
+    <string name="listen_url_title_error">Lettura url non avvenuta</string>
+    <string name="listen_url_description_error">Vai su <a href="https://www.unibz.it/en/timetable">unibz.it/timetable</a>, seleziona il tuo corso, copia l\'url e torna su questa app.</string>
+
+    <!-- Preferences -->
+    <string name="preference_category_personalization_title">Personalizzazione</string>
+    <string name="preference_configuration_title">Configura l\'app</string>
+    <string name="preference_configuration_summary">Configura l\'app per una migliore esperienza</string>
+</resources>

@@ -1,9 +1,15 @@
 <resources>
     <string name="app_name">Timetable</string>
 
+    <!-- BottomNavigation -->
+    <string name="bottom_navigation_today">Today</string>
+    <string name="bottom_navigation_next_7_days">Next 7 Days</string>
+    <string name="bottom_navigation_time_machine">Time Machine</string>
+    <string name="bottom_navigation_settings">Settings</string>
+
     <!-- Errors -->
-    <string name="error_no_courses">You don\'t have any courses for today, enjoy!</string>
-    <string name="error_fetching">Error while fetching data, try again.</string>
+    <string name="empty_timetable">Lucky you, you don\'t have any courses, enjoy!</string>
+    <string name="error_while_getting_timetable">Oh no, an error occurred and the timetable cannot be shown, try again.</string>
 
     <!-- DateIntervalBottomSheet -->
     <string name="from_date">Start date</string>
@@ -32,12 +38,7 @@
     <string name="listen_url_title_error">Url reading failed</string>
     <string name="listen_url_description_error">Go on the <a href="https://www.unibz.it/en/timetable">unibz.it/timetable</a> website, select your course and copy the url, then come back to this app.</string>
 
-    <!-- Other -->
-    <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
-    <string name="empty_timetable">Lucky you, you don\'t have any courses, enjoy!</string>
-    <string name="error_while_getting_timetable">Oh no, an error occurred and the timetable cannot be shown, try again.</string>
-    <string name="loading_new_page">Loading new page…</string>
+    <!-- Preferences -->
     <string name="preference_category_personalization_title">Personalization</string>
     <string name="preference_configuration_title">Configure the app</string>
     <string name="preference_configuration_summary">Configure the application for the best experience</string>
