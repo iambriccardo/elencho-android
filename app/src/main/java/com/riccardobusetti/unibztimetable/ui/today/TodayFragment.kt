@@ -39,7 +39,6 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
         return ViewModelProviders.of(
             this,
             TodayViewModelFactory(
-                context!!,
                 GetTodayTimetableUseCase(timetableRepository),
                 GetUserPrefsUseCase(userPrefsRepository)
             )

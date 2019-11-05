@@ -39,7 +39,6 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
         return ViewModelProviders.of(
             this,
             Next7DaysViewModelFactory(
-                context!!,
                 GetNext7DaysTimetableUseCase(timetableRepository),
                 GetUserPrefsUseCase(userPrefsRepository)
             )

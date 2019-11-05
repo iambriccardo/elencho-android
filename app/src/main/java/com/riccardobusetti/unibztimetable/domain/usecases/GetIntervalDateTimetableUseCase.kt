@@ -17,7 +17,7 @@ class GetIntervalDateTimetableUseCase(
     /**
      * Gets the timetable between an interval of dates.
      */
-    fun getTimetable(
+    fun getTimetableInInterval(
         department: String,
         degree: String,
         studyPlan: String,

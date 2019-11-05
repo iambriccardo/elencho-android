@@ -53,7 +53,6 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         return ViewModelProviders.of(
             this,
             TimeMachineViewModelFactory(
-                context!!,
                 GetIntervalDateTimetableUseCase(timetableRepository),
                 GetUserPrefsUseCase(userPrefsRepository)
             )
@@ -139,14 +138,16 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
             })
 
             it.error.observe(this, Observer { error ->
-                error?.let {
+                if (error != null) {
                     showStatusView(error)
+                } else {
+                    hideStatusView()
                 }
             })
 
             it.loadingState.observe(this, Observer { loadingState ->
                 when (loadingState) {
-                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH -> skeleton.show()
+                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH, TimetableViewModel.TimetableLoadingState.LOADING_WITH_DATA -> skeleton.show()
                     TimetableViewModel.TimetableLoadingState.NOT_LOADING -> skeleton.hide()
                 }
             })

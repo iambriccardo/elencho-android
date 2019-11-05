@@ -1,25 +1,20 @@
 package com.riccardobusetti.unibztimetable.ui.timemachine
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import java.util.*
 
 class TimeMachineViewModel(
-    private val context: Context,
     private val getIntervalDateTimetableUseCase: GetIntervalDateTimetableUseCase,
     private val getUserPrefsUseCase: GetUserPrefsUseCase
-) : TimetableViewModel<List<Day>>() {
+) : TimetableViewModel() {
 
     /**
      * Enum representing the state of the bottomsheet which pops up when the user
@@ -48,54 +43,38 @@ class TimeMachineViewModel(
         page: String = DEFAULT_PAGE
     ) {
         viewModelScope.launchWithSupervisor {
-            if (isCurrentTimetableEmpty()) {
-                loadingState.value = TimetableLoadingState.LOADING_FROM_SCRATCH
-            } else {
-                loadingState.value = TimetableLoadingState.LOADING_WITH_DATA
-            }
+            hideError()
+            showLoading()
 
-            val userPrefs = withContext(Dispatchers.IO) {
-                getUserPrefsUseCase.getUserPrefs()
-            }
-
-            val work = async(Dispatchers.IO) {
-                getIntervalDateTimetableUseCase.getTimetable(
-                    userPrefs.prefs[UserPrefs.Pref.DEPARTMENT_ID] ?: "",
-                    userPrefs.prefs[UserPrefs.Pref.DEGREE_ID] ?: "",
-                    userPrefs.prefs[UserPrefs.Pref.STUDY_PLAN_ID] ?: "",
-                    fromDate,
-                    toDate,
-                    page
-                )
-            }
-
+            val userPrefs = getUserPrefs()
             val newTimetable = try {
-                work.await()
+                loadTimetable(userPrefs, fromDate, toDate, page)
             } catch (e: Exception) {
-                Log.d(TAG, "This error occurred while parsing the timetable -> $e")
-
-                error.value = TimetableError.ERROR_WHILE_GETTING_TIMETABLE
-
-                null
+                handleTimetableException(TAG, e)
             }
 
-            loadingState.value = TimetableLoadingState.NOT_LOADING
-            newTimetable?.let {
-                if (newTimetable.isEmpty() && isCurrentPageFirstPage())
-                    error.value = TimetableError.EMPTY_TIMETABLE
-                else
-                    error.value = null
-                    timetable.value = newTimetable
-            }
+            hideLoading()
+            showTimetable(newTimetable)
         }
     }
 
-    override fun isCurrentTimetableEmpty(): Boolean {
-        timetable.value?.let {
-            return it.isEmpty()
-        }
+    private suspend fun getUserPrefs() = withContext(Dispatchers.IO) {
+        getUserPrefsUseCase.getUserPrefs()
+    }
 
-        return false
+    private suspend fun loadTimetable(
+        userPrefs: UserPrefs, fromDate: String,
+        toDate: String,
+        page: String
+    ) = withContext(Dispatchers.IO) {
+        getIntervalDateTimetableUseCase.getTimetableInInterval(
+            userPrefs.prefs[UserPrefs.Pref.DEPARTMENT_ID] ?: "",
+            userPrefs.prefs[UserPrefs.Pref.DEGREE_ID] ?: "",
+            userPrefs.prefs[UserPrefs.Pref.STUDY_PLAN_ID] ?: "",
+            fromDate,
+            toDate,
+            page
+        )
     }
 
     fun getCurrentFromDate(): Calendar? {

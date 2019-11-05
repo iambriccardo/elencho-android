@@ -1,11 +1,13 @@
 package com.riccardobusetti.unibztimetable.utils.custom
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.riccardobusetti.unibztimetable.R
+import com.riccardobusetti.unibztimetable.domain.entities.Day
 
 /**
  * Extension class of the [ViewModel] which provides the basics [MutableLiveData] objects that are
@@ -13,9 +15,7 @@ import com.riccardobusetti.unibztimetable.R
  *
  * @author Riccardo Busetti
  */
-abstract class TimetableViewModel<TimetableType> : AdvancedViewModel() {
-
-    /* TODO: find a way to avoid code duplication in the childs of this class */
+abstract class TimetableViewModel : AdvancedViewModel() {
 
     /**
      * Enum class representing all the errors which can occur while getting the timetable.
@@ -51,7 +51,7 @@ abstract class TimetableViewModel<TimetableType> : AdvancedViewModel() {
     /**
      * Live data object containing the timetable which has been loaded.
      */
-    val timetable = MutableLiveData<TimetableType>()
+    val timetable = MutableLiveData<List<Day>>()
 
     /**
      * Live data object containing the error which will be displayed. If empty we consider
@@ -71,10 +71,50 @@ abstract class TimetableViewModel<TimetableType> : AdvancedViewModel() {
      */
     val currentPage = MutableLiveData<String>().apply { this.value = DEFAULT_PAGE }
 
+    fun showLoading() {
+        if (isCurrentTimetableEmpty()) {
+            loadingState.value = TimetableLoadingState.LOADING_FROM_SCRATCH
+        } else {
+            loadingState.value = TimetableLoadingState.LOADING_WITH_DATA
+        }
+    }
+
+    fun hideLoading() {
+        loadingState.value = TimetableLoadingState.NOT_LOADING
+    }
+
+    fun showError(error: TimetableError) {
+        this.error.value = error
+    }
+
+    fun hideError() {
+        error.value = null
+    }
+
+    fun showTimetable(timetable: List<Day>?) {
+        timetable?.let {
+            if (it.isEmpty() && isCurrentPageFirstPage()) {
+                showError(TimetableError.EMPTY_TIMETABLE)
+            } else {
+                this.timetable.value = it
+            }
+        }
+    }
+
+    fun handleTimetableException(tag: String, exception: Exception): List<Day>? {
+        Log.d(tag, "Error while loading the timetable: $exception")
+        showError(TimetableError.ERROR_WHILE_GETTING_TIMETABLE)
+
+        return null
+    }
+
     fun isCurrentPageFirstPage() = currentPage.value == DEFAULT_PAGE
 
-    /**
-     * Checks if the current timetable is empty.
-     */
-    abstract fun isCurrentTimetableEmpty(): Boolean
+    private fun isCurrentTimetableEmpty(): Boolean {
+        timetable.value?.let {
+            return it.isEmpty()
+        }
+
+        return false
+    }
 }
