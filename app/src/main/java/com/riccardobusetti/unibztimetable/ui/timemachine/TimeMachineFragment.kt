@@ -18,6 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
+import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy
 import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
@@ -46,7 +47,8 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     private lateinit var skeleton: SkeletonScreen
 
     override fun initModel(): TimeMachineViewModel {
-        val timetableRepository = TimetableRepository(RemoteTimetableStrategy())
+        val timetableRepository =
+            TimetableRepository(LocalTimetableStrategy(), RemoteTimetableStrategy())
 
         val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(context!!))
 

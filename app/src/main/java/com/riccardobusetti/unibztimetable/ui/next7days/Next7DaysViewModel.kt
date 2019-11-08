@@ -6,6 +6,9 @@ import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableU
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 
 class Next7DaysViewModel(
@@ -22,15 +25,14 @@ class Next7DaysViewModel(
             hideError()
             showLoading()
 
-            val userPrefs = getUserPrefs()
-            val newTimetable = try {
-                loadTimetable(userPrefs, page)
-            } catch (e: Exception) {
-                handleTimetableException(TAG, e)
-            }
-
-            hideLoading()
-            showTimetable(newTimetable)
+            loadTimetable(getUserPrefs(), page)
+                .flowOn(Dispatchers.IO)
+                .onEach {
+                    hideLoading()
+                    showTimetable(it)
+                }
+                .handleErrors(TAG)
+                .collect()
         }
     }
 
@@ -38,15 +40,13 @@ class Next7DaysViewModel(
         getUserPrefsUseCase.getUserPrefs()
     }
 
-    private suspend fun loadTimetable(
+    private fun loadTimetable(
         userPrefs: UserPrefs,
         page: String
-    ) = withContext(Dispatchers.IO) {
-        getNext7DaysTimetableUseCase.getNext7DaysTimetable(
-            userPrefs.prefs[UserPrefs.Pref.DEPARTMENT_ID] ?: "",
-            userPrefs.prefs[UserPrefs.Pref.DEGREE_ID] ?: "",
-            userPrefs.prefs[UserPrefs.Pref.STUDY_PLAN_ID] ?: "",
-            page
-        )
-    }
+    ) = getNext7DaysTimetableUseCase.getNext7DaysTimetable(
+        userPrefs.prefs[UserPrefs.Pref.DEPARTMENT_ID] ?: "",
+        userPrefs.prefs[UserPrefs.Pref.DEGREE_ID] ?: "",
+        userPrefs.prefs[UserPrefs.Pref.STUDY_PLAN_ID] ?: "",
+        page
+    )
 }

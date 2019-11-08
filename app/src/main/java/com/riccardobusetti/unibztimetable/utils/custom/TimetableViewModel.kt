@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.Day
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 
 /**
  * Extension class of the [ViewModel] which provides the basics [MutableLiveData] objects that are
@@ -96,13 +98,17 @@ abstract class TimetableViewModel : AdvancedViewModel() {
             if (it.isEmpty() && isCurrentPageFirstPage()) {
                 showError(TimetableError.EMPTY_TIMETABLE)
             } else {
+                hideError()
                 this.timetable.value = it
             }
         }
     }
 
-    fun handleTimetableException(tag: String, exception: Exception): List<Day>? {
-        Log.d(tag, "Error while loading the timetable: $exception")
+    fun <T> Flow<T>.handleErrors(tag: String): Flow<T> =
+        catch { e -> handleTimetableException(tag, e.message) }
+
+    fun handleTimetableException(tag: String, message: String?): List<Day>? {
+        Log.d(tag, "Error while loading the timetable: $message")
         showError(TimetableError.ERROR_WHILE_GETTING_TIMETABLE)
 
         return null

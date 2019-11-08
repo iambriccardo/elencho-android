@@ -8,6 +8,9 @@ import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import java.util.*
 
@@ -46,15 +49,14 @@ class TimeMachineViewModel(
             hideError()
             showLoading()
 
-            val userPrefs = getUserPrefs()
-            val newTimetable = try {
-                loadTimetable(userPrefs, fromDate, toDate, page)
-            } catch (e: Exception) {
-                handleTimetableException(TAG, e)
-            }
-
-            hideLoading()
-            showTimetable(newTimetable)
+            loadTimetable(getUserPrefs(), fromDate, toDate, page)
+                .flowOn(Dispatchers.IO)
+                .onEach {
+                    hideLoading()
+                    showTimetable(it)
+                }
+                .handleErrors(TAG)
+                .collect()
         }
     }
 
@@ -62,20 +64,18 @@ class TimeMachineViewModel(
         getUserPrefsUseCase.getUserPrefs()
     }
 
-    private suspend fun loadTimetable(
+    private fun loadTimetable(
         userPrefs: UserPrefs, fromDate: String,
         toDate: String,
         page: String
-    ) = withContext(Dispatchers.IO) {
-        getIntervalDateTimetableUseCase.getTimetableInInterval(
-            userPrefs.prefs[UserPrefs.Pref.DEPARTMENT_ID] ?: "",
-            userPrefs.prefs[UserPrefs.Pref.DEGREE_ID] ?: "",
-            userPrefs.prefs[UserPrefs.Pref.STUDY_PLAN_ID] ?: "",
-            fromDate,
-            toDate,
-            page
-        )
-    }
+    ) = getIntervalDateTimetableUseCase.getTimetableInInterval(
+        userPrefs.prefs[UserPrefs.Pref.DEPARTMENT_ID] ?: "",
+        userPrefs.prefs[UserPrefs.Pref.DEGREE_ID] ?: "",
+        userPrefs.prefs[UserPrefs.Pref.STUDY_PLAN_ID] ?: "",
+        fromDate,
+        toDate,
+        page
+    )
 
     fun getCurrentFromDate(): Calendar? {
         val fromDate = DateUtils.formatStringToDate(selectedDateInterval.value!!.first)

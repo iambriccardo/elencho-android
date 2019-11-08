@@ -3,6 +3,7 @@ package com.riccardobusetti.unibztimetable.domain.usecases
 import com.riccardobusetti.unibztimetable.data.network.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Use case which will manage the time machine function which gets the timetable between two
@@ -24,7 +25,7 @@ class GetIntervalDateTimetableUseCase(
         fromDate: String,
         toDate: String,
         page: String
-    ): List<Day> {
+    ): Flow<List<Day>> {
         val webSiteUrl =
             WebSiteUrl.Builder()
                 .useDeviceLanguage()
