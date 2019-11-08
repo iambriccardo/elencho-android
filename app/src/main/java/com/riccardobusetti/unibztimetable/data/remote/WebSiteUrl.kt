@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.data.network
+package com.riccardobusetti.unibztimetable.data.remote
 
 import android.net.Uri
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs

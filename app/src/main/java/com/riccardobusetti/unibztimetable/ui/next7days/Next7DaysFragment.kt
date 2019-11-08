@@ -35,7 +35,10 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
 
     override fun initModel(): Next7DaysViewModel {
         val timetableRepository =
-            TimetableRepository(LocalTimetableStrategy(), RemoteTimetableStrategy())
+            TimetableRepository(
+                LocalTimetableStrategy(activity!!.applicationContext),
+                RemoteTimetableStrategy()
+            )
         val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(context!!))
 
         return ViewModelProviders.of(

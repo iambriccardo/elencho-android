@@ -1,6 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.usecases
 
-import com.riccardobusetti.unibztimetable.data.network.WebSiteUrl
+import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
+import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import kotlinx.coroutines.flow.Flow
@@ -37,6 +38,6 @@ class GetIntervalDateTimetableUseCase(
                 .atPage(page)
                 .build()
 
-        return timetableRepository.getTimetable(webSiteUrl)
+        return timetableRepository.getTimetable(AppSection.TIME_MACHINE, webSiteUrl)
     }
 }

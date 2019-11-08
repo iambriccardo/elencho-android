@@ -1,9 +1,9 @@
 package com.riccardobusetti.unibztimetable.domain.entities
 
-class Course(
+data class Course(
+    val time: String,
     val title: String,
     val location: String,
-    val time: String,
     val professor: String,
     val type: String,
     val isOngoing: Boolean = false

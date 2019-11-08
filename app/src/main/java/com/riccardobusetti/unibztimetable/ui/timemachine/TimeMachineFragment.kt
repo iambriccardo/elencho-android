@@ -48,7 +48,10 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
     override fun initModel(): TimeMachineViewModel {
         val timetableRepository =
-            TimetableRepository(LocalTimetableStrategy(), RemoteTimetableStrategy())
+            TimetableRepository(
+                LocalTimetableStrategy(activity!!.applicationContext),
+                RemoteTimetableStrategy()
+            )
 
         val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(context!!))
 

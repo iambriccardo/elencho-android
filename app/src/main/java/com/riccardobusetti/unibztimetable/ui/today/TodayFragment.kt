@@ -35,7 +35,10 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
     override fun initModel(): TodayViewModel {
         val timetableRepository =
-            TimetableRepository(LocalTimetableStrategy(), RemoteTimetableStrategy())
+            TimetableRepository(
+                LocalTimetableStrategy(activity!!.applicationContext),
+                RemoteTimetableStrategy()
+            )
         val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(context!!))
 
         return ViewModelProviders.of(

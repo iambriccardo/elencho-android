@@ -1,6 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.usecases
 
-import com.riccardobusetti.unibztimetable.data.network.WebSiteUrl
+import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
+import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.Course
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
@@ -36,7 +37,7 @@ class GetTodayTimetableUseCase(
             .atPage(page)
             .build()
 
-        return timetableRepository.getTimetable(websiteUrl)
+        return timetableRepository.getTimetable(AppSection.TODAY, websiteUrl)
     }
 
     fun getTodayTimetableWithOnGoingCourse(
@@ -49,9 +50,9 @@ class GetTodayTimetableUseCase(
             newTimetable.map { day ->
                 Day(day.date, day.courses.map {
                     Course(
+                        it.time,
                         it.title,
                         it.location,
-                        it.time,
                         it.professor,
                         it.type,
                         DateUtils.isCourseOnGoing(

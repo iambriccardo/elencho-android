@@ -2,7 +2,7 @@ package com.riccardobusetti.unibztimetable
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
-import com.riccardobusetti.unibztimetable.data.network.WebSiteUrl
+import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

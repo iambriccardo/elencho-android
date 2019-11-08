@@ -1,6 +1,6 @@
 package com.riccardobusetti.unibztimetable.domain.strategies
 
-import com.riccardobusetti.unibztimetable.data.network.WebSiteUrl
+import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 
 /**

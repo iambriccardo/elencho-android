@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.data.network
+package com.riccardobusetti.unibztimetable.data.remote
 
 import android.util.Log
 import com.riccardobusetti.unibztimetable.domain.entities.Course
@@ -113,9 +113,9 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
 
         return day.selectAllCourses().map { course ->
             val mappedCourse = Course(
+                time = course.selectCourseTime(),
                 title = course.selectCourseTitle(),
                 location = if (course.selectCourseLocation().isBlank()) prevLocation else course.selectCourseLocation(),
-                time = course.selectCourseTime(),
                 professor = course.selectCourseProfessor(),
                 type = course.selectCourseType()
             )
