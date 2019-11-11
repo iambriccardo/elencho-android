@@ -17,3 +17,13 @@ data class Course(
 
     fun getEndTime() = time.split(TIME_REGEX)[1]
 }
+
+fun Course.toLecture(day: Day, appSection: AppSection) = Lecture(
+    date = day.date,
+    time = this.time,
+    title = this.title,
+    location = this.location,
+    professor = this.professor,
+    type = this.type,
+    appSection = appSection
+)

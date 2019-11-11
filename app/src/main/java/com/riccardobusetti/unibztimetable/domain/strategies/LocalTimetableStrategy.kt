@@ -5,7 +5,7 @@ import androidx.room.Room
 import com.riccardobusetti.unibztimetable.data.local.AppDatabase
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.Day
-import com.riccardobusetti.unibztimetable.domain.entities.Lecture
+import com.riccardobusetti.unibztimetable.domain.entities.toLecture
 import com.riccardobusetti.unibztimetable.domain.entities.toTimetable
 
 /**
@@ -17,38 +17,31 @@ import com.riccardobusetti.unibztimetable.domain.entities.toTimetable
  */
 class LocalTimetableStrategy(private val context: Context) {
 
-    // TODO: find a way to use the singleton pattern here.
-    private fun getAppDatabase() = lazy {
-        Room.databaseBuilder(
-            context,
-            AppDatabase::class.java, AppDatabase.DATABASE_NAME
-        ).build()
-    }.value
+    companion object {
 
-    fun getTimetable() = getAppDatabase().timetableDao().getTimetable().toTimetable()
+        fun getAppDatabase(context: Context) = lazy {
+            Room.databaseBuilder(
+                context,
+                AppDatabase::class.java, AppDatabase.DATABASE_NAME
+            ).build()
+        }.value
+    }
 
-    fun getTimetable(appSection: AppSection) =
-        getAppDatabase().timetableDao().getTimetable(appSection).toTimetable()
+    private val timetableDao get() = getAppDatabase(context).timetableDao()
+
+    fun getTimetable() = timetableDao.getTimetable().toTimetable()
+
+    fun getTimetable(appSection: AppSection) = timetableDao.getTimetable(appSection).toTimetable()
 
     fun insertTimetable(appSection: AppSection, timetable: List<Day>) {
         timetable.forEach { day ->
             day.courses.forEach { course ->
-                getAppDatabase().timetableDao().insertLecture(
-                    Lecture(
-                        date = day.date,
-                        time = course.time,
-                        title = course.title,
-                        location = course.location,
-                        professor = course.professor,
-                        type = course.type,
-                        appSection = appSection
-                    )
-                )
+                timetableDao.insertLecture(course.toLecture(day, appSection))
             }
         }
     }
 
     fun deleteTimetable(appSection: AppSection) {
-        getAppDatabase().timetableDao().deleteTimetable(appSection)
+        timetableDao.deleteTimetable(appSection)
     }
 }
