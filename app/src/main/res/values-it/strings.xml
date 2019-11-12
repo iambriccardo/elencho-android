@@ -5,6 +5,7 @@
     <string name="bottom_navigation_today">Oggi</string>
     <string name="bottom_navigation_next_7_days">Prossimi 7 Giorni</string>
     <string name="bottom_navigation_time_machine">Macchina del Tempo</string>
+    <string name="bottom_navigation_canteen">Menu Mensa</string>
     <string name="bottom_navigation_settings">Impostazioni</string>
 
     <!-- Errors -->

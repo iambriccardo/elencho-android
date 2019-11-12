@@ -81,11 +81,11 @@ class ConfigurationActivity : AppCompatActivity() {
 
         model.success.observe(this, Observer { isSuccessful ->
             if (isSuccessful) {
-                val intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-                startActivity(intent)
+                Intent(this, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(this)
+                }
             }
         })
 

@@ -5,6 +5,7 @@
     <string name="bottom_navigation_today">Today</string>
     <string name="bottom_navigation_next_7_days">Next 7 Days</string>
     <string name="bottom_navigation_time_machine">Time Machine</string>
+    <string name="bottom_navigation_canteen">Canteen Menu</string>
     <string name="bottom_navigation_settings">Settings</string>
 
     <!-- Errors -->

@@ -5,19 +5,23 @@
         android:id="@+id/action_today"
         android:enabled="true"
         android:icon="@drawable/ic_today"
-        android:title="@string/bottom_navigation_today"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_next_7_days"
         android:enabled="true"
         android:icon="@drawable/ic_next_7_days"
-        android:title="@string/bottom_navigation_next_7_days"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_time_machine"
         android:enabled="true"
         android:icon="@drawable/ic_time_machine"
         android:title="@string/bottom_navigation_time_machine"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_canteen"
+        android:enabled="true"
+        android:icon="@drawable/ic_canteen"
+        android:title="@string/bottom_navigation_canteen"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_settings"

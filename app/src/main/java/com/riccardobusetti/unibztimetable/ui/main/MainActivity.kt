@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.ui.adapters.FragmentsAdapter
+import com.riccardobusetti.unibztimetable.ui.canteen.CanteenFragment
 import com.riccardobusetti.unibztimetable.ui.next7days.Next7DaysFragment
 import com.riccardobusetti.unibztimetable.ui.settings.SettingsFragment
 import com.riccardobusetti.unibztimetable.ui.timemachine.TimeMachineFragment
@@ -38,6 +39,11 @@ class MainActivity : AppCompatActivity() {
         ),
         IndexableFragment(
             3,
+            R.id.action_canteen,
+            CanteenFragment()
+        ),
+        IndexableFragment(
+            4,
             R.id.action_settings,
             SettingsFragment()
         )

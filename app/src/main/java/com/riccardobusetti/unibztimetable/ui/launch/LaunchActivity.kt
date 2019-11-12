@@ -50,10 +50,10 @@ class LaunchActivity : AppCompatActivity() {
     }
 
     private fun <T> launchActivity(clazz: Class<T>) {
-        val intent = Intent(this, clazz)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-        startActivity(intent)
+        Intent(this, clazz).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(this)
+        }
     }
 }
