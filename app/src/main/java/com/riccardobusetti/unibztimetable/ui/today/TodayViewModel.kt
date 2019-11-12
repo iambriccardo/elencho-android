@@ -1,9 +1,11 @@
 package com.riccardobusetti.unibztimetable.ui.today
 
+import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
+import com.riccardobusetti.unibztimetable.utils.NetworkUtils
 import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -12,6 +14,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 
 class TodayViewModel(
+    private val context: Context,
     private val getTodayTimetableUseCase: GetTodayTimetableUseCase,
     private val getUserPrefsUseCase: GetUserPrefsUseCase
 ) : TimetableViewModel() {
@@ -47,6 +50,7 @@ class TodayViewModel(
         userPrefs.prefs[UserPrefs.Pref.DEPARTMENT_ID] ?: "",
         userPrefs.prefs[UserPrefs.Pref.DEGREE_ID] ?: "",
         userPrefs.prefs[UserPrefs.Pref.STUDY_PLAN_ID] ?: "",
-        page
+        page,
+        NetworkUtils.isConnectedToInternet(context)
     )
 }

@@ -26,7 +26,8 @@ class GetTodayTimetableUseCase(
         department: String,
         degree: String,
         studyPlan: String,
-        page: String
+        page: String,
+        isInternetAvailable: Boolean
     ): Flow<List<Day>> {
         val websiteUrl = WebSiteUrl.Builder()
             .useDeviceLanguage()
@@ -37,16 +38,23 @@ class GetTodayTimetableUseCase(
             .atPage(page)
             .build()
 
-        return timetableRepository.getTimetable(AppSection.TODAY, websiteUrl)
+        return timetableRepository.getTimetable(AppSection.TODAY, websiteUrl, isInternetAvailable)
     }
 
     fun getTodayTimetableWithOnGoingCourse(
         department: String,
         degree: String,
         academicYear: String,
-        page: String
+        page: String,
+        isInternetAvailable: Boolean
     ) =
-        getTodayTimetable(department, degree, academicYear, page).map { newTimetable ->
+        getTodayTimetable(
+            department,
+            degree,
+            academicYear,
+            page,
+            isInternetAvailable
+        ).map { newTimetable ->
             newTimetable.map { day ->
                 Day(day.date, day.courses.map {
                     Course(

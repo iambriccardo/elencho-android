@@ -40,16 +40,24 @@ object DateUtils {
 
     fun getCurrentDate() = getCurrentCalendar().time
 
+    fun getCurrentYear() = getCurrentCalendar().get(Calendar.YEAR)
+
     fun getCurrentDateFormatted(dateFormat: String = DEFAULT_DATE_FORMAT) =
         formatDateToString(getCurrentDate(), dateFormat)
 
-    fun getCurrentTimeFormatted(): String {
+    fun getCurrentTimeFormatted(useZeroTime: Boolean = false): String {
         val calendar = getCurrentCalendar()
 
-        return "${getCurrentDateFormatted()} ${String.format(
-            "%02d",
-            calendar.get(Calendar.HOUR_OF_DAY)
-        )}:${String.format("%02d", calendar.get(Calendar.MINUTE))}"
+        val minutes = if (useZeroTime) {
+            "00:00"
+        } else {
+            "${String.format(
+                "%02d",
+                calendar.get(Calendar.HOUR_OF_DAY)
+            )}:${String.format("%02d", calendar.get(Calendar.MINUTE))}"
+        }
+
+        return "${getCurrentDateFormatted()} $minutes"
     }
 
     fun getCurrentDatePlusDaysFormatted(days: Int) =
@@ -79,6 +87,20 @@ object DateUtils {
 
     fun mergeDayAndCourseTimeData(dayDate: String, courseTime: String) =
         "$dayDate ${getCurrentCalendar().get(Calendar.YEAR)} $courseTime"
+
+    fun isDayPassed(dayDate: String): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val formattedDayDate = parseLocalDateTime(dayDate, "EEE, dd MMM yyyy HH:mm")
+            val formattedCurrentDate = parseLocalDateTime(
+                getCurrentTimeFormatted(true),
+                "yyyy-MM-dd HH:mm"
+            )
+
+            formattedDayDate < formattedCurrentDate
+        } else {
+            false
+        }
+    }
 
     fun isCourseFinished(courseEndDate: String): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
