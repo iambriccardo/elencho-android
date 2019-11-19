@@ -44,9 +44,9 @@ class Next7DaysViewModel(
         userPrefs: UserPrefs,
         page: String
     ) = getNext7DaysTimetableUseCase.getNext7DaysTimetable(
-        userPrefs.prefs[UserPrefs.Pref.DEPARTMENT_ID] ?: "",
-        userPrefs.prefs[UserPrefs.Pref.DEGREE_ID] ?: "",
-        userPrefs.prefs[UserPrefs.Pref.STUDY_PLAN_ID] ?: "",
+        userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_ID),
+        userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_ID),
+        userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),
         page
     )
 }

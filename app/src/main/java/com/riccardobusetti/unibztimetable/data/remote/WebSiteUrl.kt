@@ -27,7 +27,7 @@ class WebSiteUrl private constructor(val url: String) {
         private const val TO_DATE_URL_PARAM = "toDate"
         private const val PAGE_URL_PARAM = "page"
 
-        const val DEFAULT_URL_PARAM_VALUE = ""
+        const val DEFAULT_URL_PARAM_VALUE = "-1"
 
         const val BASE_TIMETABLE_URL = "$BASE_URL/en/$TIMETABLE_URL_PATH"
         const val BASE_CANTEEN_URL = "https://unibz.markas.info/menu"

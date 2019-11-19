@@ -85,6 +85,7 @@ class ConfigurationActivity : AppCompatActivity() {
                 Intent(this, MainActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    finish()
                     startActivity(this)
                 }
             }

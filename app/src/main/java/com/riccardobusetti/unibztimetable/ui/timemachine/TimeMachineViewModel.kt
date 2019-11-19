@@ -69,9 +69,9 @@ class TimeMachineViewModel(
         toDate: String,
         page: String
     ) = getIntervalDateTimetableUseCase.getTimetableInInterval(
-        userPrefs.prefs[UserPrefs.Pref.DEPARTMENT_ID] ?: "",
-        userPrefs.prefs[UserPrefs.Pref.DEGREE_ID] ?: "",
-        userPrefs.prefs[UserPrefs.Pref.STUDY_PLAN_ID] ?: "",
+        userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_ID),
+        userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_ID),
+        userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),
         fromDate,
         toDate,
         page
