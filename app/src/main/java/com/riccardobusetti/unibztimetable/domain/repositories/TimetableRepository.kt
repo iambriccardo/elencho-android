@@ -7,6 +7,7 @@ import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy
 import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
 import com.riccardobusetti.unibztimetable.utils.DateUtils
+import com.riccardobusetti.unibztimetable.utils.exceptions.InternetNotAvailableException
 import kotlinx.coroutines.flow.flow
 
 /**
@@ -33,9 +34,9 @@ class TimetableRepository(
         Log.d(TAG, "Data queried from the database -> $localTimetable")
 
         // Checking if the timetable saved on the database is of the same day.
-        if (localTimetable.isNotEmpty() &&
-            !isLocalTodayTimetableOld(localTimetable)
-        ) {
+        val showLocalData = localTimetable.isNotEmpty() && !isLocalTodayTimetableOld(localTimetable)
+
+        if (showLocalData) {
             // We emit the local timetable first, so the user doesn't have to wait for the remote
             // data to be loaded.
             Log.d(TAG, "Emittig timetable from the database.")
@@ -53,6 +54,8 @@ class TimetableRepository(
                 localTimetableStrategy.deleteTimetable(appSection)
                 localTimetableStrategy.insertTimetable(appSection, remoteTimetable)
             }
+        } else if (!isInternetAvailable && !showLocalData) {
+            throw InternetNotAvailableException()
         }
     }
 

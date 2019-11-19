@@ -42,5 +42,8 @@
     <!-- Preferences -->
     <string name="preference_category_personalization_title">Personalizzazione</string>
     <string name="preference_configuration_title">Configura l\'app</string>
-    <string name="preference_configuration_summary">Configura l\'app per una migliore esperienza</string>
+    <string name="preference_configuration_summary">Configura l\'applicazione per visualizzare i tuoi corsi.</string>
+    <string name="preference_category_information_title">Informazioni</string>
+    <string name="preference_contact_title">Contatta sviluppatore</string>
+    <string name="preference_contact_summary">Questa applicazione è stata create da Riccardo Busetti, per qualsiasi domanda sentiti libero di contattarmi.</string>
 </resources>

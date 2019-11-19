@@ -114,14 +114,10 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         }
 
         recyclerView = fragment_time_machine_recycler_view
+
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = groupAdapter
-//            onEndReached { currentPage ->
-//                model?.let {
-//                    it.currentPage.value = currentPage
-//                }
-//            }
         }
 
         floatingActionButton = fragment_time_machine_fab

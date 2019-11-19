@@ -11,4 +11,16 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/preference_category_information_title">
+
+        <Preference
+            android:icon="@drawable/ic_email"
+            android:key="preference_contact"
+            android:summary="@string/preference_contact_summary"
+            android:title="@string/preference_contact_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="This application is still under development, so please be patient, new features will be added soon." />
+
 </PreferenceScreen>

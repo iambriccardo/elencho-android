@@ -43,18 +43,20 @@ abstract class AdvancedFragment<ViewModel> : Fragment() {
      */
     protected var model: ViewModel? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        model = initModel()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        model = initModel()
+
         setupUi()
+
         attachObservers()
-        if (savedInstanceState == null) loadData()
+
+        if (savedInstanceState != null) {
+            if (!savedInstanceState.getBoolean(IS_DEVICE_ROTATED_KEY)) loadData()
+        } else {
+            loadData()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
