@@ -12,6 +12,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -27,7 +28,6 @@ import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_configuration.*
 import kotlinx.android.synthetic.main.bottom_sheet_url_listen.view.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -134,23 +134,22 @@ class ConfigurationActivity : AppCompatActivity() {
     ) {
         when (configuration) {
             ConfigurationViewModel.Configuration.STUDY_PLAN -> {
-                // TODO: change coroutine scope from Global to Activity specific.
-                GlobalScope.launch(Dispatchers.Main) {
+                model.viewModelScope.launch(Dispatchers.Main) {
                     showUrlReading()
 
                     bottomSheetDialog.show()
 
-                    delay(1000)
+                    delay(500)
 
                     if (checkClipboardContent()) {
                         showUrlReadingSuccess()
                         successful(true)
+                        delay(1000)
                     } else {
                         showUrlReadingError()
                         successful(false)
+                        delay(5000)
                     }
-
-                    delay(5000)
 
                     bottomSheetDialog.hide()
                 }
@@ -164,9 +163,11 @@ class ConfigurationActivity : AppCompatActivity() {
         val clipData = clipboard.primaryClip
         val clipDescription = clipboard.primaryClipDescription
 
-        if (clipDescription!!.hasMimeType(MIMETYPE_TEXT_PLAIN)) {
-            if (model.handleStudyPlanConfiguration("${clipData!!.getItemAt(0).text}")) {
-                return true
+        if (clipData != null && clipDescription != null) {
+            if (clipDescription.hasMimeType(MIMETYPE_TEXT_PLAIN)) {
+                if (model.handleStudyPlanConfiguration("${clipData.getItemAt(0).text}")) {
+                    return true
+                }
             }
         }
 

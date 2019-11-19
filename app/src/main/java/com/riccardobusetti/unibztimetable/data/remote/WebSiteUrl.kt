@@ -26,7 +26,7 @@ class WebSiteUrl private constructor(val url: String) {
         private const val TO_DATE_URL_PARAM = "toDate"
         private const val PAGE_URL_PARAM = "page"
 
-        const val DEFAULT_URL_PARAM_VALUE = "-1"
+        const val DEFAULT_URL_PARAM_VALUE = ""
 
         /**
          * Parses the url in order to get information about the selected study plan.

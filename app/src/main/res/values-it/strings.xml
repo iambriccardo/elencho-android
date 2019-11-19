@@ -25,7 +25,7 @@
 
     <!-- Configurations -->
     <string name="configuration_study_plan_title">Configura il tuo piano di studi</string>
-    <string name="configuration_study_plan_description">Per poter usare questa app dovrai selezionare il piano di studi di cui vuoi vedere l\'orario.</string>
+    <string name="configuration_study_plan_description">Per poter usare questa app dovrai selezionare il tuo piano di studi.</string>
 
     <!-- Dialogs -->
     <string name="study_plan_dialog_title">Seleziona il tuo piano di studi</string>
