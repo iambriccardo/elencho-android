@@ -11,7 +11,8 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.utils.CanteenWebViewClient
+import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
+import com.riccardobusetti.unibztimetable.utils.custom.StrictWebViewClient
 import kotlinx.android.synthetic.main.fragment_canteen.*
 
 
@@ -33,10 +34,16 @@ class CanteenFragment : Fragment() {
         setupUi()
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     private fun setupUi() {
         webView = fragment_canteen_web_view
+        applyWebViewSettings()
+        webView.loadUrl(WebSiteUrl.BASE_CANTEEN_URL)
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun applyWebViewSettings() {
         webView.settings.javaScriptEnabled = true
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val nightModeFlags = resources.configuration.uiMode and UI_MODE_NIGHT_MASK
 
@@ -46,9 +53,10 @@ class CanteenFragment : Fragment() {
                 webView.settings.forceDark = WebSettings.FORCE_DARK_OFF
             }
         }
-        webView.webViewClient = CanteenWebViewClient(context!!)
 
-        webView.loadUrl(CanteenWebViewClient.CANTEEN_URL)
+        webView.webViewClient = StrictWebViewClient(
+            context!!,
+            listOf(WebSiteUrl.CANTEEN_URL_REGEX)
+        )
     }
-
 }

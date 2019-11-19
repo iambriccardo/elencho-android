@@ -3,6 +3,7 @@ package com.riccardobusetti.unibztimetable.data.remote
 import android.net.Uri
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.utils.DateUtils
+import com.riccardobusetti.unibztimetable.utils.StringUtils
 
 /**
  * Class responsible of building a url to get the timetable from the unibz
@@ -28,6 +29,12 @@ class WebSiteUrl private constructor(val url: String) {
 
         const val DEFAULT_URL_PARAM_VALUE = ""
 
+        const val BASE_TIMETABLE_URL = "$BASE_URL/en/$TIMETABLE_URL_PATH"
+        const val BASE_CANTEEN_URL = "https://unibz.markas.info/menu"
+
+        const val TIMETABLE_URL_REGEX = "(https://www.unibz.it/)..(/timetable)"
+        const val CANTEEN_URL_REGEX = "(https://unibz.markas.info/menu)"
+
         /**
          * Parses the url in order to get information about the selected study plan.
          */
@@ -47,7 +54,7 @@ class WebSiteUrl private constructor(val url: String) {
         }
 
         private fun validateUrl(url: String) =
-            url.contains(BASE_URL) && url.contains(TIMETABLE_URL_PATH)
+            StringUtils.isMatchingPartially(TIMETABLE_URL_REGEX, url)
     }
 
     /**

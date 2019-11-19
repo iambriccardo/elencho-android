@@ -46,4 +46,9 @@
     <string name="preference_category_information_title">Informazioni</string>
     <string name="preference_contact_title">Contatta sviluppatore</string>
     <string name="preference_contact_summary">Questa applicazione è stata create da Riccardo Busetti, per qualsiasi domanda sentiti libero di contattarmi.</string>
+
+    <!-- WebViewBottomSheet -->
+    <string name="copy_link">Copia link</string>
+    <string name="website_loading">Il sito si sta caricando…</string>
+    <string name="error_while_reading_link">Errore durante la lettura del link, riprova.</string>
 </resources>

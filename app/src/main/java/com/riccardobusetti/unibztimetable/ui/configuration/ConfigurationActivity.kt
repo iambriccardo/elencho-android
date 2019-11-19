@@ -1,35 +1,33 @@
 package com.riccardobusetti.unibztimetable.ui.configuration
 
-import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
-import android.content.ClipboardManager
-import android.content.Context
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import android.view.View
+import android.webkit.WebView
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.riccardobusetti.unibztimetable.R
+import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.items.ConfigurationItem
 import com.riccardobusetti.unibztimetable.ui.main.MainActivity
+import com.riccardobusetti.unibztimetable.utils.ScreenUtils
+import com.riccardobusetti.unibztimetable.utils.custom.StrictWebViewClient
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_configuration.*
-import kotlinx.android.synthetic.main.bottom_sheet_url_listen.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.bottom_sheet_timetable_web_view.view.*
 
 
 class ConfigurationActivity : AppCompatActivity() {
@@ -39,10 +37,13 @@ class ConfigurationActivity : AppCompatActivity() {
     private lateinit var model: ConfigurationViewModel
 
     private lateinit var bottomSheetView: View
+    private lateinit var webView: WebView
+    private lateinit var webViewProgressBar: ProgressBar
+    private lateinit var copyButton: Button
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var recyclerView: RecyclerView
     private lateinit var saveButton: Button
-    private lateinit var progressBar: ProgressBar
+    private lateinit var configurationProgressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,9 +74,9 @@ class ConfigurationActivity : AppCompatActivity() {
         model.loading.observe(this, Observer { isLoading ->
             if (isLoading) {
                 hideSaveButton()
-                showProgressBar()
+                showConfigurationLoading()
             } else {
-                hideProgressBar()
+                hideConfigurationLoading()
             }
         })
 
@@ -99,11 +100,19 @@ class ConfigurationActivity : AppCompatActivity() {
     }
 
     private fun setupUi() {
-        bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_url_listen, null)
-        bottomSheetView.bottom_sheet_url_listen_description.movementMethod =
-            LinkMovementMethod.getInstance()
+        bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_timetable_web_view, null)
+
+        webView = bottomSheetView.bottom_sheet_timetable_web_view_web_view
+        applyWebViewSettings(webView)
+        webView.loadUrl(WebSiteUrl.BASE_TIMETABLE_URL)
+
+        webViewProgressBar = bottomSheetView.bottom_sheet_timetable_web_view_progress
+
+        copyButton = bottomSheetView.bottom_sheet_timetable_web_view_copy_link
 
         bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetDialog.behavior.peekHeight = ScreenUtils.getScreenHeight(this)
+        bottomSheetDialog.behavior.isHideable = false
         bottomSheetDialog.setContentView(bottomSheetView)
 
         recyclerView = activity_configuration_recycler_view
@@ -117,7 +126,23 @@ class ConfigurationActivity : AppCompatActivity() {
             model.putUserPrefs()
         }
 
-        progressBar = activity_configuration_progress_bar
+        configurationProgressBar = activity_configuration_progress_bar
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun applyWebViewSettings(webView: WebView) {
+        webView.settings.javaScriptEnabled = true
+        webView.settings.domStorageEnabled = true
+        webView.overScrollMode = WebView.OVER_SCROLL_NEVER
+
+        val client = StrictWebViewClient(this, listOf(WebSiteUrl.TIMETABLE_URL_REGEX))
+        client.listenForProgress({
+            showWebViewLoading()
+        }, {
+            hideWebViewLoading()
+        })
+
+        webView.webViewClient = client
     }
 
     private fun loadConfigurations() {
@@ -134,44 +159,23 @@ class ConfigurationActivity : AppCompatActivity() {
     ) {
         when (configuration) {
             ConfigurationViewModel.Configuration.STUDY_PLAN -> {
-                model.viewModelScope.launch(Dispatchers.Main) {
-                    showUrlReading()
+                bottomSheetDialog.show()
 
-                    bottomSheetDialog.show()
+                copyButton.setOnClickListener {
+                    val result = model.handleStudyPlanConfiguration(webView.url)
+                    successful(result)
 
-                    delay(500)
-
-                    if (checkClipboardContent()) {
-                        showUrlReadingSuccess()
-                        successful(true)
-                        delay(1000)
+                    if (result) {
+                        bottomSheetDialog.hide()
                     } else {
-                        showUrlReadingError()
-                        successful(false)
-                        delay(5000)
+                        Toast.makeText(this, R.string.error_while_reading_link, Toast.LENGTH_SHORT)
+                            .show()
                     }
 
-                    bottomSheetDialog.hide()
+                    copyButton.setOnClickListener(null)
                 }
             }
         }
-    }
-
-    private fun checkClipboardContent(): Boolean {
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
-        val clipData = clipboard.primaryClip
-        val clipDescription = clipboard.primaryClipDescription
-
-        if (clipData != null && clipDescription != null) {
-            if (clipDescription.hasMimeType(MIMETYPE_TEXT_PLAIN)) {
-                if (model.handleStudyPlanConfiguration("${clipData.getItemAt(0).text}")) {
-                    return true
-                }
-            }
-        }
-
-        return false
     }
 
     private fun showSaveButton() {
@@ -182,34 +186,23 @@ class ConfigurationActivity : AppCompatActivity() {
         saveButton.visibility = View.GONE
     }
 
-    private fun showProgressBar() {
-        progressBar.visibility = View.VISIBLE
+    private fun showConfigurationLoading() {
+        configurationProgressBar.visibility = View.VISIBLE
     }
 
-    private fun hideProgressBar() {
-        progressBar.visibility = View.GONE
+    private fun hideConfigurationLoading() {
+        configurationProgressBar.visibility = View.GONE
     }
 
-    private fun showUrlReading() {
-        bottomSheetView.bottom_sheet_url_listen_title.text = getString(R.string.listen_url_title)
-        bottomSheetView.bottom_sheet_url_listen_description.text =
-            getString(R.string.listen_url_description)
-        bottomSheetView.bottom_sheet_url_listen_progress_bar.visibility = View.VISIBLE
+    private fun showWebViewLoading() {
+        webViewProgressBar.visibility = View.VISIBLE
+        copyButton.setText(R.string.website_loading)
+        copyButton.isEnabled = false
     }
 
-    private fun showUrlReadingSuccess() {
-        bottomSheetView.bottom_sheet_url_listen_title.text =
-            getString(R.string.listen_url_description_success)
-        bottomSheetView.bottom_sheet_url_listen_description.text =
-            getString(R.string.listen_url_description_success)
-        bottomSheetView.bottom_sheet_url_listen_progress_bar.visibility = View.GONE
-    }
-
-    private fun showUrlReadingError() {
-        bottomSheetView.bottom_sheet_url_listen_title.text =
-            getString(R.string.listen_url_title_error)
-        bottomSheetView.bottom_sheet_url_listen_description.text =
-            getString(R.string.listen_url_description_error)
-        bottomSheetView.bottom_sheet_url_listen_progress_bar.visibility = View.GONE
+    private fun hideWebViewLoading() {
+        webViewProgressBar.visibility = View.GONE
+        copyButton.setText(R.string.copy_link)
+        copyButton.isEnabled = true
     }
 }

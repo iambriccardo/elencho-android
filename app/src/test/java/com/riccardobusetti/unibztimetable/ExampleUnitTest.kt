@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import java.util.regex.Pattern
+
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -29,6 +31,13 @@ class ExampleUnitTest {
 
     @Test
     fun check_current_locale() {
-        println(Locale.getDefault().language)
+        val REGEX = "(https://www.unibz.it/)..(/timetable)"
+        val regex = Regex(REGEX)
+
+        val p = Pattern.compile(REGEX)
+        val m = p.matcher("https://www.unibz.it/timetable")
+
+
+        println(m.find())
     }
 }

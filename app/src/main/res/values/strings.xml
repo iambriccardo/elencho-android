@@ -46,4 +46,9 @@
     <string name="preference_category_information_title">Information</string>
     <string name="preference_contact_title">Contact developer</string>
     <string name="preference_contact_summary">This application was developed by Riccardo Busetti, if you have any questions feel free to contact me.</string>
+
+    <!-- WebViewBottomSheet -->
+    <string name="copy_link">Copy link</string>
+    <string name="website_loading">The website is loading…</string>
+    <string name="error_while_reading_link">Error while reading link, try again.</string>
 </resources>
