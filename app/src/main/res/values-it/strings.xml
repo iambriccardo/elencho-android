@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Orario</string>
+    <string name="app_name">Unibz timetable</string>
 
     <!-- BottomNavigation -->
     <string name="bottom_navigation_today">Oggi</string>
