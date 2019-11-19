@@ -159,6 +159,7 @@ class ConfigurationActivity : AppCompatActivity() {
     ) {
         when (configuration) {
             ConfigurationViewModel.Configuration.STUDY_PLAN -> {
+                Toast.makeText(this, R.string.copy_link_tutorial, Toast.LENGTH_LONG).show()
                 bottomSheetDialog.show()
 
                 copyButton.setOnClickListener {

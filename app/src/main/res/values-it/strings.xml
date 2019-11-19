@@ -31,14 +31,6 @@
     <string name="study_plan_dialog_title">Seleziona il tuo piano di studi</string>
     <string name="study_plan_dialog_hint">Incolla l\'url del piano di studi</string>
 
-    <!-- UrlListenBottomSheet -->
-    <string name="listen_url_title">Sto leggendo l\'url…</string>
-    <string name="listen_url_description">Sto leggendo l\'url, dammi un secondo.</string>
-    <string name="listen_url_success">Lettura url avvenuta con successo</string>
-    <string name="listen_url_description_success">Ora sei apposto, continua la configurazione.</string>
-    <string name="listen_url_title_error">Lettura url non avvenuta</string>
-    <string name="listen_url_description_error">Vai su <a href="https://www.unibz.it/en/timetable">unibz.it/timetable</a>, seleziona il tuo corso, copia l\'url e torna su questa app.</string>
-
     <!-- Preferences -->
     <string name="preference_category_personalization_title">Personalizzazione</string>
     <string name="preference_configuration_title">Configura l\'app</string>
@@ -51,4 +43,5 @@
     <string name="copy_link">Copia link</string>
     <string name="website_loading">Il sito si sta caricando…</string>
     <string name="error_while_reading_link">Errore durante la lettura del link, riprova.</string>
+    <string name="copy_link_tutorial">Cerca il tuo orario e premi il pulsante sottostante.</string>
 </resources>
