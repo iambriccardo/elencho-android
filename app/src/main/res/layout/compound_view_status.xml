@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             tools:text="You don't have any lessons, enjoy!" />
 
     </LinearLayout>
