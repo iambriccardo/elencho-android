@@ -82,6 +82,7 @@ class ConfigurationActivity : AppCompatActivity() {
 
         model.success.observe(this, Observer { isSuccessful ->
             if (isSuccessful) {
+                // TODO: check [Activity com.riccardobusetti.unibztimetable.ui.configuration.ConfigurationActivity has leaked window DecorView@f9ce725[ConfigurationActivity] that was originally added here]
                 Intent(this, MainActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
