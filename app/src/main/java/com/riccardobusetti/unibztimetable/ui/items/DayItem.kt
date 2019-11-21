@@ -1,5 +1,6 @@
 package com.riccardobusetti.unibztimetable.ui.items
 
+import android.view.View
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.Day
 import com.xwray.groupie.GroupieViewHolder
@@ -14,7 +15,10 @@ class DayItem(
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.apply {
-            this.item_day_date.text = day.date
+            this.item_day_date.text = day.description ?: day.date
+            day.isNow?.let {
+                this.item_day_lottie_view.visibility = if (it) View.VISIBLE else View.GONE
+            }
         }
     }
 }

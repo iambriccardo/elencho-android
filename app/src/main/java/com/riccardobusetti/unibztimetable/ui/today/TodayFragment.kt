@@ -45,7 +45,7 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
             this,
             TodayViewModelFactory(
                 context!!,
-                GetTodayTimetableUseCase(timetableRepository),
+                GetTodayTimetableUseCase(context!!, timetableRepository),
                 GetUserPrefsUseCase(userPrefsRepository)
             )
         ).get(TodayViewModel::class.java)
@@ -57,6 +57,12 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
         savedInstanceState: Bundle?
     ): View {
         return inflater.inflate(R.layout.fragment_today, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        loadTimetable()
     }
 
     override fun setupUi() {
@@ -100,7 +106,9 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
         }
     }
 
-    override fun loadData() {
+    override fun loadData() {}
+
+    private fun loadTimetable() {
         model?.loadTodayTimetable(model?.currentPage?.value!!)
     }
 

@@ -44,4 +44,8 @@
     <string name="website_loading">Il sito si sta caricando…</string>
     <string name="error_while_reading_link">Errore durante la lettura del link, riprova.</string>
     <string name="copy_link_tutorial">Cerca il tuo orario e premi il pulsante sottostante.</string>
+
+    <!-- ListHeaders -->
+    <string name="now">Ora</string>
+    <string name="upcoming_lectures">Prossime lezioni</string>
 </resources>

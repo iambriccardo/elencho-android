@@ -44,4 +44,8 @@
     <string name="website_loading">The website is loading…</string>
     <string name="error_while_reading_link">Error while reading link, try again.</string>
     <string name="copy_link_tutorial">Search for your timetable and then press the button below.</string>
+
+    <!-- ListHeaders -->
+    <string name="now">Now</string>
+    <string name="upcoming_lectures">Upcoming lectures</string>
 </resources>

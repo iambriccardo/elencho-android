@@ -1,5 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.usecases
 
+import android.content.Context
+import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.Course
@@ -16,6 +18,7 @@ import kotlinx.coroutines.flow.map
  * @author Riccardo Busetti
  */
 class GetTodayTimetableUseCase(
+    private val context: Context,
     private val timetableRepository: TimetableRepository
 ) : UseCase {
 
@@ -55,8 +58,15 @@ class GetTodayTimetableUseCase(
             page,
             isInternetAvailable
         ).map { newTimetable ->
-            newTimetable.map { day ->
-                Day(day.date, day.courses.map {
+            newTimetable.flatMap { day ->
+                day.courses.filter {
+                    !DateUtils.isCourseFinished(
+                        DateUtils.mergeDayAndCourseTimeData(
+                            day.date,
+                            it.getEndTime()
+                        )
+                    )
+                }.map {
                     Course(
                         it.time,
                         it.title,
@@ -68,14 +78,20 @@ class GetTodayTimetableUseCase(
                             DateUtils.mergeDayAndCourseTimeData(day.date, it.getEndTime())
                         )
                     )
-                }.filter {
-                    !DateUtils.isCourseFinished(
-                        DateUtils.mergeDayAndCourseTimeData(
+                }.groupBy {
+                    it.isOngoing
+                }.map {
+                    if (it.key) {
+                        Day(day.date, it.value, context.getString(R.string.now), true)
+                    } else {
+                        Day(
                             day.date,
-                            it.getEndTime()
+                            it.value,
+                            context.getString(R.string.upcoming_lectures),
+                            false
                         )
-                    )
-                })
+                    }
+                }
             }.filter { it.courses.isNotEmpty() }
         }
 }
