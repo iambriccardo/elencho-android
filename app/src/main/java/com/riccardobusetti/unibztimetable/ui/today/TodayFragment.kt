@@ -97,9 +97,8 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
             it.loadingState.observe(this, Observer { loadingState ->
                 when (loadingState) {
-                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH,
-                    TimetableViewModel.TimetableLoadingState.LOADING_WITH_DATA -> skeleton.show()
-                    TimetableViewModel.TimetableLoadingState.NOT_LOADING -> skeleton.hide()
+                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH -> skeleton.show()
+                    TimetableViewModel.TimetableLoadingState.LOADING_WITH_DATA, TimetableViewModel.TimetableLoadingState.NOT_LOADING -> skeleton.hide()
                     else -> skeleton.hide()
                 }
             })
