@@ -26,6 +26,9 @@
 
         <activity android:name=".ui.configuration.ConfigurationActivity" />
 
+        <service
+            android:name=".services.TodayTimetableIntentService"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -59,6 +59,16 @@ class TimetableRepository(
         }
     }
 
+    fun updateLocalTimetable(
+        appSection: AppSection,
+        webSiteUrl: WebSiteUrl
+    ) {
+        val remoteTimetable = remoteTimetableStrategy.getTimetable(webSiteUrl)
+        localTimetableStrategy.deleteTimetable(appSection)
+        localTimetableStrategy.insertTimetable(appSection, remoteTimetable)
+    }
+
+    // TODO: now in the DB the date is memorized without the year, this leads to some issues.
     private fun isLocalTodayTimetableOld(localTimetable: List<Day>) =
         DateUtils.isDayPassed(
             DateUtils.mergeDayAndCourseTimeData(

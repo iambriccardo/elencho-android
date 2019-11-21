@@ -7,9 +7,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.Day
-import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 
@@ -51,13 +49,6 @@ abstract class TimetableViewModel : AdvancedViewModel() {
     companion object {
         const val DEFAULT_PAGE = "1"
     }
-
-    /**
-     * Safely gets a value from a map and returns the default url parameter value if the map
-     * doesn't contain a specific preference.
-     */
-    fun Map<UserPrefs.Pref, String>.safeGet(pref: UserPrefs.Pref) =
-        this[pref] ?: WebSiteUrl.DEFAULT_URL_PARAM_VALUE
 
     /**
      * Live data object containing the timetable which has been loaded.
