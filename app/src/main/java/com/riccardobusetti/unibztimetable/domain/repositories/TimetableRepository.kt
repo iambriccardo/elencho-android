@@ -30,7 +30,7 @@ class TimetableRepository(
         webSiteUrl: WebSiteUrl,
         isInternetAvailable: Boolean = true
     ) = flow {
-        val localTimetable = localTimetableStrategy.getTimetable(appSection)
+        val localTimetable = getLocalTimetable(appSection)
         Log.d(TAG, "Data queried from the database -> $localTimetable")
 
         // Checking if the timetable saved on the database is of the same day.
@@ -44,7 +44,7 @@ class TimetableRepository(
         }
 
         if (isInternetAvailable) {
-            val remoteTimetable = remoteTimetableStrategy.getTimetable(webSiteUrl)
+            val remoteTimetable = getRemoteTimetable(webSiteUrl)
 
             Log.d(TAG, "Emittig timetable from remote.")
             emit(remoteTimetable)
@@ -59,11 +59,15 @@ class TimetableRepository(
         }
     }
 
+    fun getLocalTimetable(appSection: AppSection) = localTimetableStrategy.getTimetable(appSection)
+
+    fun getRemoteTimetable(webSiteUrl: WebSiteUrl) = remoteTimetableStrategy.getTimetable(webSiteUrl)
+
     fun updateLocalTimetable(
         appSection: AppSection,
         webSiteUrl: WebSiteUrl
     ) {
-        val remoteTimetable = remoteTimetableStrategy.getTimetable(webSiteUrl)
+        val remoteTimetable = getRemoteTimetable(webSiteUrl)
         localTimetableStrategy.deleteTimetable(appSection)
         localTimetableStrategy.insertTimetable(appSection, remoteTimetable)
     }

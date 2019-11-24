@@ -13,6 +13,10 @@ import androidx.room.PrimaryKey
  *
  * When querying data, then the [LocalTimetableStrategy] class will be responsible of entity mapping
  * between [Lecture] and [List] of [Day].
+ *
+ * For info about the db migration look here: https://developer.android.com/training/data-storage/room/migrating-db-versions
+ *
+ * @author Riccardo Busetti
  */
 @Entity(tableName = "timetable")
 data class Lecture(

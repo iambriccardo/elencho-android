@@ -44,6 +44,9 @@ class GetTodayTimetableUseCase(
         return timetableRepository.getTimetable(AppSection.TODAY, websiteUrl, isInternetAvailable)
     }
 
+    /**
+     * Gets the today timetable and formats it to show ongoing courses.
+     */
     fun getTodayTimetableWithOnGoingCourse(
         department: String,
         degree: String,
@@ -94,4 +97,9 @@ class GetTodayTimetableUseCase(
                 }
             }.filter { it.courses.isNotEmpty() }
         }
+
+    /**
+     * Gets the local timetable for today.
+     */
+    fun getLocalTodayTimetable() = timetableRepository.getLocalTimetable(AppSection.TODAY)
 }

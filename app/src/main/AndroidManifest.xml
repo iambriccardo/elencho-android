@@ -27,8 +27,15 @@
         <activity android:name=".ui.configuration.ConfigurationActivity" />
 
         <service
-            android:name=".services.TodayTimetableIntentService"
+            android:name=".services.UpdateTodayTimetableIntentService"
+            android:enabled="true"
             android:exported="false" />
+
+        <service
+            android:name=".services.ShowTodayTimetableIntentService"
+            android:enabled="true"
+            android:exported="false" />
+
     </application>
 
 </manifest>

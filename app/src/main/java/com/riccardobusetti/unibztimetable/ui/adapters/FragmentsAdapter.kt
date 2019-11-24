@@ -10,12 +10,12 @@ import com.riccardobusetti.unibztimetable.ui.main.MainActivity
  * @author Riccardo Busetti
  */
 class FragmentsAdapter(
-    private val indexableFragments: List<MainActivity.IndexableFragment>,
+    private val appFragments: List<MainActivity.AppFragment>,
     fragmentManager: FragmentManager
 ) : FragmentPagerAdapter(fragmentManager) {
 
     override fun getItem(position: Int) =
-        indexableFragments.find { it.index == position }!!.fragment
+        appFragments.find { it.index == position }!!.fragment
 
-    override fun getCount() = indexableFragments.size
+    override fun getCount() = appFragments.size
 }

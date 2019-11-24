@@ -15,8 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-class TodayTimetableIntentService :
-    IntentService(TodayTimetableIntentService::class.java.simpleName) {
+
+class UpdateTodayTimetableIntentService :
+    IntentService(UpdateTodayTimetableIntentService::class.java.simpleName) {
 
     private val getUserPrefsUseCase = GetUserPrefsUseCase(
         UserPrefsRepository(
@@ -38,6 +39,9 @@ class TodayTimetableIntentService :
                 updateTodayTimetable(getUserPrefs())
             }
         }
+
+        val intent = Intent(this, ShowTodayTimetableIntentService::class.java)
+        startService(intent)
     }
 
     private suspend fun getUserPrefs() = withContext(Dispatchers.IO) {
