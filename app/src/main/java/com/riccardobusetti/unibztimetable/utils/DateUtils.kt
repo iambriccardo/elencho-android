@@ -59,6 +59,9 @@ object DateUtils {
         return "${getCurrentDateFormatted()} $minutes"
     }
 
+    fun getCurrentLocalDateTime(isMidnight: Boolean = false): LocalDateTime =
+        parseLocalDateTime(getCurrentTimeFormatted(isMidnight), LOCAL_CALENDAR_FORMAT)
+
     fun getCurrentDatePlusDaysFormatted(days: Int) =
         formatDateToString((getCurrentCalendar() addDays days).time)
 
@@ -84,22 +87,16 @@ object DateUtils {
         return dateFormatter.parse(date)
     }
 
-    fun mergeDayAndCourseTimeData(dayDate: String, courseTime: String) =
-        "$dayDate ${getCurrentCalendar().get(Calendar.YEAR)} $courseTime"
-
-    fun convertCourseDate(date: String, time: String): LocalDateTime {
-        val dateTime = "$date ${getCurrentYear()} $time"
-        val dateFormatter = DateTimeFormatter.ofPattern(WEBSITE_DATE_FORMAT, Locale.ENGLISH)
-
-        return LocalDateTime.parse(dateTime, dateFormatter)
-    }
-
-    fun getCurrentLocalDateTime(isMidnight: Boolean = false): LocalDateTime =
-        parseLocalDateTime(getCurrentTimeFormatted(isMidnight), LOCAL_CALENDAR_FORMAT)
-
     private fun parseLocalDateTime(date: String, pattern: String): LocalDateTime =
         LocalDateTime.parse(date, getDateTimeFormatter(pattern))
 
     private fun getDateTimeFormatter(pattern: String): DateTimeFormatter =
         DateTimeFormatter.ofPattern(pattern, getDefaultLocaleGuarded())
+
+    fun convertCourseDate(date: String, year: Int = getCurrentYear(), time: String): LocalDateTime {
+        val dateTime = "$date $year $time"
+        val dateFormatter = DateTimeFormatter.ofPattern(WEBSITE_DATE_FORMAT, Locale.ENGLISH)
+
+        return LocalDateTime.parse(dateTime, dateFormatter)
+    }
 }

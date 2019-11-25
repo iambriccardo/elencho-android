@@ -116,15 +116,18 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
         //  Mathematics II
         // These two courses are on the same class but on the HTML the location is only contained once.
         var prevRoom = "Error while getting location"
+        val currentYear = DateUtils.getCurrentYear()
 
         return day.selectAllCourses().map { course ->
             val mappedCourse = Kourse(
                 startDateTime = convertDate(
                     day.selectDayDateFormatted(),
+                    currentYear,
                     course.selectCourseStartTime()
                 ),
                 endDateTime = convertDate(
                     day.selectDayDateFormatted(),
+                    currentYear,
                     course.selectCourseEndTime()
                 ),
                 room = if (course.selectCourseRoom().isBlank()) prevRoom else course.selectCourseRoom(),
@@ -154,7 +157,20 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
     /**
      * Converts the course date and time into a [LocalDateTime] object that will contain all
      * the necessary information.
+     *
+     * If an exception is thrown it means that we are converting a date from the next year, thus
+     * we call recursively the function with another year. We will stop the recursion when we tried
+     * the next year only.
+     *
+     * So if the 2019 will fail we will use 2020 and if it doesn't work we return [LocalDateTime.MIN].
      */
-    private fun convertDate(date: String, time: String): LocalDateTime =
-        DateUtils.convertCourseDate(date, time)
+    private fun convertDate(date: String, year: Int, time: String): LocalDateTime {
+        try {
+            if (year > DateUtils.getCurrentYear() + 1) return LocalDateTime.MIN
+
+            return DateUtils.convertCourseDate(date, year, time)
+        } catch (e: Exception) {
+            return DateUtils.convertCourseDate(date, (year + 1), time)
+        }
+    }
 }
