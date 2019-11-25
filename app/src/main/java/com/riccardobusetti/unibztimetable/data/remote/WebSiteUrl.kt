@@ -4,6 +4,7 @@ import android.net.Uri
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.riccardobusetti.unibztimetable.utils.StringUtils
+import java.util.*
 
 /**
  * Class responsible of building a url to get the timetable from the unibz
@@ -84,7 +85,7 @@ class WebSiteUrl private constructor(val url: String) {
         private fun getTodayDate() = DateUtils.getCurrentDateFormatted()
 
         fun useDeviceLanguage() =
-            apply { this.language = DateUtils.getDefaultLocaleGuarded().language }
+            apply { this.language = Locale.ENGLISH.language }
 
         fun withSearchKeywords(searchByKeywords: String) =
             apply { this.searchByKeywords = searchByKeywords }

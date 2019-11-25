@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Unibz Timetable</string>
+
+    <!-- BottomNavigation -->
+    <string name="bottom_navigation_today">Heute</string>
+    <string name="bottom_navigation_next_7_days">Nächste 7 Tage</string>
+    <string name="bottom_navigation_time_machine">Zeitmaschine</string>
+    <string name="bottom_navigation_canteen">Kantine Menü</string>
+    <string name="bottom_navigation_settings">Einstellungen</string>
+
+    <!-- Errors -->
+    <string name="empty_timetable">Du bist glücklich, du hast keine Kurse, viel spaß!</string>
+    <string name="error_while_getting_timetable">Ein Fehler ist aufgetreten und der Studentplan kann nicht angezeigt werden.</string>
+
+    <!-- DateIntervalBottomSheet -->
+    <string name="from_date">Startdatum</string>
+    <string name="to_date">Enddatum</string>
+    <string name="choose_date_interval">Wählen Sie ein Zeitintervall</string>
+    <string name="time_travel">Zeitreise</string>
+
+    <!-- ConfigurationActivity -->
+    <string name="configure_app_header">Lässt uns die App in wenigen Schritten konfigurieren</string>
+    <string name="configure_app_description">Dieser Prozess ist notwendig, damit die App funktioniert. Keine Sorge, es wird nur ein paar Minuten dauern.</string>
+    <string name="save_configuration">Einstellungen speichern</string>
+
+    <!-- Configurations -->
+    <string name="configuration_study_plan_title">Erstellen Sie Ihren Studienplan</string>
+    <string name="configuration_study_plan_description">Um die Anwendung nutzen zu können, müssen Sie Ihren Studienplan auswählen.</string>
+
+    <!-- Dialogs -->
+    <string name="study_plan_dialog_title">Um die Anwendung nutzen zu können, müssen Sie Ihren Studienplan auswählen</string>
+    <string name="study_plan_dialog_hint">Fügen Sie die Zeitplan-URL ein</string>
+
+    <!-- Preferences -->
+    <string name="preference_category_personalization_title">Personalisierung</string>
+    <string name="preference_configuration_title">Konfigurieren der App</string>
+    <string name="preference_configuration_summary">Konfigurieren Sie die Anwendung, um die Kurse für Ihren Studienplan anzuzeigen.</string>
+    <string name="preference_category_information_title">Informationen</string>
+    <string name="preference_contact_title">Entwickler kontaktieren</string>
+    <string name="preference_contact_summary">Diese Anwendung wurde von Riccardo Busetti entwickelt, wenn Sie Fragen haben, können Sie mich gerne kontaktieren.</string>
+
+    <!-- WebViewBottomSheet -->
+    <string name="copy_link">Link kopieren</string>
+    <string name="website_loading">Die Website wird gerade geladen…</string>
+    <string name="error_while_reading_link">Fehler beim Lesen des Links, versuchen Sie es erneut.</string>
+    <string name="copy_link_tutorial">Suchen Sie nach Ihrem Fahrplan und klicken Sie dann auf den untenstehenden Button.</string>
+
+    <!-- ListHeaders -->
+    <string name="now">Jetzt</string>
+    <string name="upcoming_lectures">Nächste Vorträge</string>
+</resources>

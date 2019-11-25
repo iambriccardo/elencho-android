@@ -1,5 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.entities
 
+import com.riccardobusetti.unibztimetable.utils.DateUtils
+
 data class DisplayableCourseGroup(
     val title: String,
     val isNow: Boolean = false,
@@ -25,6 +27,6 @@ data class DisplayableCourseGroup(
             }
 
         private fun defaultGrouping(course: Course) =
-            "${course.endDateTime.dayOfMonth} ${course.endDateTime.month} ${course.endDateTime.year}"
+            DateUtils.formatLocalDateTime(course.startDateTime, "EEEE, dd MMM")
     }
 }

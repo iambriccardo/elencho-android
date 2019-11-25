@@ -29,6 +29,7 @@ class TimetableRepository(
         webSiteUrl: WebSiteUrl,
         isInternetAvailable: Boolean = true
     ) = flow {
+        // TODO: handle DB related error.
         val localTimetable = getLocalTimetable(appSection)
         Log.d(TAG, "Data queried from the database -> $localTimetable")
 

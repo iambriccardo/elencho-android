@@ -16,6 +16,7 @@ import com.ethanhua.skeleton.SkeletonScreen
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.riccardobusetti.unibztimetable.R
+import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy
@@ -45,6 +46,9 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var skeleton: SkeletonScreen
+
+    override val appSection: AppSection
+        get() = AppSection.TIME_MACHINE
 
     override fun initModel(): TimeMachineViewModel {
         val timetableRepository =

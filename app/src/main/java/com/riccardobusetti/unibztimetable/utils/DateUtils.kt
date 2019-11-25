@@ -16,7 +16,7 @@ object DateUtils {
     const val URL_DATE_FORMAT = "yyyy-MM-dd"
     private val LOCAL_CALENDAR_FORMAT = "yyyy-MM-dd HH:mm"
 
-    private val supportedLocales = listOf("en")
+    private val supportedLocales = listOf("en", "it", "de")
 
     private infix fun Calendar.addDays(days: Int) =
         this.apply { this.add(Calendar.DAY_OF_WEEK, days) }
@@ -60,7 +60,7 @@ object DateUtils {
     }
 
     fun getCurrentLocalDateTime(isMidnight: Boolean = false): LocalDateTime =
-        parseLocalDateTime(getCurrentTimeFormatted(isMidnight), LOCAL_CALENDAR_FORMAT)
+        parseLocalDateTime(getCurrentTimeFormatted(isMidnight), LOCAL_CALENDAR_FORMAT, true)
 
     fun getCurrentDatePlusDaysFormatted(days: Int) =
         formatDateToString((getCurrentCalendar() addDays days).time)
@@ -87,17 +87,8 @@ object DateUtils {
         return dateFormatter.parse(date)
     }
 
-    private fun formatLocalDateTime(dateTime: LocalDateTime, pattern: String): String =
-        dateTime.format(getDateTimeFormatter(pattern))
-
-    private fun parseLocalDateTime(dateTime: String, pattern: String): LocalDateTime =
-        LocalDateTime.parse(dateTime, getDateTimeFormatter(pattern))
-
-    private fun getDateTimeFormatter(pattern: String): DateTimeFormatter =
-        DateTimeFormatter.ofPattern(pattern, getDefaultLocaleGuarded())
-
     fun formatCourseDateTime(dateTime: LocalDateTime): String =
-        formatLocalDateTime(dateTime, WEBSITE_DATE_FORMAT)
+        formatLocalDateTime(dateTime, WEBSITE_DATE_FORMAT, true)
 
     fun parseCourseDateTime(
         date: String,
@@ -106,5 +97,25 @@ object DateUtils {
     ): LocalDateTime = parseCourseDateTime("$date $year $time")
 
     fun parseCourseDateTime(dateTime: String): LocalDateTime =
-        parseLocalDateTime(dateTime, WEBSITE_DATE_FORMAT)
+        parseLocalDateTime(dateTime, WEBSITE_DATE_FORMAT, true)
+
+    fun formatLocalDateTime(
+        dateTime: LocalDateTime,
+        pattern: String,
+        forceEnglish: Boolean = false
+    ): String =
+        dateTime.format(getDateTimeFormatter(pattern, forceEnglish))
+
+    private fun parseLocalDateTime(
+        dateTime: String,
+        pattern: String,
+        forceEnglish: Boolean
+    ): LocalDateTime =
+        LocalDateTime.parse(dateTime, getDateTimeFormatter(pattern, forceEnglish))
+
+    private fun getDateTimeFormatter(pattern: String, forceEnglish: Boolean): DateTimeFormatter =
+        DateTimeFormatter.ofPattern(
+            pattern,
+            if (forceEnglish) Locale.ENGLISH else getDefaultLocaleGuarded()
+        )
 }

@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
 import com.riccardobusetti.unibztimetable.ui.items.CourseGroupItem
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
@@ -68,6 +69,11 @@ abstract class AdvancedFragment<ViewModel> : Fragment() {
     }
 
     /**
+     * Variables that holds the section of the app that inherits this advanced fragment behavior.
+     */
+    abstract val appSection: AppSection
+
+    /**
      * Initializes the view model inside of the onCreate method in order to make it available
      * as soon as the fragment is being instantiated.
      *
@@ -110,7 +116,11 @@ abstract class AdvancedFragment<ViewModel> : Fragment() {
             section.setHeader(CourseGroupItem(header))
 
             header.courses.forEach { course ->
-                section.add(if (course.isOngoing) OngoingCourseItem(course) else CourseItem(course))
+                section.add(
+                    if (appSection == AppSection.TODAY && course.isOngoing) OngoingCourseItem(
+                        course
+                    ) else CourseItem(course)
+                )
             }
 
             add(section)

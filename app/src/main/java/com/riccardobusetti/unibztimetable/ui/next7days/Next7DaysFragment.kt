@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import com.riccardobusetti.unibztimetable.R
+import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy
@@ -32,6 +33,9 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
     private lateinit var statusView: StatusView
     private lateinit var recyclerView: RecyclerView
     private lateinit var skeleton: SkeletonScreen
+
+    override val appSection: AppSection
+        get() = AppSection.NEXT_7_DAYS
 
     override fun initModel(): Next7DaysViewModel {
         val timetableRepository =

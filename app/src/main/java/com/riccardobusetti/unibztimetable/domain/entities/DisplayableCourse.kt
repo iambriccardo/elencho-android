@@ -1,5 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.entities
 
+import com.riccardobusetti.unibztimetable.utils.DateUtils
+
 data class DisplayableCourse(
     val startTime: String,
     val endTime: String,
@@ -13,10 +15,11 @@ data class DisplayableCourse(
 
     companion object {
 
-        // TODO: format start and end time.
+        private const val TIME_PATTERN = "HH:mm"
+
         fun build(course: Course) = DisplayableCourse(
-            startTime = "${course.startDateTime.hour}:${course.startDateTime.minute}",
-            endTime = "${course.endDateTime.hour}:${course.endDateTime.minute}",
+            startTime = DateUtils.formatLocalDateTime(course.startDateTime, TIME_PATTERN),
+            endTime = DateUtils.formatLocalDateTime(course.endDateTime, TIME_PATTERN),
             room = course.room,
             description = course.description,
             professor = course.professor,
