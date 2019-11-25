@@ -50,7 +50,7 @@ class TodayViewModel(
     private fun loadTimetable(
         userPrefs: UserPrefs,
         page: String
-    ) = getTodayTimetableUseCase.getTodayTimetable(
+    ) = getTodayTimetableUseCase.getTodayTimetableFiltered(
         userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_ID),
         userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_ID),
         userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),
@@ -59,7 +59,7 @@ class TodayViewModel(
     )
 
     override fun coursesToCourseGroups(courses: List<Course>): List<DisplayableCourseGroup> {
-        return DisplayableCourseGroup.build(courses.filter { !it.isFinished() }) {
+        return DisplayableCourseGroup.build(courses) {
             if (it.isOngoing()) {
                 context.getString(R.string.now)
             } else {

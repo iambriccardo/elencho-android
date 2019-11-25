@@ -5,6 +5,7 @@ import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.Course
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 /**
  * Use case which will manage the today timetable that is responsible of
@@ -39,7 +40,23 @@ class GetTodayTimetableUseCase(
     }
 
     /**
-     * Gets the local timetable for today.
+     * Gets the today timetable by filtering the courses which are already finished, so we show
+     * to the user only the appropriate courses.
+     */
+    fun getTodayTimetableFiltered(
+        department: String,
+        degree: String,
+        studyPlan: String,
+        page: String,
+        isInternetAvailable: Boolean
+    ) = getTodayTimetable(department, degree, studyPlan, page, isInternetAvailable).map { courses ->
+        courses.filter { !it.isFinished() }
+    }
+
+    /**
+     * Gets the local timetable for today from the database.
+     *
+     * This method is used for the notifications.
      */
     fun getLocalTodayTimetable() = timetableRepository.getLocalTimetable(AppSection.TODAY)
 }
