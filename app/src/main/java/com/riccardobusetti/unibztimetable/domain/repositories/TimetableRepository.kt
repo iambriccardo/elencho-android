@@ -35,7 +35,7 @@ class TimetableRepository(
         // Checking if the timetable saved on the database is of the same day.
         val showLocalData = localTimetable.isNotEmpty() && !isLocalTodayTimetableOld(localTimetable)
 
-        if (showLocalData) {
+        if (appSection == AppSection.TODAY && showLocalData) {
             // We emit the local timetable first, so the user doesn't have to wait for the remote
             // data to be loaded.
             Log.d(TAG, "Emittig timetable from the database.")
