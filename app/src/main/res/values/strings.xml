@@ -34,7 +34,7 @@
     <!-- Preferences -->
     <string name="preference_category_personalization_title">Personalization</string>
     <string name="preference_configuration_title">Configure the app</string>
-    <string name="preference_configuration_summary">Configure the application in order to see the courses for your study plan.</string>
+    <string name="preference_configuration_summary">Configure the application in order to see the cours for your study plan.</string>
     <string name="preference_category_information_title">Information</string>
     <string name="preference_contact_title">Contact developer</string>
     <string name="preference_contact_summary">This application was developed by Riccardo Busetti, if you have any questions feel free to contact me.</string>

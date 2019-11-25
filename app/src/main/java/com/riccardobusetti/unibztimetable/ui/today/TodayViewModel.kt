@@ -2,6 +2,9 @@ package com.riccardobusetti.unibztimetable.ui.today
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
+import com.riccardobusetti.unibztimetable.R
+import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
+import com.riccardobusetti.unibztimetable.domain.entities.Kourse
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.entities.safeGet
 import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
@@ -54,4 +57,14 @@ class TodayViewModel(
         page,
         NetworkUtils.isConnectedToInternet(context)
     )
+
+    override fun coursesToCourseGroups(courses: List<Kourse>): List<DisplayableCourseGroup> {
+        return DisplayableCourseGroup.build(courses.filter { !it.isFinished() }) {
+            if (it.isOngoing()) {
+                context.getString(R.string.now)
+            } else {
+                context.getString(R.string.upcoming_lectures)
+            }
+        }
+    }
 }

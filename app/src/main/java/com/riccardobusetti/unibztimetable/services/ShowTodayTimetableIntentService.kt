@@ -18,7 +18,6 @@ import kotlinx.coroutines.withContext
 class ShowTodayTimetableIntentService : IntentService(ShowTodayTimetableIntentService::class.java.simpleName) {
 
     private val getTodayTimetableUseCase = GetTodayTimetableUseCase(
-        this,
         TimetableRepository(
             LocalTimetableStrategy(this),
             RemoteTimetableStrategy()

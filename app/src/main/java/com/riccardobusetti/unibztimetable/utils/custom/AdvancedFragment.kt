@@ -7,9 +7,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.riccardobusetti.unibztimetable.domain.entities.Kourse
+import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
+import com.riccardobusetti.unibztimetable.ui.items.CourseGroupItem
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
-import com.riccardobusetti.unibztimetable.ui.items.DayItem
+import com.riccardobusetti.unibztimetable.ui.items.OngoingCourseItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
@@ -103,35 +104,25 @@ abstract class AdvancedFragment<ViewModel> : Fragment() {
      * This method doesn't remove the existing items, so the logic must be handled separately.
      */
     @TargetApi(Build.VERSION_CODES.O)
-    fun GroupAdapter<GroupieViewHolder>.addTimetable(courses: List<Kourse>) {
-        courses.groupBy { it.startDateTime.dayOfMonth }
-            .forEach {
-                val section = Section()
-                section.setHeader(DayItem("${it.key}", false))
+    fun GroupAdapter<GroupieViewHolder>.addTimetable(courseGroups: List<DisplayableCourseGroup>) {
+        courseGroups.forEach { header ->
+            val section = Section()
+            section.setHeader(CourseGroupItem(header))
 
-                it.value.forEach { course ->
-                    section.add(
-                        CourseItem(
-                            course.startDateTime.hour.toString(),
-                            course.endDateTime.hour.toString(),
-                            course.room,
-                            course.description,
-                            course.professor,
-                            course.type
-                        )
-                    )
-                }
-
-                add(section)
+            header.courses.forEach { course ->
+                section.add(if (course.isOngoing) OngoingCourseItem(course) else CourseItem(course))
             }
+
+            add(section)
+        }
     }
 
 
     /**
      * Clears the list and adds the new timetable.
      */
-    fun GroupAdapter<GroupieViewHolder>.clearAndAddTimetable(courses: List<Kourse>) {
+    fun GroupAdapter<GroupieViewHolder>.clearAndAddTimetable(courseGroups: List<DisplayableCourseGroup>) {
         clear()
-        addTimetable(courses)
+        addTimetable(courseGroups)
     }
 }

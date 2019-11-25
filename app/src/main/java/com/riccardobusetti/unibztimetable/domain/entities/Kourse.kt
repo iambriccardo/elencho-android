@@ -13,6 +13,11 @@ data class Kourse(
     val type: String
 ) {
 
+    companion object {
+
+        private const val TAG = "Course"
+    }
+
     fun isOngoing() = DateUtils.getCurrentLocalDateTime() in startDateTime..endDateTime
 
     fun isFinished() = DateUtils.getCurrentLocalDateTime() > endDateTime

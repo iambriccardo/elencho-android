@@ -7,6 +7,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.riccardobusetti.unibztimetable.R
+import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
 import com.riccardobusetti.unibztimetable.domain.entities.Kourse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -53,7 +54,7 @@ abstract class TimetableViewModel : AdvancedViewModel() {
     /**
      * Live data object containing the timetable which has been loaded.
      */
-    val timetable = MutableLiveData<List<Kourse>>()
+    val timetable = MutableLiveData<List<DisplayableCourseGroup>>()
 
     /**
      * Live data object containing the error which will be displayed. If empty we consider
@@ -72,6 +73,8 @@ abstract class TimetableViewModel : AdvancedViewModel() {
      * Live data object containing the current page.
      */
     val currentPage = MutableLiveData<String>().apply { this.value = DEFAULT_PAGE }
+
+    abstract fun coursesToCourseGroups(courses: List<Kourse>): List<DisplayableCourseGroup>
 
     fun showLoading() {
         if (isCurrentTimetableEmpty()) {
@@ -93,8 +96,8 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         error.value = null
     }
 
-    fun showTimetable(timetable: List<Kourse>?) {
-        timetable?.let {
+    fun showTimetable(courses: List<Kourse>?) {
+        coursesToCourseGroups(courses!!).let {
             if (it.isEmpty() && isCurrentPageFirstPage()) {
                 showError(TimetableError.EMPTY_TIMETABLE)
             } else {

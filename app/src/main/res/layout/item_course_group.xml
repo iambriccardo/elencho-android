@@ -10,7 +10,7 @@
     android:layout_marginBottom="8dp">
 
     <TextView
-        android:id="@+id/item_day_date"
+        android:id="@+id/item_course_group_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -18,7 +18,7 @@
         tools:text="Martedì, 10 ottobre" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/item_day_lottie_view"
+        android:id="@+id/item_course_group_lottie_view"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignParentEnd="true"

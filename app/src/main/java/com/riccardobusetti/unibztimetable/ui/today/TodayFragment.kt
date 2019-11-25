@@ -45,7 +45,7 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
             this,
             TodayViewModelFactory(
                 context!!,
-                GetTodayTimetableUseCase(context!!, timetableRepository),
+                GetTodayTimetableUseCase(timetableRepository),
                 GetUserPrefsUseCase(userPrefsRepository)
             )
         ).get(TodayViewModel::class.java)

@@ -1,6 +1,8 @@
 package com.riccardobusetti.unibztimetable.ui.next7days
 
 import androidx.lifecycle.viewModelScope
+import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
+import com.riccardobusetti.unibztimetable.domain.entities.Kourse
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.entities.safeGet
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
@@ -50,4 +52,8 @@ class Next7DaysViewModel(
         userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),
         page
     )
+
+    override fun coursesToCourseGroups(courses: List<Kourse>): List<DisplayableCourseGroup> {
+        return DisplayableCourseGroup.build(courses)
+    }
 }
