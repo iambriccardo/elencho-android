@@ -7,7 +7,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.domain.entities.Day
+import com.riccardobusetti.unibztimetable.domain.entities.Kourse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 
@@ -53,7 +53,7 @@ abstract class TimetableViewModel : AdvancedViewModel() {
     /**
      * Live data object containing the timetable which has been loaded.
      */
-    val timetable = MutableLiveData<List<Day>>()
+    val timetable = MutableLiveData<List<Kourse>>()
 
     /**
      * Live data object containing the error which will be displayed. If empty we consider
@@ -93,7 +93,7 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         error.value = null
     }
 
-    fun showTimetable(timetable: List<Day>?) {
+    fun showTimetable(timetable: List<Kourse>?) {
         timetable?.let {
             if (it.isEmpty() && isCurrentPageFirstPage()) {
                 showError(TimetableError.EMPTY_TIMETABLE)
@@ -107,11 +107,9 @@ abstract class TimetableViewModel : AdvancedViewModel() {
     fun <T> Flow<T>.handleErrors(tag: String): Flow<T> =
         catch { e -> handleTimetableException(tag, e.message) }
 
-    fun handleTimetableException(tag: String, message: String?): List<Day>? {
+    private fun handleTimetableException(tag: String, message: String?) {
         Log.d(tag, "Error while loading the timetable: $message")
         showError(TimetableError.ERROR_WHILE_GETTING_TIMETABLE)
-
-        return null
     }
 
     fun isCurrentPageFirstPage() = currentPage.value == DEFAULT_PAGE

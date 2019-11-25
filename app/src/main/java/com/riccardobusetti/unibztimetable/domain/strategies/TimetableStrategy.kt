@@ -1,7 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.strategies
 
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
-import com.riccardobusetti.unibztimetable.domain.entities.Day
+import com.riccardobusetti.unibztimetable.domain.entities.Kourse
 
 /**
  * Interface describing the behavior that any strategy should implement if they
@@ -14,5 +14,5 @@ interface TimetableStrategy : Strategy {
     /**
      * Gets the timetable from a specific [WebSiteUrl].
      */
-    fun getTimetable(webSiteUrl: WebSiteUrl): List<Day>
+    fun getTimetable(webSiteUrl: WebSiteUrl): List<Kourse>
 }

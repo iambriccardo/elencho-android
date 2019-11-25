@@ -1,10 +1,8 @@
 package com.riccardobusetti.unibztimetable.utils
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
@@ -14,15 +12,16 @@ import java.util.*
  */
 object DateUtils {
 
+    const val WEBSITE_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm"
+    const val URL_DATE_FORMAT = "yyyy-MM-dd"
+    private val LOCAL_CALENDAR_FORMAT = "yyyy-MM-dd HH:mm"
+
+    private val supportedLocales = listOf("en")
+
     private infix fun Calendar.addDays(days: Int) =
         this.apply { this.add(Calendar.DAY_OF_WEEK, days) }
 
     private infix fun Calendar.addYears(years: Int) = this.apply { this.add(Calendar.YEAR, years) }
-
-    private const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd"
-
-    // TODO: support german (de) after the fix of date parsing.
-    private val supportedLocales = listOf("en", "it")
 
     /**
      * Gets the [Locale.ENGLISH] only if the device has the other languages not supported. This is
@@ -42,13 +41,13 @@ object DateUtils {
 
     fun getCurrentYear() = getCurrentCalendar().get(Calendar.YEAR)
 
-    fun getCurrentDateFormatted(dateFormat: String = DEFAULT_DATE_FORMAT) =
+    fun getCurrentDateFormatted(dateFormat: String = URL_DATE_FORMAT) =
         formatDateToString(getCurrentDate(), dateFormat)
 
-    fun getCurrentTimeFormatted(useZeroTime: Boolean = false): String {
+    fun getCurrentTimeFormatted(isMidnight: Boolean = false): String {
         val calendar = getCurrentCalendar()
 
-        val minutes = if (useZeroTime) {
+        val minutes = if (isMidnight) {
             "00:00"
         } else {
             "${String.format(
@@ -73,13 +72,13 @@ object DateUtils {
         return calendar
     }
 
-    fun formatDateToString(date: Date, dateFormat: String = DEFAULT_DATE_FORMAT): String {
+    fun formatDateToString(date: Date, dateFormat: String = URL_DATE_FORMAT): String {
         val dateFormatter = SimpleDateFormat(dateFormat, getDefaultLocaleGuarded())
 
         return dateFormatter.format(date)
     }
 
-    fun formatStringToDate(date: String, dateFormat: String = DEFAULT_DATE_FORMAT): Date? {
+    fun formatStringToDate(date: String, dateFormat: String = URL_DATE_FORMAT): Date? {
         val dateFormatter = SimpleDateFormat(dateFormat, getDefaultLocaleGuarded())
 
         return dateFormatter.parse(date)
@@ -88,51 +87,19 @@ object DateUtils {
     fun mergeDayAndCourseTimeData(dayDate: String, courseTime: String) =
         "$dayDate ${getCurrentCalendar().get(Calendar.YEAR)} $courseTime"
 
-    fun isDayPassed(dayDate: String): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val formattedDayDate = parseLocalDateTime(dayDate, "EEE, dd MMM yyyy HH:mm")
-            val formattedCurrentDate = parseLocalDateTime(
-                getCurrentTimeFormatted(true),
-                "yyyy-MM-dd HH:mm"
-            )
+    fun convertCourseDate(date: String, time: String): LocalDateTime {
+        val dateTime = "$date ${getCurrentYear()} $time"
+        val dateFormatter = DateTimeFormatter.ofPattern(WEBSITE_DATE_FORMAT, Locale.ENGLISH)
 
-            formattedDayDate < formattedCurrentDate
-        } else {
-            false
-        }
+        return LocalDateTime.parse(dateTime, dateFormatter)
     }
 
-    fun isCourseFinished(courseEndDate: String): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val formattedCourseEndDate = parseLocalDateTime(courseEndDate, "EEE, dd MMM yyyy HH:mm")
-            val formattedCurrentDate =
-                parseLocalDateTime(getCurrentTimeFormatted(), "yyyy-MM-dd HH:mm")
+    fun getCurrentLocalDateTime(isMidnight: Boolean = false): LocalDateTime =
+        parseLocalDateTime(getCurrentTimeFormatted(isMidnight), LOCAL_CALENDAR_FORMAT)
 
-            formattedCurrentDate > formattedCourseEndDate
-        } else {
-            false
-        }
-    }
-
-    fun isCourseOnGoing(courseStartDate: String, courseEndDate: String): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val formattedCourseStartDate =
-                parseLocalDateTime(courseStartDate, "EEE, dd MMM yyyy HH:mm")
-            val formattedCourseEndDate = parseLocalDateTime(courseEndDate, "EEE, dd MMM yyyy HH:mm")
-            val formattedCurrentDate =
-                parseLocalDateTime(getCurrentTimeFormatted(), "yyyy-MM-dd HH:mm")
-
-            formattedCurrentDate in formattedCourseStartDate..formattedCourseEndDate
-        } else {
-            false
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun parseLocalDateTime(date: String, pattern: String) =
+    private fun parseLocalDateTime(date: String, pattern: String): LocalDateTime =
         LocalDateTime.parse(date, getDateTimeFormatter(pattern))
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun getDateTimeFormatter(pattern: String) =
+    private fun getDateTimeFormatter(pattern: String): DateTimeFormatter =
         DateTimeFormatter.ofPattern(pattern, getDefaultLocaleGuarded())
 }

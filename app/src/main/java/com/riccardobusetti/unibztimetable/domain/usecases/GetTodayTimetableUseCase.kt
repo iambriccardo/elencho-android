@@ -1,15 +1,11 @@
 package com.riccardobusetti.unibztimetable.domain.usecases
 
 import android.content.Context
-import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
-import com.riccardobusetti.unibztimetable.domain.entities.Course
-import com.riccardobusetti.unibztimetable.domain.entities.Day
+import com.riccardobusetti.unibztimetable.domain.entities.Kourse
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
-import com.riccardobusetti.unibztimetable.utils.DateUtils
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 /**
  * Use case which will manage the today timetable that is responsible of
@@ -31,7 +27,7 @@ class GetTodayTimetableUseCase(
         studyPlan: String,
         page: String,
         isInternetAvailable: Boolean
-    ): Flow<List<Day>> {
+    ): Flow<List<Kourse>> {
         val websiteUrl = WebSiteUrl.Builder()
             .useDeviceLanguage()
             .withDepartment(department)
@@ -47,7 +43,7 @@ class GetTodayTimetableUseCase(
     /**
      * Gets the today timetable and formats it to show ongoing courses.
      */
-    fun getTodayTimetableWithOnGoingCourse(
+    /*fun getTodayTimetableWithOnGoingCourse(
         department: String,
         degree: String,
         academicYear: String,
@@ -96,7 +92,7 @@ class GetTodayTimetableUseCase(
                     }
                 }
             }.filter { it.courses.isNotEmpty() }
-        }
+        }*/
 
     /**
      * Gets the local timetable for today.

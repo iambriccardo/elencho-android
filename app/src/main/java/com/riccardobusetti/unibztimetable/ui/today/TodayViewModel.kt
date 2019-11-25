@@ -47,7 +47,7 @@ class TodayViewModel(
     private fun loadTimetable(
         userPrefs: UserPrefs,
         page: String
-    ) = getTodayTimetableUseCase.getTodayTimetableWithOnGoingCourse(
+    ) = getTodayTimetableUseCase.getTodayTimetable(
         userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_ID),
         userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_ID),
         userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),

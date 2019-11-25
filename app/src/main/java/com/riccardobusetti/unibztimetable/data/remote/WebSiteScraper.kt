@@ -1,13 +1,15 @@
 package com.riccardobusetti.unibztimetable.data.remote
 
+import android.annotation.TargetApi
+import android.os.Build
 import android.util.Log
-import com.riccardobusetti.unibztimetable.domain.entities.Course
 import com.riccardobusetti.unibztimetable.domain.entities.Day
+import com.riccardobusetti.unibztimetable.domain.entities.Kourse
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
-import java.util.*
+import org.threeten.bp.LocalDateTime
 
 /**
  * Class containing all the logic for the scraping of the unibz website.
@@ -55,10 +57,12 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
 
     private fun Element.selectDayDate() = this.select(CSSQueries.GET_DAY_DATE.cssQuery).text()
 
-    private fun Element.selectCourseTitle() =
+    private fun Element.selectDayDateFormatted() = formatDate(this.selectDayDate())
+
+    private fun Element.selectCourseDescription() =
         this.select(CSSQueries.GET_COURSE_TITLE.cssQuery).text()
 
-    private fun Element.selectCourseLocation() =
+    private fun Element.selectCourseRoom() =
         this.select(CSSQueries.GET_COURSE_LOCATION.cssQuery).text()
 
     private fun Element.selectCourseProfessor() =
@@ -66,6 +70,10 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
 
     private fun Element.selectCourseTime() =
         this.select(CSSQueries.GET_COURSE_TIME_AND_TYPE.cssQuery).text().time()
+
+    private fun Element.selectCourseStartTime() = this.selectCourseTime().split("-")[0]
+
+    private fun Element.selectCourseEndTime() = this.selectCourseTime().split("-")[1]
 
     private fun Element.selectCourseType() =
         this.select(CSSQueries.GET_COURSE_TIME_AND_TYPE.cssQuery).text().type()
@@ -84,22 +92,20 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
      * Gets the timetable from the website [Document] and returns a [List] of [Day]
      * which represent the timetable.
      */
-    fun getTimetable() = getAllDays(getWebSite())
+    fun getTimetable() = getAll(getWebSite())
 
     /**
      * Scrapes and computes all the days from the website.
      */
-    private fun getAllDays(webSite: Document) = webSite.selectAllDays().map { day ->
-        Day(
-            date = formatDayDate(day.selectDayDate()),
-            courses = getAllCourses(day)
-        )
+    private fun getAll(webSite: Document) = webSite.selectAllDays().flatMap { day ->
+        getAllCourses(day)
     }
 
     /**
      * Scrapes and computes all the courses from the website.
      */
-    private fun getAllCourses(day: Element): List<Course> {
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun getAllCourses(day: Element): List<Kourse> {
         // This variable is used because there is a possibility in which
         // the location is not specified, thus we will use the previous location.
         // This is done because the previous location following the website design
@@ -109,18 +115,25 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
         //  Mathematics I
         //  Mathematics II
         // These two courses are on the same class but on the HTML the location is only contained once.
-        var prevLocation = "Error while getting location"
+        var prevRoom = "Error while getting location"
 
         return day.selectAllCourses().map { course ->
-            val mappedCourse = Course(
-                time = course.selectCourseTime(),
-                title = course.selectCourseTitle(),
-                location = if (course.selectCourseLocation().isBlank()) prevLocation else course.selectCourseLocation(),
+            val mappedCourse = Kourse(
+                startDateTime = convertDate(
+                    day.selectDayDateFormatted(),
+                    course.selectCourseStartTime()
+                ),
+                endDateTime = convertDate(
+                    day.selectDayDateFormatted(),
+                    course.selectCourseEndTime()
+                ),
+                room = if (course.selectCourseRoom().isBlank()) prevRoom else course.selectCourseRoom(),
+                description = course.selectCourseDescription(),
                 professor = course.selectCourseProfessor(),
                 type = course.selectCourseType()
             )
 
-            prevLocation = course.selectCourseLocation()
+            prevRoom = course.selectCourseRoom()
 
             return@map mappedCourse
         }
@@ -130,18 +143,18 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
      * Formats the day date in order to have a format which is easily converted to enable
      * any kind of date related features in the app.
      */
-    private fun formatDayDate(date: String) = date
+    private fun formatDate(date: String) = date
         .split(",")
         .joinToString(separator = ",") {
-            var newValue = if (!it.contains(" "))
+            return@joinToString if (!it.contains(" "))
                 it.take(3)
             else it
-
-            newValue = if (DateUtils.getDefaultLocaleGuarded() == Locale.ITALY)
-                newValue.toLowerCase(DateUtils.getDefaultLocaleGuarded())
-            else
-                newValue
-
-            return@joinToString newValue
         }
+
+    /**
+     * Converts the course date and time into a [LocalDateTime] object that will contain all
+     * the necessary information.
+     */
+    private fun convertDate(date: String, time: String): LocalDateTime =
+        DateUtils.convertCourseDate(date, time)
 }

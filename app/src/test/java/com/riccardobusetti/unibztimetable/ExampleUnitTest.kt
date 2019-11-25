@@ -2,10 +2,9 @@ package com.riccardobusetti.unibztimetable
 
 import org.junit.Test
 import java.text.SimpleDateFormat
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-import java.util.regex.Pattern
 
 
 /**
@@ -17,27 +16,34 @@ class ExampleUnitTest {
 
     @Test
     fun check_if_date_is_converted() {
-        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-mm-dd", Locale.ITALIAN)
-        val date = LocalDate.parse("2019-9-12", dateFormatter)
-        println("$date")
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val date = LocalDateTime.parse("2019-10-30 14:00:00", dateFormatter)
+        println("Before: $date")
+
+        val formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss")
+        val formatDateTime = date.format(formatter)
+        println("After : $formatDateTime")
+    }
+
+    @Test
+    fun convert() {
+        val oldDate = "Thu, 20 Feb 2019 10:00:00"
+        val dateFormatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss", Locale.ENGLISH)
+        val date = LocalDateTime.parse(oldDate, dateFormatter)
+        println("New date: $date")
+    }
+
+    @Test
+    fun convert_less_26() {
+        val formatter = SimpleDateFormat("EEE, dd MMM yyyy")
+        val answer: String =
+            formatter.format(SimpleDateFormat("EEE, dd MMM yyyy").parse("Thu, 20 Feb 2019"))
     }
 
     @Test
     fun check_local_date() {
-        val dateFormatter = SimpleDateFormat("EEE, d MMM yyyy HH:mm", Locale.ITALY)
-        val date = dateFormatter.format("Thu, 31 Oct 2019 08:00")
-        println(date)
-    }
-
-    @Test
-    fun check_current_locale() {
-        val REGEX = "(https://www.unibz.it/)..(/timetable)"
-        val regex = Regex(REGEX)
-
-        val p = Pattern.compile(REGEX)
-        val m = p.matcher("https://www.unibz.it/timetable")
-
-
-        println(m.find())
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val date = LocalDateTime.parse("2019-10-30 14:00:00", dateFormatter)
+        println("${date.second}")
     }
 }

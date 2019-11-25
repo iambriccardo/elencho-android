@@ -32,7 +32,7 @@
         tools:text="Bruno Carpentieri" />
 
     <TextView
-        android:id="@+id/item_course_location"
+        android:id="@+id/item_course_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -53,14 +53,14 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/item_course_location"
+        app:layout_constraintBottom_toBottomOf="@+id/item_course_room"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_course_location"
+        app:layout_constraintStart_toEndOf="@+id/item_course_room"
         app:layout_constraintTop_toBottomOf="@+id/item_course_professor"
         tools:text="10:00-12:00" />
 
     <TextView
-        android:id="@+id/item_course_title"
+        android:id="@+id/item_course_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -71,7 +71,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_course_location"
+        app:layout_constraintTop_toBottomOf="@+id/item_course_room"
         tools:text="Mathematics I-MOD 1 Linear Algebra" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
