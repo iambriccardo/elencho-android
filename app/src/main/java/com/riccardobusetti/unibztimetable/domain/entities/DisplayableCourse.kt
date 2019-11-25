@@ -14,7 +14,7 @@ data class DisplayableCourse(
     companion object {
 
         // TODO: format start and end time.
-        fun build(course: Kourse) = DisplayableCourse(
+        fun build(course: Course) = DisplayableCourse(
             startTime = "${course.startDateTime.hour}:${course.startDateTime.minute}",
             endTime = "${course.endDateTime.hour}:${course.endDateTime.minute}",
             room = course.room,

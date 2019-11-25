@@ -4,9 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.riccardobusetti.unibztimetable.data.local.AppDatabase
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
-import com.riccardobusetti.unibztimetable.domain.entities.Day
-import com.riccardobusetti.unibztimetable.domain.entities.toLecture
-import com.riccardobusetti.unibztimetable.domain.entities.toTimetable
+import com.riccardobusetti.unibztimetable.domain.entities.Course
 
 /**
  * Local implementation for fetching the timetable.
@@ -29,15 +27,13 @@ class LocalTimetableStrategy(private val context: Context) {
 
     private val timetableDao get() = getAppDatabase(context).timetableDao()
 
-    fun getTimetable() = timetableDao.getTimetable().toTimetable()
+    fun getTimetable() = timetableDao.getTimetable()
 
-    fun getTimetable(appSection: AppSection) = timetableDao.getTimetable(appSection).toTimetable()
+    fun getTimetable(appSection: AppSection) = timetableDao.getTimetable(appSection)
 
-    fun insertTimetable(appSection: AppSection, timetable: List<Day>) {
-        timetable.forEach { day ->
-            day.courses.forEach { course ->
-                timetableDao.insertLecture(course.toLecture(day, appSection))
-            }
+    fun insertTimetable(appSection: AppSection, courses: List<Course>) {
+        courses.forEach {
+            timetableDao.insertCourse(it)
         }
     }
 

@@ -3,7 +3,7 @@ package com.riccardobusetti.unibztimetable.domain.repositories
 import android.util.Log
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
-import com.riccardobusetti.unibztimetable.domain.entities.Kourse
+import com.riccardobusetti.unibztimetable.domain.entities.Course
 import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy
 import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
 import kotlinx.coroutines.flow.flow
@@ -74,6 +74,6 @@ class TimetableRepository(
         //localTimetableStrategy.insertTimetable(appSection, remoteTimetable)
     }
 
-    private fun isLocalTodayTimetableOld(localTimetable: List<Kourse>) =
+    private fun isLocalTodayTimetableOld(localTimetable: List<Course>) =
         localTimetable.first().isDayPassed()
 }

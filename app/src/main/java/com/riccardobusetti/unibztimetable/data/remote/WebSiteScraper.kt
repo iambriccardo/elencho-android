@@ -3,8 +3,7 @@ package com.riccardobusetti.unibztimetable.data.remote
 import android.annotation.TargetApi
 import android.os.Build
 import android.util.Log
-import com.riccardobusetti.unibztimetable.domain.entities.Day
-import com.riccardobusetti.unibztimetable.domain.entities.Kourse
+import com.riccardobusetti.unibztimetable.domain.entities.Course
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -105,7 +104,7 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
      * Scrapes and computes all the courses from the website.
      */
     @TargetApi(Build.VERSION_CODES.O)
-    private fun getAllCourses(day: Element): List<Kourse> {
+    private fun getAllCourses(day: Element): List<Course> {
         // This variable is used because there is a possibility in which
         // the location is not specified, thus we will use the previous location.
         // This is done because the previous location following the website design
@@ -119,7 +118,7 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
         val currentYear = DateUtils.getCurrentYear()
 
         return day.selectAllCourses().map { course ->
-            val mappedCourse = Kourse(
+            val mappedCourse = Course(
                 startDateTime = convertDate(
                     day.selectDayDateFormatted(),
                     currentYear,
@@ -168,9 +167,9 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
         try {
             if (year > DateUtils.getCurrentYear() + 1) return LocalDateTime.MIN
 
-            return DateUtils.convertCourseDate(date, year, time)
+            return DateUtils.convertCourseDateTime(date, year, time)
         } catch (e: Exception) {
-            return DateUtils.convertCourseDate(date, (year + 1), time)
+            return DateUtils.convertCourseDateTime(date, (year + 1), time)
         }
     }
 }

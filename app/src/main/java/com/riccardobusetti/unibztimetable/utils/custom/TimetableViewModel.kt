@@ -7,8 +7,8 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.riccardobusetti.unibztimetable.R
+import com.riccardobusetti.unibztimetable.domain.entities.Course
 import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
-import com.riccardobusetti.unibztimetable.domain.entities.Kourse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 
@@ -74,7 +74,7 @@ abstract class TimetableViewModel : AdvancedViewModel() {
      */
     val currentPage = MutableLiveData<String>().apply { this.value = DEFAULT_PAGE }
 
-    abstract fun coursesToCourseGroups(courses: List<Kourse>): List<DisplayableCourseGroup>
+    abstract fun coursesToCourseGroups(courses: List<Course>): List<DisplayableCourseGroup>
 
     fun showLoading() {
         if (isCurrentTimetableEmpty()) {
@@ -96,7 +96,7 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         error.value = null
     }
 
-    fun showTimetable(courses: List<Kourse>?) {
+    fun showTimetable(courses: List<Course>?) {
         coursesToCourseGroups(courses!!).let {
             if (it.isEmpty() && isCurrentPageFirstPage()) {
                 showError(TimetableError.EMPTY_TIMETABLE)

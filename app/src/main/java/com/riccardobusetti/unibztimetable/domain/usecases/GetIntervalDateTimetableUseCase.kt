@@ -2,7 +2,7 @@ package com.riccardobusetti.unibztimetable.domain.usecases
 
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
-import com.riccardobusetti.unibztimetable.domain.entities.Kourse
+import com.riccardobusetti.unibztimetable.domain.entities.Course
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -26,7 +26,7 @@ class GetIntervalDateTimetableUseCase(
         fromDate: String,
         toDate: String,
         page: String
-    ): Flow<List<Kourse>> {
+    ): Flow<List<Course>> {
         val webSiteUrl =
             WebSiteUrl.Builder()
                 .useDeviceLanguage()

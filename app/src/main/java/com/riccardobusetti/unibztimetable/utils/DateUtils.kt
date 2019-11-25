@@ -93,8 +93,13 @@ object DateUtils {
     private fun getDateTimeFormatter(pattern: String): DateTimeFormatter =
         DateTimeFormatter.ofPattern(pattern, getDefaultLocaleGuarded())
 
-    fun convertCourseDate(date: String, year: Int = getCurrentYear(), time: String): LocalDateTime {
-        val dateTime = "$date $year $time"
+    fun convertCourseDateTime(
+        date: String,
+        year: Int = getCurrentYear(),
+        time: String
+    ): LocalDateTime = convertCourseDateTime("$date $year $time")
+
+    fun convertCourseDateTime(dateTime: String): LocalDateTime {
         val dateFormatter = DateTimeFormatter.ofPattern(WEBSITE_DATE_FORMAT, Locale.ENGLISH)
 
         return LocalDateTime.parse(dateTime, dateFormatter)

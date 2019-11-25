@@ -1,29 +1,26 @@
 package com.riccardobusetti.unibztimetable.domain.entities
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.riccardobusetti.unibztimetable.utils.DateUtils
+import org.threeten.bp.LocalDateTime
+
+@Entity(tableName = "timetable")
 data class Course(
-    val time: String,
-    val title: String,
-    val location: String,
-    val professor: String,
-    val type: String,
-    val isOngoing: Boolean = false
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
+    @ColumnInfo(name = "startDateTime") val startDateTime: LocalDateTime,
+    @ColumnInfo(name = "endDateTime") val endDateTime: LocalDateTime,
+    @ColumnInfo(name = "room") val room: String,
+    @ColumnInfo(name = "description") val description: String,
+    @ColumnInfo(name = "professor") val professor: String,
+    @ColumnInfo(name = "type") val type: String,
+    @ColumnInfo(name = "app_section") val appSection: AppSection? = null
 ) {
 
-    companion object {
-        private const val TIME_REGEX = "-"
-    }
+    fun isOngoing() = DateUtils.getCurrentLocalDateTime() in startDateTime..endDateTime
 
-    fun getStartTime() = time.split(TIME_REGEX)[0]
+    fun isFinished() = DateUtils.getCurrentLocalDateTime() > endDateTime
 
-    fun getEndTime() = time.split(TIME_REGEX)[1]
+    fun isDayPassed() = endDateTime < DateUtils.getCurrentLocalDateTime(true)
 }
-
-fun Course.toLecture(day: Day, appSection: AppSection) = Lecture(
-    date = day.date,
-    time = this.time,
-    title = this.title,
-    location = this.location,
-    professor = this.professor,
-    type = this.type,
-    appSection = appSection
-)

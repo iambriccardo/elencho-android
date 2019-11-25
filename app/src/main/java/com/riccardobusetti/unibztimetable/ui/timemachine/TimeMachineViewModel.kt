@@ -2,8 +2,8 @@ package com.riccardobusetti.unibztimetable.ui.timemachine
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.riccardobusetti.unibztimetable.domain.entities.Course
 import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
-import com.riccardobusetti.unibztimetable.domain.entities.Kourse
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.entities.safeGet
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
@@ -80,7 +80,7 @@ class TimeMachineViewModel(
         page
     )
 
-    override fun coursesToCourseGroups(courses: List<Kourse>): List<DisplayableCourseGroup> {
+    override fun coursesToCourseGroups(courses: List<Course>): List<DisplayableCourseGroup> {
         return DisplayableCourseGroup.build(courses)
     }
 

@@ -9,7 +9,7 @@ data class DisplayableCourseGroup(
 
     companion object {
 
-        fun build(courses: List<Kourse>, customGrouping: ((Kourse) -> String?)? = null) =
+        fun build(courses: List<Course>, customGrouping: ((Course) -> String?)? = null) =
             courses.groupBy {
                 if (customGrouping != null) {
                     customGrouping(it) ?: defaultGrouping(it)
@@ -24,7 +24,7 @@ data class DisplayableCourseGroup(
                 )
             }
 
-        private fun defaultGrouping(course: Kourse) =
+        private fun defaultGrouping(course: Course) =
             "${course.endDateTime.dayOfMonth} ${course.endDateTime.month} ${course.endDateTime.year}"
     }
 }

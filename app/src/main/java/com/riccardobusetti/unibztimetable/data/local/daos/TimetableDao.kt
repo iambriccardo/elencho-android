@@ -5,22 +5,22 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
-import com.riccardobusetti.unibztimetable.domain.entities.Lecture
+import com.riccardobusetti.unibztimetable.domain.entities.Course
 
 @Dao
 interface TimetableDao {
 
     @Query("SELECT * FROM timetable")
-    fun getTimetable(): List<Lecture>
+    fun getTimetable(): List<Course>
 
     @Query("SELECT * FROM timetable WHERE app_section = (:appSection)")
-    fun getTimetable(appSection: AppSection): List<Lecture>
+    fun getTimetable(appSection: AppSection): List<Course>
 
     @Insert
-    fun insertLecture(lecture: Lecture)
+    fun insertCourse(course: Course)
 
     @Delete
-    fun deleteLecture(lecture: Lecture)
+    fun deleteCourse(course: Course)
 
     @Query("DELETE FROM timetable")
     fun deleteTimetable()
