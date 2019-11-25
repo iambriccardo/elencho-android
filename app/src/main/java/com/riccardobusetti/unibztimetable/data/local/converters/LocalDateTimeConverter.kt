@@ -7,8 +7,8 @@ import org.threeten.bp.LocalDateTime
 class LocalDateTimeConverter {
 
     @TypeConverter
-    fun toLocalDateTime(value: String) = DateUtils.convertCourseDateTime(value)
+    fun toLocalDateTime(value: String) = DateUtils.parseCourseDateTime(value)
 
     @TypeConverter
-    fun toString(value: LocalDateTime) = value.toString()
+    fun toString(value: LocalDateTime) = DateUtils.formatCourseDateTime(value)
 }

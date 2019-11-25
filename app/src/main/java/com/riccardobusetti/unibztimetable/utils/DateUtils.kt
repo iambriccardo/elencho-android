@@ -87,21 +87,24 @@ object DateUtils {
         return dateFormatter.parse(date)
     }
 
-    private fun parseLocalDateTime(date: String, pattern: String): LocalDateTime =
-        LocalDateTime.parse(date, getDateTimeFormatter(pattern))
+    private fun formatLocalDateTime(dateTime: LocalDateTime, pattern: String): String =
+        dateTime.format(getDateTimeFormatter(pattern))
+
+    private fun parseLocalDateTime(dateTime: String, pattern: String): LocalDateTime =
+        LocalDateTime.parse(dateTime, getDateTimeFormatter(pattern))
 
     private fun getDateTimeFormatter(pattern: String): DateTimeFormatter =
         DateTimeFormatter.ofPattern(pattern, getDefaultLocaleGuarded())
 
-    fun convertCourseDateTime(
+    fun formatCourseDateTime(dateTime: LocalDateTime): String =
+        formatLocalDateTime(dateTime, WEBSITE_DATE_FORMAT)
+
+    fun parseCourseDateTime(
         date: String,
         year: Int = getCurrentYear(),
         time: String
-    ): LocalDateTime = convertCourseDateTime("$date $year $time")
+    ): LocalDateTime = parseCourseDateTime("$date $year $time")
 
-    fun convertCourseDateTime(dateTime: String): LocalDateTime {
-        val dateFormatter = DateTimeFormatter.ofPattern(WEBSITE_DATE_FORMAT, Locale.ENGLISH)
-
-        return LocalDateTime.parse(dateTime, dateFormatter)
-    }
+    fun parseCourseDateTime(dateTime: String): LocalDateTime =
+        parseLocalDateTime(dateTime, WEBSITE_DATE_FORMAT)
 }

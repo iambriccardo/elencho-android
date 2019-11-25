@@ -31,13 +31,13 @@ class LocalTimetableStrategy(private val context: Context) {
 
     fun getTimetable(appSection: AppSection) = timetableDao.getTimetable(appSection)
 
-    fun insertTimetable(appSection: AppSection, courses: List<Course>) {
+    fun insertTimetable(courses: List<Course>) {
         courses.forEach {
             timetableDao.insertCourse(it)
         }
     }
 
-    fun deleteTimetable(appSection: AppSection) {
-        timetableDao.deleteTimetable(appSection)
+    fun deleteTodayTimetable() {
+        timetableDao.deleteTimetable(AppSection.TODAY)
     }
 }

@@ -167,9 +167,9 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
         try {
             if (year > DateUtils.getCurrentYear() + 1) return LocalDateTime.MIN
 
-            return DateUtils.convertCourseDateTime(date, year, time)
+            return DateUtils.parseCourseDateTime(date, year, time)
         } catch (e: Exception) {
-            return DateUtils.convertCourseDateTime(date, (year + 1), time)
+            return DateUtils.parseCourseDateTime(date, (year + 1), time)
         }
     }
 }

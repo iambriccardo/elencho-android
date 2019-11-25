@@ -6,6 +6,7 @@ import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.Course
 import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy
 import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
+import com.riccardobusetti.unibztimetable.utils.exceptions.InternetNotAvailableException
 import kotlinx.coroutines.flow.flow
 
 /**
@@ -28,37 +29,43 @@ class TimetableRepository(
         webSiteUrl: WebSiteUrl,
         isInternetAvailable: Boolean = true
     ) = flow {
-        val remoteTimetable = getRemoteTimetable(webSiteUrl)
+        val localTimetable = getLocalTimetable(appSection)
+        Log.d(TAG, "Data queried from the database -> $localTimetable")
 
-        Log.d(TAG, "Emittig timetable from remote.")
-        emit(remoteTimetable)
-//        val localTimetable = getLocalTimetable(appSection)
-//        Log.d(TAG, "Data queried from the database -> $localTimetable")
-//
-//        // Checking if the timetable saved on the database is of the same day.
-//        val showLocalData = localTimetable.isNotEmpty() && !isLocalTodayTimetableOld(localTimetable)
-//
-//        if (showLocalData) {
-//            // We emit the local timetable first, so the user doesn't have to wait for the remote
-//            // data to be loaded.
-//            Log.d(TAG, "Emittig timetable from the database.")
-//            emit(localTimetable)
-//        }
-//
-//        if (isInternetAvailable) {
-//            val remoteTimetable = getRemoteTimetable(webSiteUrl)
-//
-//            Log.d(TAG, "Emittig timetable from remote.")
-//            emit(remoteTimetable)
-//
-//            // For now we support only the TODAY section in the database.
-//            if (appSection == AppSection.TODAY) {
-//                localTimetableStrategy.deleteTimetable(appSection)
-//                localTimetableStrategy.insertTimetable(appSection, remoteTimetable)
-//            }
-//        } else if (!isInternetAvailable && !showLocalData) {
-//            throw InternetNotAvailableException()
-//        }
+        // Checking if the timetable saved on the database is of the same day.
+        val showLocalData = localTimetable.isNotEmpty() && !isLocalTodayTimetableOld(localTimetable)
+
+        if (showLocalData) {
+            // We emit the local timetable first, so the user doesn't have to wait for the remote
+            // data to be loaded.
+            Log.d(TAG, "Emittig timetable from the database.")
+            emit(localTimetable)
+        }
+
+        if (isInternetAvailable) {
+            val remoteTimetable = getRemoteTimetable(webSiteUrl)
+
+            Log.d(TAG, "Emittig timetable from remote.")
+            emit(remoteTimetable)
+
+            // For now we support only the TODAY section in the database.
+            if (appSection == AppSection.TODAY) {
+                localTimetableStrategy.deleteTodayTimetable()
+                localTimetableStrategy.insertTimetable(remoteTimetable.map {
+                    Course(
+                        startDateTime = it.startDateTime,
+                        endDateTime = it.endDateTime,
+                        room = it.room,
+                        description = it.description,
+                        professor = it.professor,
+                        type = it.type,
+                        appSection = appSection
+                    )
+                })
+            }
+        } else if (!isInternetAvailable && !showLocalData) {
+            throw InternetNotAvailableException()
+        }
     }
 
     fun getLocalTimetable(appSection: AppSection) = localTimetableStrategy.getTimetable(appSection)
@@ -69,9 +76,7 @@ class TimetableRepository(
         appSection: AppSection,
         webSiteUrl: WebSiteUrl
     ) {
-        val remoteTimetable = getRemoteTimetable(webSiteUrl)
-        localTimetableStrategy.deleteTimetable(appSection)
-        //localTimetableStrategy.insertTimetable(appSection, remoteTimetable)
+        // TODO: implement local update of the timetable.
     }
 
     private fun isLocalTodayTimetableOld(localTimetable: List<Course>) =
