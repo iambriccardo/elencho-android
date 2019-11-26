@@ -11,7 +11,11 @@ data class DisplayableCourseGroup(
 
     companion object {
 
-        fun build(courses: List<Course>, customGrouping: ((Course) -> String?)? = null) =
+        fun build(
+            courses: List<Course>,
+            appSection: AppSection,
+            customGrouping: ((Course) -> String?)? = null
+        ) =
             courses.groupBy {
                 if (customGrouping != null) {
                     customGrouping(it) ?: defaultGrouping(it)
@@ -21,7 +25,7 @@ data class DisplayableCourseGroup(
             }.map {
                 DisplayableCourseGroup(
                     title = it.key,
-                    isNow = it.value.first().isOngoing(),
+                    isNow = appSection == AppSection.TODAY && it.value.first().isOngoing(),
                     courses = it.value.map { course -> DisplayableCourse.build(course) }
                 )
             }

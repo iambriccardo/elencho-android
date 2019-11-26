@@ -2,10 +2,7 @@ package com.riccardobusetti.unibztimetable.ui.timemachine
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.riccardobusetti.unibztimetable.domain.entities.Course
-import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
-import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
-import com.riccardobusetti.unibztimetable.domain.entities.safeGet
+import com.riccardobusetti.unibztimetable.domain.entities.*
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.utils.DateUtils
@@ -81,7 +78,7 @@ class TimeMachineViewModel(
     )
 
     override fun coursesToCourseGroups(courses: List<Course>): List<DisplayableCourseGroup> {
-        return DisplayableCourseGroup.build(courses)
+        return DisplayableCourseGroup.build(courses, AppSection.TIME_MACHINE)
     }
 
     fun getCurrentFromDate(): Calendar? {
