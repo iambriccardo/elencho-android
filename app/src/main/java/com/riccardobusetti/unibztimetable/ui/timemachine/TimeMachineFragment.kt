@@ -139,7 +139,6 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
                 )
             )
             .show()
-        skeleton.hide()
     }
 
     override fun attachObservers() {

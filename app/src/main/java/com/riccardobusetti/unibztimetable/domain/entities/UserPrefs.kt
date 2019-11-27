@@ -10,14 +10,28 @@ import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 class UserPrefs(val prefs: Map<Pref, String> = mutableMapOf()) {
 
     /**
+     * Enum containing all the types of preferences.
+     *
+     * The mandatory preferences are the ones needed for the app to work, so without
+     * them the app will not start because the configuration will be prompted.
+     *
+     * @author Riccardo Busetti
+     */
+    enum class PrefType {
+        MANDATORY,
+        NOT_MANDATORY
+    }
+
+    /**
      * Enum containing all the user preferences with their corresponding key.
      *
      * @author Riccardo Busetti
      */
-    enum class Pref(val key: String) {
-        DEPARTMENT_ID("DEPARTMENT"),
-        DEGREE_ID("DEGREE"),
-        STUDY_PLAN_ID("STUDY_PLAN")
+    enum class Pref(val key: String, val type: PrefType) {
+        DEPARTMENT_ID("DEPARTMENT", PrefType.MANDATORY),
+        DEGREE_ID("DEGREE", PrefType.MANDATORY),
+        STUDY_PLAN_ID("STUDY_PLAN", PrefType.MANDATORY),
+        DAILY_NOTIFICATION_TIME("DAILY_NOTIFICATION_TIME", PrefType.NOT_MANDATORY)
     }
 }
 

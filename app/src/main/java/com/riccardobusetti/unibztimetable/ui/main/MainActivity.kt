@@ -1,15 +1,9 @@
 package com.riccardobusetti.unibztimetable.ui.main
 
-import android.app.*
-import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.services.UpdateTodayTimetableIntentService
 import com.riccardobusetti.unibztimetable.ui.adapters.FragmentsAdapter
 import com.riccardobusetti.unibztimetable.ui.canteen.CanteenFragment
 import com.riccardobusetti.unibztimetable.ui.next7days.Next7DaysFragment
@@ -19,7 +13,6 @@ import com.riccardobusetti.unibztimetable.ui.today.TodayFragment
 import com.riccardobusetti.unibztimetable.utils.NotificationUtils
 import com.riccardobusetti.unibztimetable.utils.custom.views.NonSwipeableViewPager
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         val description: String
     )
 
-    private val appFragments = listOf(
+    private val appFragments: List<AppFragment>
+        get() = listOf(
         AppFragment(
             0,
             R.id.action_today,
@@ -64,7 +58,8 @@ class MainActivity : AppCompatActivity() {
         )
     )
 
-    private val notificationChannels = listOf(
+    private val notificationChannels: List<AndroidNotificationChannel>
+        get() = listOf(
         AndroidNotificationChannel(
             NotificationUtils.DAILY_UPDATES_CHANNEL_ID,
             "Daily updates",
@@ -81,17 +76,6 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannels()
         setupUi()
         attachListeners()
-
-        val alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val alarmIntent = Intent(this, UpdateTodayTimetableIntentService::class.java).let { intent ->
-            PendingIntent.getBroadcast(this, 0, intent, 0)
-        }
-
-        alarmMgr.set(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime() + 5 * 1000,
-            alarmIntent
-        )
     }
 
     private fun setupUi() {

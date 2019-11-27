@@ -44,6 +44,7 @@ class TimetableRepository(
         }
 
         if (isInternetAvailable) {
+            // TODO: handle remote error.
             val remoteTimetable = getRemoteTimetable(webSiteUrl)
 
             Log.d(TAG, "Emittig timetable from remote.")

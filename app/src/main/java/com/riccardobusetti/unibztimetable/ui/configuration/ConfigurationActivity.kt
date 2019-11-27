@@ -92,8 +92,10 @@ class ConfigurationActivity : AppCompatActivity() {
             }
         })
 
-        model.userPrefs.observe(this, Observer {
-            if (it.size == UserPrefs.Pref.values().size) {
+        model.userPrefs.observe(this, Observer { userPrefs ->
+            if (userPrefs.size == UserPrefs.Pref.values().filter {
+                    it.type == UserPrefs.PrefType.MANDATORY
+                }.size) {
                 showSaveButton()
             } else {
                 hideSaveButton()

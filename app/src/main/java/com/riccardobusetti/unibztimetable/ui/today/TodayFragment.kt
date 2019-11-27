@@ -90,7 +90,6 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
                 )
             )
             .show()
-        skeleton.hide()
     }
 
     override fun attachObservers() {

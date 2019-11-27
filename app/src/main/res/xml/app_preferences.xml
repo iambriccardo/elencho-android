@@ -9,6 +9,12 @@
             android:summary="@string/preference_configuration_summary"
             android:title="@string/preference_configuration_title" />
 
+        <SwitchPreferenceCompat
+            android:icon="@drawable/ic_notifications"
+            android:key="preference_daily_notification"
+            android:summary="Daily notification"
+            android:title="Daily notification" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/preference_category_information_title">

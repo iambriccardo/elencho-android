@@ -83,7 +83,6 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
                 )
             )
             .show()
-        skeleton.hide()
     }
 
     override fun attachObservers() {
