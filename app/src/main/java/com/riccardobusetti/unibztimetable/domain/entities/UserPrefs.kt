@@ -41,3 +41,8 @@ class UserPrefs(val prefs: Map<Pref, String> = mutableMapOf()) {
  */
 fun Map<UserPrefs.Pref, String>.safeGet(pref: UserPrefs.Pref) =
     this[pref] ?: WebSiteUrl.DEFAULT_URL_PARAM_VALUE
+
+fun Map<UserPrefs.Pref, String>.onlyMandatory() =
+    this.filter { it.key.type == UserPrefs.PrefType.MANDATORY }
+
+fun Array<UserPrefs.Pref>.onlyMandatory() = this.filter { it.type == UserPrefs.PrefType.MANDATORY }

@@ -48,4 +48,6 @@
     <!-- ListHeaders -->
     <string name="now">Now</string>
     <string name="upcoming_lectures">Upcoming lectures</string>
+    <string name="configuration_daily_notification_title">Daily notification</string>
+    <string name="configuration_daily_notification_description">Be notified each day about the courses you have.</string>
 </resources>

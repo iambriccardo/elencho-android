@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
+import com.riccardobusetti.unibztimetable.domain.entities.onlyMandatory
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
@@ -39,7 +39,8 @@ class LaunchActivity : AppCompatActivity() {
         )
 
         return getUserPrefsUseCase.getUserPrefs()
-            .prefs.filter { it.key.type == UserPrefs.PrefType.MANDATORY }
+            .prefs
+            .onlyMandatory()
             .all { it.value.isNotBlank() && it.value.isNotEmpty() }
     }
 

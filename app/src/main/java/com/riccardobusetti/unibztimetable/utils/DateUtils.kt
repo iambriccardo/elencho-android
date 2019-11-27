@@ -50,10 +50,7 @@ object DateUtils {
         val minutes = if (isMidnight) {
             "00:00"
         } else {
-            "${String.format(
-                "%02d",
-                calendar.get(Calendar.HOUR_OF_DAY)
-            )}:${String.format("%02d", calendar.get(Calendar.MINUTE))}"
+            "${formatTime(calendar.get(Calendar.HOUR_OF_DAY))}:${formatTime(calendar.get(Calendar.MINUTE))}"
         }
 
         return "${getCurrentDateFormatted()} $minutes"
@@ -118,4 +115,6 @@ object DateUtils {
             pattern,
             if (forceEnglish) Locale.ENGLISH else getDefaultLocaleGuarded()
         )
+
+    fun formatTime(time: Int) = String.format("%02d", time)
 }

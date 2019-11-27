@@ -10,9 +10,11 @@ import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
+import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.riccardobusetti.unibztimetable.utils.custom.AdvancedViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.*
 
 /**
  * Alias of the callback that will be called whenever the user clicks on a configuration item.
@@ -33,6 +35,11 @@ class ConfigurationViewModel(
             R.string.configuration_study_plan_title,
             R.string.configuration_study_plan_description,
             R.drawable.ic_school
+        ),
+        DAILY_NOTIFICATION(
+            R.string.configuration_daily_notification_title,
+            R.string.configuration_daily_notification_description,
+            R.drawable.ic_notifications
         )
     }
 
@@ -75,6 +82,17 @@ class ConfigurationViewModel(
         }
 
         return result
+    }
+
+    fun handleDailyNotificationConfiguration(calendar: Calendar): Boolean {
+        putUserPref(
+            UserPrefs.Pref.DAILY_NOTIFICATION_TIME,
+            "${DateUtils.formatTime(calendar.get(Calendar.HOUR_OF_DAY))}:${DateUtils.formatTime(
+                calendar.get(Calendar.MINUTE)
+            )}"
+        )
+
+        return true
     }
 
     /**

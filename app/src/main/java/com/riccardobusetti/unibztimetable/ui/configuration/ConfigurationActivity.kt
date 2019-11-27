@@ -13,15 +13,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.datetime.timePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
+import com.riccardobusetti.unibztimetable.domain.entities.onlyMandatory
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.items.ConfigurationItem
 import com.riccardobusetti.unibztimetable.ui.main.MainActivity
+import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.riccardobusetti.unibztimetable.utils.ScreenUtils
 import com.riccardobusetti.unibztimetable.utils.custom.StrictWebViewClient
 import com.xwray.groupie.GroupAdapter
@@ -93,9 +97,7 @@ class ConfigurationActivity : AppCompatActivity() {
         })
 
         model.userPrefs.observe(this, Observer { userPrefs ->
-            if (userPrefs.size == UserPrefs.Pref.values().filter {
-                    it.type == UserPrefs.PrefType.MANDATORY
-                }.size) {
+            if (userPrefs.onlyMandatory().size == UserPrefs.Pref.values().onlyMandatory().size) {
                 showSaveButton()
             } else {
                 hideSaveButton()
@@ -163,22 +165,37 @@ class ConfigurationActivity : AppCompatActivity() {
     ) {
         when (configuration) {
             ConfigurationViewModel.Configuration.STUDY_PLAN -> {
-                Toast.makeText(this, R.string.copy_link_tutorial, Toast.LENGTH_LONG).show()
-                bottomSheetDialog.show()
+                studyPlan(successful)
+            }
+            ConfigurationViewModel.Configuration.DAILY_NOTIFICATION -> {
+                dailyNotification(successful)
+            }
+        }
+    }
 
-                copyButton.setOnClickListener {
-                    val result = model.handleStudyPlanConfiguration(webView.url)
-                    successful(result)
+    private fun studyPlan(successful: (Boolean) -> Unit) {
+        Toast.makeText(this, R.string.copy_link_tutorial, Toast.LENGTH_LONG).show()
+        bottomSheetDialog.show()
 
-                    if (result) {
-                        bottomSheetDialog.hide()
-                    } else {
-                        Toast.makeText(this, R.string.error_while_reading_link, Toast.LENGTH_SHORT)
-                            .show()
-                    }
+        copyButton.setOnClickListener {
+            val result = model.handleStudyPlanConfiguration(webView.url)
+            successful(result)
 
-                    copyButton.setOnClickListener(null)
-                }
+            if (result) {
+                bottomSheetDialog.hide()
+            } else {
+                Toast.makeText(this, R.string.error_while_reading_link, Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            copyButton.setOnClickListener(null)
+        }
+    }
+
+    private fun dailyNotification(successful: (Boolean) -> Unit) {
+        MaterialDialog(this).show {
+            timePicker(currentTime = DateUtils.getCurrentCalendar()) { _, datetime ->
+                successful(model.handleDailyNotificationConfiguration(datetime))
             }
         }
     }
