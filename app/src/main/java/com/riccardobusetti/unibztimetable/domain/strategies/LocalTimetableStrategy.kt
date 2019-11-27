@@ -13,7 +13,7 @@ import com.riccardobusetti.unibztimetable.domain.entities.Course
  *
  * @author Riccardo Busetti
  */
-class LocalTimetableStrategy(private val context: Context) {
+class LocalTimetableStrategy(private val context: Context) : TimetableStrategy<AppSection?> {
 
     companion object {
 
@@ -27,9 +27,16 @@ class LocalTimetableStrategy(private val context: Context) {
 
     private val timetableDao get() = getAppDatabase(context).timetableDao()
 
-    fun getTimetable() = timetableDao.getTimetable()
-
-    fun getTimetable(appSection: AppSection) = timetableDao.getTimetable(appSection)
+    /**
+     * @inheritDoc
+     */
+    override fun getTimetable(query: AppSection?): List<Course> {
+        return if (query != null) {
+            timetableDao.getTimetable(query)
+        } else {
+            timetableDao.getTimetable()
+        }
+    }
 
     fun insertTimetable(courses: List<Course>) {
         courses.forEach {

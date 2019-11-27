@@ -12,11 +12,11 @@ import com.riccardobusetti.unibztimetable.domain.entities.Course
  *
  * @author Riccardo Busetti
  */
-class RemoteTimetableStrategy : TimetableStrategy {
+class RemoteTimetableStrategy : TimetableStrategy<WebSiteUrl> {
 
     /**
      * @inheritDoc
      */
-    override fun getTimetable(webSiteUrl: WebSiteUrl): List<Course> =
-        WebSiteScraper(webSiteUrl).getTimetable()
+    override fun getTimetable(query: WebSiteUrl): List<Course> =
+        WebSiteScraper(query).getTimetable()
 }
