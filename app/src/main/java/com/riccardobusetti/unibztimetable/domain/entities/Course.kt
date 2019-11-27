@@ -23,4 +23,14 @@ data class Course(
     fun isFinished() = DateUtils.getCurrentLocalDateTime() > endDateTime
 
     fun isDayPassed() = endDateTime < DateUtils.getCurrentLocalDateTime(true)
+
+    fun appendAppSection(appSection: AppSection) = Course(
+        startDateTime = this.startDateTime,
+        endDateTime = this.endDateTime,
+        room = this.room,
+        description = this.description,
+        professor = this.professor,
+        type = this.type,
+        appSection = appSection
+    )
 }

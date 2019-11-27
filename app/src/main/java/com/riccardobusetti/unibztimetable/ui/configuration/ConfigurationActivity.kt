@@ -20,8 +20,12 @@ import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.entities.onlyMandatory
+import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
+import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy
+import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
+import com.riccardobusetti.unibztimetable.domain.usecases.DeleteLocalTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.items.ConfigurationItem
 import com.riccardobusetti.unibztimetable.ui.main.MainActivity
@@ -61,12 +65,17 @@ class ConfigurationActivity : AppCompatActivity() {
 
     private fun initModel() {
         val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(this))
+        val timetableRepository = TimetableRepository(
+            LocalTimetableStrategy(this),
+            RemoteTimetableStrategy()
+        )
 
         model = ViewModelProviders.of(
             this,
             ConfigurationViewModelFactory(
                 this,
-                PutUserPrefsUseCase(userPrefsRepository)
+                PutUserPrefsUseCase(userPrefsRepository),
+                DeleteLocalTimetableUseCase(timetableRepository)
             )
         )
             .get(
@@ -219,12 +228,10 @@ class ConfigurationActivity : AppCompatActivity() {
     private fun showWebViewLoading() {
         webViewProgressBar.visibility = View.VISIBLE
         copyButton.setText(R.string.website_loading)
-        copyButton.isEnabled = false
     }
 
     private fun hideWebViewLoading() {
         webViewProgressBar.visibility = View.GONE
         copyButton.setText(R.string.copy_link)
-        copyButton.isEnabled = true
     }
 }

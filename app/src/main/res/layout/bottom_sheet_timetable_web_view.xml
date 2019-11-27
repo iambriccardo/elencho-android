@@ -22,7 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:enabled="false"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="@string/website_loading"

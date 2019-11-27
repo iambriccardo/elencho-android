@@ -54,15 +54,7 @@ class TimetableRepository(
             if (appSection == AppSection.TODAY) {
                 localTimetableStrategy.deleteTodayTimetable()
                 localTimetableStrategy.insertTimetable(remoteTimetable.map {
-                    Course(
-                        startDateTime = it.startDateTime,
-                        endDateTime = it.endDateTime,
-                        room = it.room,
-                        description = it.description,
-                        professor = it.professor,
-                        type = it.type,
-                        appSection = appSection
-                    )
+                    it.appendAppSection(appSection)
                 })
             }
         } else if (!isInternetAvailable && !showLocalData) {
@@ -72,14 +64,23 @@ class TimetableRepository(
 
     fun getLocalTimetable(appSection: AppSection) = localTimetableStrategy.getTimetable(appSection)
 
-    fun getRemoteTimetable(webSiteUrl: WebSiteUrl) = remoteTimetableStrategy.getTimetable(webSiteUrl)
-
     fun updateLocalTimetable(
         appSection: AppSection,
         webSiteUrl: WebSiteUrl
     ) {
-        // TODO: implement local update of the timetable.
+        val remoteTimetable = remoteTimetableStrategy.getTimetable(webSiteUrl)
+
+        localTimetableStrategy.deleteTodayTimetable()
+        localTimetableStrategy.insertTimetable(remoteTimetable.map {
+            it.appendAppSection(appSection)
+        })
     }
+
+    fun deleteLocalTimetable() {
+        localTimetableStrategy.deleteTimetable()
+    }
+
+    fun getRemoteTimetable(webSiteUrl: WebSiteUrl) = remoteTimetableStrategy.getTimetable(webSiteUrl)
 
     private fun isLocalTodayTimetableOld(localTimetable: List<Course>) =
         localTimetable.first().isDayPassed()

@@ -37,6 +37,14 @@ class LocalTimetableStrategy(private val context: Context) {
         }
     }
 
+    fun deleteTimetable() {
+        timetableDao.deleteTimetable()
+    }
+
+    fun deleteTimetable(appSection: AppSection) {
+        timetableDao.deleteTimetable(appSection)
+    }
+
     fun deleteTodayTimetable() {
         timetableDao.deleteTimetable(AppSection.TODAY)
     }

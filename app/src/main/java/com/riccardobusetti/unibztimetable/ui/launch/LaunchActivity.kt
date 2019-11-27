@@ -2,6 +2,7 @@ package com.riccardobusetti.unibztimetable.ui.launch
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.onlyMandatory
@@ -37,6 +38,8 @@ class LaunchActivity : AppCompatActivity() {
         val getUserPrefsUseCase = GetUserPrefsUseCase(
             UserPrefsRepository(SharedPreferencesUserPrefsStrategy(this))
         )
+
+        Log.d("PREFS", "${getUserPrefsUseCase.getUserPrefs().prefs}")
 
         return getUserPrefsUseCase.getUserPrefs()
             .prefs

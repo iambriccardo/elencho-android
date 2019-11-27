@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
+import com.riccardobusetti.unibztimetable.domain.usecases.DeleteLocalTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.riccardobusetti.unibztimetable.utils.custom.AdvancedViewModel
@@ -23,7 +24,8 @@ typealias OnConfigurationClickCallback = (ConfigurationViewModel.Configuration, 
 
 class ConfigurationViewModel(
     private val context: Context,
-    private val putUserPrefsUseCase: PutUserPrefsUseCase
+    private val putUserPrefsUseCase: PutUserPrefsUseCase,
+    private val deleteLocalTimetableUseCase: DeleteLocalTimetableUseCase
 ) : AdvancedViewModel() {
 
     enum class Configuration(
@@ -61,6 +63,14 @@ class ConfigurationViewModel(
                 }
 
                 return@withContext false
+            }
+
+            // If the preferences were successfully saved we will delete all the data in the
+            // local timetable.
+            if (isSuccessful) {
+                withContext(Dispatchers.IO) {
+                    deleteLocalTimetableUseCase.deleteLocalTimetable()
+                }
             }
 
             loading.value = false
