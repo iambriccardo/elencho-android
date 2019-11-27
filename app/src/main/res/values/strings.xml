@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Unibz Timetable</string>
+    <string name="app_name">Eléncho</string>
 
     <!-- BottomNavigation -->
     <string name="bottom_navigation_today">Today</string>

@@ -19,6 +19,7 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
+import com.riccardobusetti.unibztimetable.utils.ColorUtils
 import com.riccardobusetti.unibztimetable.utils.custom.AdvancedFragment
 import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
@@ -74,8 +75,15 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
         skeleton = Skeleton.bind(recyclerView)
             .adapter(groupAdapter)
             .load(R.layout.item_skeleton)
-            .color(R.color.colorSkeletonShimmerDay)
+            .color(
+                ColorUtils.themeAttributeToResId(
+                    context!!,
+                    R.attr.colorSkeletonShimmer,
+                    R.color.colorSkeletonShimmerDay
+                )
+            )
             .show()
+        skeleton.hide()
     }
 
     override fun attachObservers() {
