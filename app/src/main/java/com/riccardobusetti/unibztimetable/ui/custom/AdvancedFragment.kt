@@ -36,10 +36,6 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
             })
     }
 
-    companion object {
-        private const val IS_DEVICE_ROTATED_KEY = "IS_DEVICE_ROTATED"
-    }
-
     /**
      * This variable holds the [ViewModel] which is coupled with an [Activity] or [Fragment].
      * It is important to note that the model is only available after the [onCreate] method will

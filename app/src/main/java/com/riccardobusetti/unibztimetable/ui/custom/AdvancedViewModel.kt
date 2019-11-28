@@ -15,7 +15,7 @@ open class AdvancedViewModel : ViewModel() {
 
     /**
      * Launches a coroutine and wraps it into the supervisorScope in order to avoid error propagation
-     * of childs to the parent.
+     * of children to the parent.
      *
      * This is done because we want to have error checking inside of the coroutine to make the code
      * readable and easily mantainable.

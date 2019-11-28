@@ -111,7 +111,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         timeTravelButton = bottomSheetView.bottom_sheet_date_interval_button
         timeTravelButton.setOnClickListener { _ ->
             model?.let {
-                it.currentPage.value = TimetableViewModel.DEFAULT_PAGE
+                it.updateCurrentPage(TimetableViewModel.DEFAULT_PAGE)
                 loadData()
             }
 
@@ -191,11 +191,13 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     }
 
     private fun changeBottomSheetState() {
-        model?.bottomSheetState?.value = when (model?.bottomSheetState?.value) {
+        model?.updateBottomSheetState(
+            when (model?.bottomSheetState?.value) {
             TimeMachineViewModel.BottomSheetState.CLOSED -> TimeMachineViewModel.BottomSheetState.OPENED
             TimeMachineViewModel.BottomSheetState.OPENED -> TimeMachineViewModel.BottomSheetState.CLOSED
             null -> TimeMachineViewModel.BottomSheetState.CLOSED
-        }
+            }
+        )
     }
 
     private fun showStatusView(error: TimetableViewModel.TimetableError) {

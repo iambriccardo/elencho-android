@@ -1,5 +1,6 @@
 package com.riccardobusetti.unibztimetable.ui.timemachine
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.domain.entities.*
@@ -32,13 +33,25 @@ class TimeMachineViewModel(
         private const val TAG = "TimeMachineViewModel"
     }
 
-    val selectedDateInterval = MutableLiveData<Pair<String, String>>().apply {
+    /**
+     * Live data object that contains a map with the date interval that has been
+     * currently selected.
+     */
+    private val _selectedDateInterval = MutableLiveData<Pair<String, String>>().apply {
         this.value =
             DateUtils.getCurrentDateFormatted() to DateUtils.getCurrentDatePlusDaysFormatted(7)
     }
+    val selectedDateInterval: LiveData<Pair<String, String>>
+        get() = _selectedDateInterval
 
-    val bottomSheetState =
+    /**
+     * Live data object that contains the state of the bottomsheet which appears when
+     * choosing the date interval.
+     */
+    private val _bottomSheetState =
         MutableLiveData<BottomSheetState>().apply { this.value = BottomSheetState.CLOSED }
+    val bottomSheetState: LiveData<BottomSheetState>
+        get() = _bottomSheetState
 
     fun loadTimetable(
         fromDate: String,
@@ -81,8 +94,12 @@ class TimeMachineViewModel(
         return DisplayableCourseGroup.build(courses, AppSection.TIME_MACHINE)
     }
 
+    fun updateBottomSheetState(newBottomSheetState: BottomSheetState) {
+        _bottomSheetState.value = newBottomSheetState
+    }
+
     fun getCurrentFromDate(): Calendar? {
-        val fromDate = DateUtils.formatStringToDate(selectedDateInterval.value!!.first)
+        val fromDate = DateUtils.formatStringToDate(_selectedDateInterval.value!!.first)
 
         return if (fromDate != null) {
             DateUtils.getCalendarFromDate(fromDate)
@@ -92,11 +109,11 @@ class TimeMachineViewModel(
     }
 
     fun updateFromDate(newDate: String) {
-        selectedDateInterval.value = newDate to selectedDateInterval.value!!.second
+        _selectedDateInterval.value = newDate to _selectedDateInterval.value!!.second
     }
 
     fun getCurrentToDate(): Calendar? {
-        val fromDate = DateUtils.formatStringToDate(selectedDateInterval.value!!.second)
+        val fromDate = DateUtils.formatStringToDate(_selectedDateInterval.value!!.second)
 
         return if (fromDate != null) {
             DateUtils.getCalendarFromDate(fromDate)
@@ -106,6 +123,6 @@ class TimeMachineViewModel(
     }
 
     fun updateToDate(newDate: String) {
-        selectedDateInterval.value = selectedDateInterval.value!!.first to newDate
+        _selectedDateInterval.value = _selectedDateInterval.value!!.first to newDate
     }
 }

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.riccardobusetti.unibztimetable.R
@@ -54,7 +55,9 @@ abstract class TimetableViewModel : AdvancedViewModel() {
     /**
      * Live data object containing the timetable which has been loaded.
      */
-    val timetable = MutableLiveData<List<DisplayableCourseGroup>>()
+    private val _timetable = MutableLiveData<List<DisplayableCourseGroup>>()
+    val timetable: LiveData<List<DisplayableCourseGroup>>
+        get() = _timetable
 
     /**
      * Live data object containing the error which will be displayed. If empty we consider
@@ -62,44 +65,51 @@ abstract class TimetableViewModel : AdvancedViewModel() {
      *
      * The empty state is used as a signal for the observer to remove the error view.
      */
-    val error = MutableLiveData<TimetableError?>()
+    private val _error = MutableLiveData<TimetableError?>()
+    val error: LiveData<TimetableError?>
+        get() = _error
 
     /**
      * Live data object containing the current state of loading.
      */
-    val loadingState = MutableLiveData<TimetableLoadingState>()
+    private val _loadingState = MutableLiveData<TimetableLoadingState>()
+    val loadingState: LiveData<TimetableLoadingState>
+        get() = _loadingState
 
     /**
      * Live data object containing the current page.
      */
-    val currentPage = MutableLiveData<String>().apply {
+    private val _currentPage = MutableLiveData<String>().apply {
         this.value =
             DEFAULT_PAGE
     }
+    val currentPage: LiveData<String>
+        get() = _currentPage
+
 
     abstract fun coursesToCourseGroups(courses: List<Course>): List<DisplayableCourseGroup>
 
     fun showLoading() {
         if (isCurrentTimetableEmpty()) {
-            loadingState.value =
+            _loadingState.value =
                 TimetableLoadingState.LOADING_FROM_SCRATCH
         } else {
-            loadingState.value =
+            _loadingState.value =
                 TimetableLoadingState.LOADING_WITH_DATA
         }
     }
 
     fun hideLoading() {
-        loadingState.value =
+        _loadingState.value =
             TimetableLoadingState.NOT_LOADING
     }
 
-    fun showError(error: TimetableError) {
-        this.error.value = error
+    fun showError(timetableError: TimetableError) {
+        _error.value = timetableError
     }
 
     fun hideError() {
-        error.value = null
+        _error.value = null
     }
 
     fun showTimetable(courses: List<Course>?) {
@@ -108,7 +118,7 @@ abstract class TimetableViewModel : AdvancedViewModel() {
                 showError(TimetableError.EMPTY_TIMETABLE)
             } else {
                 hideError()
-                this.timetable.value = it
+                _timetable.value = it
             }
         }
     }
@@ -121,8 +131,20 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         showError(TimetableError.ERROR_WHILE_GETTING_TIMETABLE)
     }
 
+    fun updateCurrentPage(newCurrentPage: String) {
+        _currentPage.value = newCurrentPage
+    }
+
     fun isCurrentPageFirstPage() = currentPage.value == DEFAULT_PAGE
 
+    /**
+     * Checks if the view model is empty, in order to know if data needs to be loaded
+     * or not.
+     *
+     * The view model is not cleared on app rotation whilst it is if the app is killed by
+     * the OS when it is low on memory. So we load again the data if and only if the view model
+     * has been cleared.
+     */
     fun isViewModelEmpty() = timetable.value == null
 
     private fun isCurrentTimetableEmpty(): Boolean {
