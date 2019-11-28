@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
+import com.riccardobusetti.unibztimetable.ui.custom.TimetableViewModel
 import kotlinx.android.synthetic.main.compound_view_status.view.*
 
 /**

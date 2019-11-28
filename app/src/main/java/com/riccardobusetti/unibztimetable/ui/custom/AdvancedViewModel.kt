@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.utils.custom
+package com.riccardobusetti.unibztimetable.ui.custom
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope

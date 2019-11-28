@@ -11,8 +11,8 @@ import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.usecases.DeleteLocalTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
+import com.riccardobusetti.unibztimetable.ui.custom.AdvancedViewModel
 import com.riccardobusetti.unibztimetable.utils.DateUtils
-import com.riccardobusetti.unibztimetable.utils.custom.AdvancedViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*

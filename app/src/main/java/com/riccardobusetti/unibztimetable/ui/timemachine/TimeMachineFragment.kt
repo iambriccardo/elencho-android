@@ -24,10 +24,10 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
+import com.riccardobusetti.unibztimetable.ui.custom.AdvancedFragment
+import com.riccardobusetti.unibztimetable.ui.custom.TimetableViewModel
 import com.riccardobusetti.unibztimetable.utils.ColorUtils
 import com.riccardobusetti.unibztimetable.utils.DateUtils
-import com.riccardobusetti.unibztimetable.utils.custom.AdvancedFragment
-import com.riccardobusetti.unibztimetable.utils.custom.TimetableViewModel
 import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder

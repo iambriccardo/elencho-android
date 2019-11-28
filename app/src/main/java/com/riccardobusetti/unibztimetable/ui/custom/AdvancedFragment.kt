@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.utils.custom
+package com.riccardobusetti.unibztimetable.ui.custom
 
 import android.annotation.TargetApi
 import android.os.Build
@@ -12,6 +12,7 @@ import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
 import com.riccardobusetti.unibztimetable.ui.items.CourseGroupItem
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.OngoingCourseItem
+import com.riccardobusetti.unibztimetable.utils.custom.EndlessRecyclerViewScrollListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section

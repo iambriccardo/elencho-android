@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.utils.custom
+package com.riccardobusetti.unibztimetable.ui.custom
 
 import android.util.Log
 import androidx.annotation.DrawableRes
@@ -72,20 +72,26 @@ abstract class TimetableViewModel : AdvancedViewModel() {
     /**
      * Live data object containing the current page.
      */
-    val currentPage = MutableLiveData<String>().apply { this.value = DEFAULT_PAGE }
+    val currentPage = MutableLiveData<String>().apply {
+        this.value =
+            DEFAULT_PAGE
+    }
 
     abstract fun coursesToCourseGroups(courses: List<Course>): List<DisplayableCourseGroup>
 
     fun showLoading() {
         if (isCurrentTimetableEmpty()) {
-            loadingState.value = TimetableLoadingState.LOADING_FROM_SCRATCH
+            loadingState.value =
+                TimetableLoadingState.LOADING_FROM_SCRATCH
         } else {
-            loadingState.value = TimetableLoadingState.LOADING_WITH_DATA
+            loadingState.value =
+                TimetableLoadingState.LOADING_WITH_DATA
         }
     }
 
     fun hideLoading() {
-        loadingState.value = TimetableLoadingState.NOT_LOADING
+        loadingState.value =
+            TimetableLoadingState.NOT_LOADING
     }
 
     fun showError(error: TimetableError) {
