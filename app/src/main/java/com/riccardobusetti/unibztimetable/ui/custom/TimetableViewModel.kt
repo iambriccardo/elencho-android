@@ -123,6 +123,8 @@ abstract class TimetableViewModel : AdvancedViewModel() {
 
     fun isCurrentPageFirstPage() = currentPage.value == DEFAULT_PAGE
 
+    fun isViewModelEmpty() = timetable.value == null
+
     private fun isCurrentTimetableEmpty(): Boolean {
         timetable.value?.let {
             return it.isEmpty()

@@ -23,7 +23,7 @@ import com.xwray.groupie.Section
  *
  * @author Riccardo Busetti
  */
-abstract class AdvancedFragment<ViewModel> : Fragment() {
+abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
 
     /**
      * [RecyclerView] extension function which will handle the endless scroll of the list, by
@@ -56,17 +56,11 @@ abstract class AdvancedFragment<ViewModel> : Fragment() {
 
         attachObservers()
 
-        if (savedInstanceState != null) {
-            if (!savedInstanceState.getBoolean(IS_DEVICE_ROTATED_KEY)) loadData()
-        } else {
-            loadData()
+        model?.let {
+            if (it.isViewModelEmpty()) {
+                loadData()
+            }
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        outState.putBoolean(IS_DEVICE_ROTATED_KEY, true)
     }
 
     /**
