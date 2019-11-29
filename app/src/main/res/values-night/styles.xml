@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="BaseAppThemeNight">
-    </style>
+    <style name="AppTheme" parent="BaseAppThemeNight" />
 
     <style name="BaseAppThemeNight" parent="BaseAppTheme">
         <item name="colorSkeletonPrimary">@color/colorSkeletonPrimaryNight</item>
         <item name="colorSkeletonShimmer">@color/colorSkeletonShimmerNight</item>
-        <item name="colorBottomNavigation">@color/colorBackgroundNight</item>
+        <item name="colorBottomSheet">@color/colorBackgroundNight</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textColorPrimary">@color/colorWhite87</item>
         <item name="android:textColorSecondary">@color/colorWhite87</item>

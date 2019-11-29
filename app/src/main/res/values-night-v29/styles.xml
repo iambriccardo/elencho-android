@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="BaseAppThemeNight29"></style>
+    <style name="AppTheme" parent="BaseAppThemeNight29" />
 
     <style name="BaseAppThemeNight29" parent="BaseAppThemeNight">
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/colorBackgroundAccentNight</item>
     </style>
 
 </resources>

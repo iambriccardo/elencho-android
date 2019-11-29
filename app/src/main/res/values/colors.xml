@@ -5,7 +5,9 @@
     <color name="colorAccent">#63a1ec</color>
 
     <color name="colorBackgroundDay">#FFFFFF</color>
+    <color name="colorBackgroundDayAccent">#FFFFFF</color>
     <color name="colorBackgroundNight">#121212</color>
+    <color name="colorBackgroundAccentNight">#2D2D2D</color>
 
     <color name="colorBlack">#000000</color>
     <color name="colorBlack12">#1F000000</color>
