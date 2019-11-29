@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Eléncho</string>
+    <string name="app_name">eléncho</string>
 
     <!-- BottomNavigation -->
     <string name="bottom_navigation_today">Oggi</string>

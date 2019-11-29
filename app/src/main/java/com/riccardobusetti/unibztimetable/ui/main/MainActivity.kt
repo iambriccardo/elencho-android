@@ -79,6 +79,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUi() {
+        val toolbar = activity_main_toolbar
+        toolbar.setTitle(R.string.app_name)
+        toolbar.setTitleTextAppearance(this, R.style.LogoTextAppearance)
+
         viewPager = activity_main_view_pager
         viewPager.offscreenPageLimit = appFragments.size
         viewPager.adapter = FragmentsAdapter(appFragments, supportFragmentManager)

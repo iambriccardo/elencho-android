@@ -11,6 +11,7 @@
         <item name="colorSkeletonAccent">@color/colorPrimary</item>
         <item name="colorSkeletonShimmer">@color/colorSkeletonShimmerDay</item>
         <item name="colorBottomSheet">@color/colorBackgroundDay</item>
+        <item name="colorToolbarText">@color/colorWhite</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
         <item name="android:textColor">@color/colorBlack</item>
         <item name="android:textColorPrimary">@color/colorBlack87</item>
@@ -65,6 +66,11 @@
 
     <style name="RoundedBottomSheet" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/rounded_bottom_sheet</item>
+    </style>
+
+    <style name="LogoTextAppearance">
+        <item name="android:textColor">?attr/colorToolbarText</item>
+        <item name="android:fontFamily">@font/coco_gothic</item>
     </style>
 
 </resources>
