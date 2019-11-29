@@ -21,6 +21,8 @@
     <!-- ConfigurationActivity -->
     <string name="configure_app_header">Configuriamo l\'app in pochi passi</string>
     <string name="configure_app_description">Questo processo è necessario all\'app per funzionare. Non preoccuparti impiegherà pochi minuti.</string>
+    <string name="configuration_daily_notification_title">Notifica giornaliera</string>
+    <string name="configuration_daily_notification_description">Ricevi una notifica per ricordarti dei corsi della giornata.</string>
     <string name="save_configuration">Salva impostazioni</string>
 
     <!-- Configurations -->
@@ -48,4 +50,9 @@
     <!-- ListHeaders -->
     <string name="now">Ora</string>
     <string name="upcoming_lectures">Prossime lezioni</string>
+
+    <!-- DailyNotification -->
+    <string name="daily_notification_title">Hai %1$d corsi oggi</string>
+    <string name="daily_notification_text">Il primo corso inizierà alle %1$s</string>
+    <string name="daily_notification_big_text">%1$s - %2$s</string>
 </resources>
