@@ -40,6 +40,12 @@ import kotlinx.android.synthetic.main.bottom_sheet_timetable_web_view.view.*
 
 class ConfigurationActivity : AppCompatActivity() {
 
+    companion object {
+        const val IS_FIRST_CONFIGURATION_KEY = "IS_FIRST_CONFIGURATION"
+    }
+
+    private var isFirstConfiguration = true
+
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     private lateinit var model: ConfigurationViewModel
@@ -57,9 +63,13 @@ class ConfigurationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_configuration)
 
+        intent.extras?.let {
+            isFirstConfiguration = it.getBoolean(IS_FIRST_CONFIGURATION_KEY)
+        }
+
         initModel()
-        attachObservers()
         setupUi()
+        attachObservers()
         loadConfigurations()
     }
 
@@ -81,37 +91,6 @@ class ConfigurationActivity : AppCompatActivity() {
             .get(
                 ConfigurationViewModel::class.java
             )
-    }
-
-    private fun attachObservers() {
-        model.loading.observe(this, Observer { isLoading ->
-            if (isLoading) {
-                hideSaveButton()
-                showConfigurationLoading()
-            } else {
-                hideConfigurationLoading()
-            }
-        })
-
-        model.success.observe(this, Observer { isSuccessful ->
-            if (isSuccessful) {
-                // TODO: check [Activity com.riccardobusetti.unibztimetable.ui.configuration.ConfigurationActivity has leaked window DecorView@f9ce725[ConfigurationActivity] that was originally added here]
-                Intent(this, MainActivity::class.java).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(this)
-                    finish()
-                }
-            }
-        })
-
-        model.userPrefs.observe(this, Observer { userPrefs ->
-            if (userPrefs.onlyMandatory().size == UserPrefs.Pref.values().onlyMandatory().size) {
-                showSaveButton()
-            } else {
-                hideSaveButton()
-            }
-        })
     }
 
     private fun setupUi() {
@@ -158,6 +137,37 @@ class ConfigurationActivity : AppCompatActivity() {
         })
 
         webView.webViewClient = client
+    }
+
+    private fun attachObservers() {
+        model.loading.observe(this, Observer { isLoading ->
+            if (isLoading) {
+                hideSaveButton()
+                showConfigurationLoading()
+            } else {
+                hideConfigurationLoading()
+            }
+        })
+
+        model.success.observe(this, Observer { isSuccessful ->
+            if (isSuccessful) {
+                // TODO: check [Activity com.riccardobusetti.unibztimetable.ui.configuration.ConfigurationActivity has leaked window DecorView@f9ce725[ConfigurationActivity] that was originally added here]
+                Intent(this, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(this)
+                    finish()
+                }
+            }
+        })
+
+        model.userPrefs.observe(this, Observer { userPrefs ->
+            if (isConfigured(userPrefs)) {
+                showSaveButton()
+            } else {
+                hideSaveButton()
+            }
+        })
     }
 
     private fun loadConfigurations() {
@@ -208,6 +218,15 @@ class ConfigurationActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun isConfigured(userPrefs: Map<UserPrefs.Pref, String>): Boolean {
+        return if (isFirstConfiguration) {
+            userPrefs.onlyMandatory().size == UserPrefs.Pref.values().onlyMandatory().size
+        } else {
+            userPrefs.isNotEmpty()
+        }
+    }
+
 
     private fun showSaveButton() {
         saveButton.visibility = View.VISIBLE

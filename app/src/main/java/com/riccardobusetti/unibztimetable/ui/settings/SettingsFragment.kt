@@ -17,7 +17,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun setupListeners() {
         findPreference<Preference>("preference_configuration")?.setOnPreferenceClickListener {
-            startActivity(Intent(context, ConfigurationActivity::class.java))
+            Intent(context, ConfigurationActivity::class.java).apply {
+                putExtra(ConfigurationActivity.IS_FIRST_CONFIGURATION_KEY, false)
+                startActivity(this)
+            }
+
             true
         }
 
@@ -26,6 +30,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 data = Uri.parse("mailto:riccardob36@gmail.com")
                 startActivity(this)
             }
+
             true
         }
     }

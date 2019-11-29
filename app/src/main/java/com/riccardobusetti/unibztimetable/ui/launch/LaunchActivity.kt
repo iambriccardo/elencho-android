@@ -2,7 +2,6 @@ package com.riccardobusetti.unibztimetable.ui.launch
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.onlyMandatory
@@ -39,8 +38,6 @@ class LaunchActivity : AppCompatActivity() {
             UserPrefsRepository(SharedPreferencesUserPrefsStrategy(this))
         )
 
-        Log.d("PREFS", "${getUserPrefsUseCase.getUserPrefs().prefs}")
-
         return getUserPrefsUseCase.getUserPrefs()
             .prefs
             .onlyMandatory()
@@ -48,17 +45,18 @@ class LaunchActivity : AppCompatActivity() {
     }
 
     private fun launchMain() {
-        launchActivity(MainActivity::class.java)
+        Intent(this, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(this)
+        }
     }
 
     private fun launchConfiguration() {
-        launchActivity(ConfigurationActivity::class.java)
-    }
-
-    private fun <T> launchActivity(clazz: Class<T>) {
-        Intent(this, clazz).apply {
+        Intent(this, ConfigurationActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            putExtra(ConfigurationActivity.IS_FIRST_CONFIGURATION_KEY, true)
             startActivity(this)
         }
     }

@@ -5,11 +5,6 @@ import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * Class containing helper methods to manage dates.
- *
- * @author Riccardo Busetti
- */
 object DateUtils {
 
     const val WEBSITE_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm"

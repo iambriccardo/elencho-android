@@ -1,5 +1,6 @@
 package com.riccardobusetti.unibztimetable.ui.configuration
 
+import android.app.AlarmManager
 import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
@@ -11,7 +12,9 @@ import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.usecases.DeleteLocalTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
+import com.riccardobusetti.unibztimetable.receivers.AlarmReceiver
 import com.riccardobusetti.unibztimetable.ui.custom.AdvancedViewModel
+import com.riccardobusetti.unibztimetable.utils.AlarmUtils
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -100,6 +103,14 @@ class ConfigurationViewModel(
             "${DateUtils.formatTime(calendar.get(Calendar.HOUR_OF_DAY))}:${DateUtils.formatTime(
                 calendar.get(Calendar.MINUTE)
             )}"
+        )
+
+        AlarmUtils.cancelAlarm(context, AlarmUtils::class.java)
+        AlarmUtils.scheduleRepeatingAlarm(
+            context,
+            AlarmReceiver::class.java,
+            calendar,
+            AlarmManager.INTERVAL_DAY
         )
 
         return true
