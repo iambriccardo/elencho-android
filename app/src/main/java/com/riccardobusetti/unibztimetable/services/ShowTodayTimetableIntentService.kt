@@ -36,22 +36,54 @@ class ShowTodayTimetableIntentService : IntentService(ShowTodayTimetableIntentSe
                 getTodayTimetableUseCase.getLocalTodayTimetable()
             }
 
-            showNotification(localTimetable)
+            if (localTimetable.isNotEmpty())
+                showCoursesNotification(localTimetable)
+            else
+                showNoCoursesNotification()
         }
     }
 
-    private fun showNotification(courses: List<Course>) {
+    private fun showCoursesNotification(courses: List<Course>) {
+        showNotification(
+            getNotificationTitle(courses),
+            getNotificationText(courses),
+            getNotificationBigText(courses)
+        )
+    }
+
+    private fun showNoCoursesNotification() {
+        showNotification(
+            getString(R.string.daily_notification_no_courses_title),
+            getString(R.string.daily_notification_no_courses_text)
+        )
+    }
+
+    private fun getNotificationTitle(courses: List<Course>) =
+        getString(R.string.daily_notification_courses_title, courses.size)
+
+    private fun getNotificationText(courses: List<Course>) = getString(
+        R.string.daily_notification_courses_text,
+        DateUtils.formatLocalDateTime(courses.first().startDateTime, TIME_PATTERN)
+    )
+
+    private fun getNotificationBigText(courses: List<Course>): String {
+        return courses.joinToString("\n") {
+            getString(
+                R.string.daily_notification_courses_big_text,
+                DateUtils.formatLocalDateTime(it.startDateTime, TIME_PATTERN),
+                it.description
+            )
+        }
+    }
+
+    private fun showNotification(title: String, text: String, bigText: String? = null) {
         val builder = NotificationCompat.Builder(
             this@ShowTodayTimetableIntentService,
             NotificationUtils.DAILY_UPDATES_CHANNEL_ID
         )
             .setSmallIcon(R.drawable.ic_elencho)
-            .setContentTitle(getNotificationTitle(courses))
-            .setContentText(getNotificationText(courses))
-            .setStyle(
-                NotificationCompat.BigTextStyle()
-                    .bigText(getNotificationBigText(courses))
-            )
+            .setContentTitle(title)
+            .setContentText(text)
             .setColor(
                 ContextCompat.getColor(
                     this@ShowTodayTimetableIntentService,
@@ -60,26 +92,13 @@ class ShowTodayTimetableIntentService : IntentService(ShowTodayTimetableIntentSe
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
+        if (bigText != null) builder.setStyle(
+            NotificationCompat.BigTextStyle()
+                .bigText(bigText)
+        )
+
         with(NotificationManagerCompat.from(this@ShowTodayTimetableIntentService)) {
             notify(1, builder.build())
-        }
-    }
-
-    private fun getNotificationTitle(courses: List<Course>) =
-        getString(R.string.daily_notification_title, courses.size)
-
-    private fun getNotificationText(courses: List<Course>) = getString(
-        R.string.daily_notification_text,
-        DateUtils.formatLocalDateTime(courses.first().startDateTime, TIME_PATTERN)
-    )
-
-    private fun getNotificationBigText(courses: List<Course>): String {
-        return courses.joinToString("\n") {
-            getString(
-                R.string.daily_notification_big_text,
-                DateUtils.formatLocalDateTime(it.startDateTime, TIME_PATTERN),
-                it.description
-            )
         }
     }
 }

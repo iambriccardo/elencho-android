@@ -52,7 +52,9 @@
     <string name="upcoming_lectures">Upcoming lectures</string>
 
     <!-- DailyNotification -->
-    <string name="daily_notification_title">You have %1$d courses today</string>
-    <string name="daily_notification_text">The first course will start at %1$s</string>
-    <string name="daily_notification_big_text">%1$s - %2$s</string>
+    <string name="daily_notification_courses_title">You have %1$d courses today</string>
+    <string name="daily_notification_courses_text">The first course will start at %1$s</string>
+    <string name="daily_notification_courses_big_text">%1$s - %2$s</string>
+    <string name="daily_notification_no_courses_title">You don\'t have any courses today</string>
+    <string name="daily_notification_no_courses_text">Enjoy your day</string>
 </resources>

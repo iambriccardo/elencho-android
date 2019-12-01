@@ -52,7 +52,9 @@
     <string name="upcoming_lectures">Prossime lezioni</string>
 
     <!-- DailyNotification -->
-    <string name="daily_notification_title">Hai %1$d corsi oggi</string>
-    <string name="daily_notification_text">Il primo corso inizierà alle %1$s</string>
-    <string name="daily_notification_big_text">%1$s - %2$s</string>
+    <string name="daily_notification_courses_title">Hai %1$d corsi oggi</string>
+    <string name="daily_notification_courses_text">Il primo corso inizierà alle %1$s</string>
+    <string name="daily_notification_courses_big_text">%1$s - %2$s</string>
+    <string name="daily_notification_no_courses_title">Non hai nessun corso oggi</string>
+    <string name="daily_notification_no_courses_text">Goditi la giornata</string>
 </resources>

@@ -53,7 +53,9 @@
     <string name="upcoming_lectures">Nächste Vorträge</string>
 
     <!-- DailyNotification -->
-    <string name="daily_notification_title">Du hast heute %1$d Kurse</string>
-    <string name="daily_notification_text">Der erste Kurs beginnt bei %1$s</string>
-    <string name="daily_notification_big_text">%1$s - %2$s</string>
+    <string name="daily_notification_courses_title">Du hast heute %1$d Kurse</string>
+    <string name="daily_notification_courses_text">Der erste Kurs beginnt bei %1$s</string>
+    <string name="daily_notification_courses_big_text">%1$s - %2$s</string>
+    <string name="daily_notification_no_courses_title">Du hast heute keine Kurse</string>
+    <string name="daily_notification_no_courses_text">Genießen Sie den Tag</string>
 </resources>
