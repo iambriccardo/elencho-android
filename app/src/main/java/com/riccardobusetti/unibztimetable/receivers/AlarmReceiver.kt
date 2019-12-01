@@ -12,7 +12,9 @@ class AlarmReceiver : BroadcastReceiver() {
             if (intent.action.equals(Intent.ACTION_BOOT_COMPLETED)) {
                 // TODO: set again the alarm when the phone is booted.
             } else {
-                context.startService(Intent(context, ShowTodayTimetableIntentService::class.java))
+                Intent(context, ShowTodayTimetableIntentService::class.java).apply {
+                    ShowTodayTimetableIntentService.enqueueWork(context, this)
+                }
             }
         }
     }

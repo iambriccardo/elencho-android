@@ -5,7 +5,7 @@
 
     <style name="BaseAppThemeNight29" parent="BaseAppThemeNight">
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="android:navigationBarColor">@color/colorBackgroundAccentNight</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
 </resources>

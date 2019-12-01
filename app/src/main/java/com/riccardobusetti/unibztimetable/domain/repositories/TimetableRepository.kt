@@ -39,7 +39,7 @@ class TimetableRepository(
         if (appSection == AppSection.TODAY && showLocalData) {
             // We emit the local timetable first, so the user doesn't have to wait for the remote
             // data to be loaded.
-            Log.d(TAG, "Emittig timetable from the database.")
+            Log.d(TAG, "Emittig timetable from the database")
             emit(localTimetable)
         }
 
@@ -47,7 +47,7 @@ class TimetableRepository(
             // TODO: handle remote error.
             val remoteTimetable = getRemoteTimetable(webSiteUrl)
 
-            Log.d(TAG, "Emittig timetable from remote.")
+            Log.d(TAG, "Emittig timetable from remote")
             emit(remoteTimetable)
 
             // For now we support only the TODAY section in the database.
@@ -74,6 +74,8 @@ class TimetableRepository(
         localTimetableStrategy.insertTimetable(remoteTimetable.map {
             it.appendAppSection(appSection)
         })
+
+        Log.d(TAG, "Updating timetable")
     }
 
     fun deleteLocalTimetable() {

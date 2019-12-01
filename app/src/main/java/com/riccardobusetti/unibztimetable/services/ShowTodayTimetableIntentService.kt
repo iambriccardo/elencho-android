@@ -1,7 +1,8 @@
 package com.riccardobusetti.unibztimetable.services
 
-import android.app.IntentService
+import android.content.Context
 import android.content.Intent
+import androidx.core.app.JobIntentService
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -17,10 +18,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-class ShowTodayTimetableIntentService : IntentService(ShowTodayTimetableIntentService::class.java.simpleName) {
+
+class ShowTodayTimetableIntentService : JobIntentService() {
 
     companion object {
         private const val TIME_PATTERN = "HH:mm"
+        private const val JOB_ID = 1
+
+        fun enqueueWork(context: Context, intent: Intent) {
+            enqueueWork(context, ShowTodayTimetableIntentService::class.java, JOB_ID, intent)
+        }
     }
 
     private val getTodayTimetableUseCase = GetTodayTimetableUseCase(
@@ -30,7 +37,7 @@ class ShowTodayTimetableIntentService : IntentService(ShowTodayTimetableIntentSe
         )
     )
 
-    override fun onHandleIntent(p0: Intent?) {
+    override fun onHandleWork(intent: Intent) {
         runBlocking {
             val localTimetable = withContext(Dispatchers.IO) {
                 getTodayTimetableUseCase.getLocalTodayTimetable()

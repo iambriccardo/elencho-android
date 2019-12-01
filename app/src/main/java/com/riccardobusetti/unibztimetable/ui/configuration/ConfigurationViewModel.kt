@@ -105,6 +105,7 @@ class ConfigurationViewModel(
             )}"
         )
 
+        // TODO: handle alarm set before user prefs writing.
         AlarmUtils.cancelAlarm(context, AlarmUtils::class.java)
         AlarmUtils.scheduleRepeatingAlarm(
             context,
