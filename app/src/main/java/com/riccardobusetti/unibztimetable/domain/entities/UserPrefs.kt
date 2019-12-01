@@ -39,8 +39,11 @@ class UserPrefs(val prefs: Map<Pref, String> = mutableMapOf()) {
  * Safely gets a value from a map and returns the default url parameter value if the map
  * doesn't contain a specific preference.
  */
-fun Map<UserPrefs.Pref, String>.safeGet(pref: UserPrefs.Pref) =
-    this[pref] ?: WebSiteUrl.DEFAULT_URL_PARAM_VALUE
+fun Map<UserPrefs.Pref, String>.safeGet(
+    pref: UserPrefs.Pref,
+    fallbackValue: String = WebSiteUrl.DEFAULT_URL_PARAM_VALUE
+) =
+    this[pref] ?: fallbackValue
 
 fun Map<UserPrefs.Pref, String>.onlyMandatory() =
     this.filter { it.key.type == UserPrefs.PrefType.MANDATORY }

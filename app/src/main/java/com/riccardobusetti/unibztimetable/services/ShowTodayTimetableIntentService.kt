@@ -1,10 +1,12 @@
 package com.riccardobusetti.unibztimetable.services
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.JobIntentService
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.Course
@@ -12,6 +14,7 @@ import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepositor
 import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy
 import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
+import com.riccardobusetti.unibztimetable.ui.main.MainActivity
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.riccardobusetti.unibztimetable.utils.NotificationUtils
 import kotlinx.coroutines.Dispatchers
@@ -84,6 +87,13 @@ class ShowTodayTimetableIntentService : JobIntentService() {
     }
 
     private fun showNotification(title: String, text: String, bigText: String? = null) {
+        val resultIntent = Intent(this, MainActivity::class.java)
+
+        val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+            addNextIntentWithParentStack(resultIntent)
+            getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+
         val builder = NotificationCompat.Builder(
             this@ShowTodayTimetableIntentService,
             NotificationUtils.DAILY_UPDATES_CHANNEL_ID
@@ -98,6 +108,8 @@ class ShowTodayTimetableIntentService : JobIntentService() {
                 )
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(resultPendingIntent)
+            .setAutoCancel(true)
 
         if (bigText != null) builder.setStyle(
             NotificationCompat.BigTextStyle()

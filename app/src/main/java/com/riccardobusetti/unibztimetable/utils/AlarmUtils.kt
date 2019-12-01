@@ -26,6 +26,10 @@ object AlarmUtils {
         calendar: Calendar,
         frequency: Long
     ) {
+        if (isTimeAlreadyPassed(calendar)) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+        }
+
         val intent = Intent(context, clazz)
 
         val pendingIntent =
@@ -52,4 +56,7 @@ object AlarmUtils {
         alarmManager.cancel(pendingIntent)
         pendingIntent.cancel()
     }
+
+    private fun isTimeAlreadyPassed(calendar: Calendar) =
+        calendar.compareTo(DateUtils.getCurrentCalendar()) == -1
 }

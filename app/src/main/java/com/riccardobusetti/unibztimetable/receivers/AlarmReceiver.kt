@@ -1,16 +1,45 @@
 package com.riccardobusetti.unibztimetable.receivers
 
+import android.app.AlarmManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
+import com.riccardobusetti.unibztimetable.domain.entities.safeGet
+import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
+import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
+import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.services.ShowTodayTimetableIntentService
+import com.riccardobusetti.unibztimetable.utils.AlarmUtils
+import java.util.*
 
 class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context != null && intent != null) {
             if (intent.action.equals(Intent.ACTION_BOOT_COMPLETED)) {
-                // TODO: set again the alarm when the phone is booted.
+                val dailyNotificationTime = GetUserPrefsUseCase(
+                    UserPrefsRepository(
+                        SharedPreferencesUserPrefsStrategy(context)
+                    )
+                ).getUserPrefs()
+                    .prefs
+                    .safeGet(UserPrefs.Pref.DAILY_NOTIFICATION_TIME, "00:00")
+
+                val calendar = Calendar.getInstance()
+                calendar.set(
+                    Calendar.HOUR_OF_DAY,
+                    Integer.valueOf(dailyNotificationTime.split(":")[0])
+                )
+                calendar.set(Calendar.MINUTE, Integer.valueOf(dailyNotificationTime.split(":")[1]))
+
+                AlarmUtils.cancelAlarm(context, AlarmUtils::class.java)
+                AlarmUtils.scheduleRepeatingAlarm(
+                    context,
+                    AlarmReceiver::class.java,
+                    calendar,
+                    AlarmManager.INTERVAL_DAY
+                )
             } else {
                 Intent(context, ShowTodayTimetableIntentService::class.java).apply {
                     ShowTodayTimetableIntentService.enqueueWork(context, this)
