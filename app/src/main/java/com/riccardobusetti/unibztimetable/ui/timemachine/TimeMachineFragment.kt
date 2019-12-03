@@ -33,6 +33,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.bottom_sheet_date_interval.view.*
 import kotlinx.android.synthetic.main.fragment_time_machine.*
+import kotlinx.coroutines.runBlocking
 
 class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
@@ -112,7 +113,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         timeTravelButton.setOnClickListener { _ ->
             model?.let {
                 it.updateCurrentPage(TimetableViewModel.DEFAULT_PAGE)
-                loadData()
+                loadTimetable(true)
             }
 
             changeBottomSheetState()
@@ -123,6 +124,12 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = groupAdapter
+            onEndReached { page ->
+                model?.let {
+                    it.updateCurrentPage(page)
+                    loadTimetable(false)
+                }
+            }
         }
 
         floatingActionButton = fragment_time_machine_fab
@@ -160,8 +167,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
             it.loadingState.observe(this, Observer { loadingState ->
                 when (loadingState) {
-                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH,
-                    TimetableViewModel.TimetableLoadingState.LOADING_WITH_DATA -> skeleton.show()
+                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH -> skeleton.show()
                     TimetableViewModel.TimetableLoadingState.NOT_LOADING -> skeleton.hide()
                     else -> skeleton.hide()
                 }
@@ -183,11 +189,20 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     }
 
     override fun loadData() {
-        model?.loadTimetable(
-            model?.selectedDateInterval?.value!!.first,
-            model?.selectedDateInterval?.value!!.second,
-            model?.currentPage?.value!!
-        )
+        loadTimetable(true)
+    }
+
+    private fun loadTimetable(isReset: Boolean) {
+        runBlocking {
+            model?.timetableRequests!!.send(
+                TimetableViewModel.TimetableRequest(
+                    model?.selectedDateInterval?.value!!.first,
+                    model?.selectedDateInterval?.value!!.second,
+                    model?.currentPage?.value!!,
+                    isReset
+                )
+            )
+        }
     }
 
     private fun changeBottomSheetState() {

@@ -26,6 +26,7 @@ import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_next_7_days.*
+import kotlinx.coroutines.runBlocking
 
 class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
 
@@ -111,7 +112,14 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
     }
 
     override fun loadData() {
-        model?.loadNext7DaysTimetable(model?.currentPage?.value!!)
+        runBlocking {
+            model?.timetableRequests!!.send(
+                TimetableViewModel.TimetableRequest(
+                    page = model?.currentPage?.value!!,
+                    isReset = true
+                )
+            )
+        }
     }
 
     private fun showStatusView(error: TimetableViewModel.TimetableError) {

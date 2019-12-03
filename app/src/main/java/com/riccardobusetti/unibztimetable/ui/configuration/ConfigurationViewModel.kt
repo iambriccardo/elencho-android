@@ -54,6 +54,12 @@ class ConfigurationViewModel(
 
     val userPrefs = MutableLiveData<Map<UserPrefs.Pref, String>>().apply { this.value = mapOf() }
 
+    init {
+        start()
+    }
+
+    override fun start() {}
+
     fun putUserPrefs() {
         viewModelScope.launchWithSupervisor {
             loading.value = true

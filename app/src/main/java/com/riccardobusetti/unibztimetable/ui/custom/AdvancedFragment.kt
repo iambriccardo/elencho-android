@@ -94,7 +94,7 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
      * the start. This method is only called at the creation of the view, so if you need to
      * change its behavior just call it in every lifecycle method you want.
      */
-    abstract fun loadData()
+    open fun loadData() {}
 
     /**
      * Adds the timetable to a specific adapter.

@@ -53,23 +53,25 @@ class TimeMachineViewModel(
     val bottomSheetState: LiveData<BottomSheetState>
         get() = _bottomSheetState
 
-    fun loadTimetable(
-        fromDate: String,
-        toDate: String,
-        page: String = DEFAULT_PAGE
-    ) {
-        viewModelScope.launchWithSupervisor {
-            hideError()
-            showLoading()
+    init {
+        start()
+    }
 
-            loadTimetable(getUserPrefs(), fromDate, toDate, page)
-                .flowOn(Dispatchers.IO)
-                .onEach {
-                    hideLoading()
-                    showTimetable(it)
-                }
-                .handleErrors(TAG)
-                .collect()
+    override fun start() {
+        viewModelScope.launchWithSupervisor {
+            for (request in timetableRequests) {
+                hideError()
+                showLoading()
+
+                loadTimetable(getUserPrefs(), request.fromDate!!, request.toDate!!, request.page)
+                    .flowOn(Dispatchers.IO)
+                    .onEach {
+                        hideLoading()
+                        showTimetable(it, request.isReset)
+                    }
+                    .handleErrors(TAG)
+                    .collect()
+            }
         }
     }
 

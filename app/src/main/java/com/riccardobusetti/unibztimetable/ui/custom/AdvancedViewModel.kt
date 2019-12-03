@@ -11,7 +11,7 @@ import kotlinx.coroutines.supervisorScope
  *
  * @author Riccardo Busetti
  */
-open class AdvancedViewModel : ViewModel() {
+abstract class AdvancedViewModel : ViewModel() {
 
     /**
      * Launches a coroutine and wraps it into the supervisorScope in order to avoid error propagation
@@ -24,4 +24,9 @@ open class AdvancedViewModel : ViewModel() {
      */
     protected fun CoroutineScope.launchWithSupervisor(block: suspend CoroutineScope.() -> Unit) =
         this.launch { supervisorScope { block() } }
+
+    /**
+     * Starts the view model and set ups everything needed for it to properly work.
+     */
+    abstract fun start()
 }

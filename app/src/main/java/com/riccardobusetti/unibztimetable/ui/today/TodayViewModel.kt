@@ -24,19 +24,25 @@ class TodayViewModel(
         private const val TAG = "TodayViewModel"
     }
 
-    fun loadTodayTimetable(page: String = DEFAULT_PAGE) {
-        viewModelScope.launchWithSupervisor {
-            hideError()
-            showLoading()
+    init {
+        start()
+    }
 
-            loadTimetable(getUserPrefs(), page)
-                .flowOn(Dispatchers.IO)
-                .onEach {
-                    hideLoading()
-                    showTimetable(it)
-                }
-                .handleErrors(TAG)
-                .collect()
+    override fun start() {
+        viewModelScope.launchWithSupervisor {
+            for (request in timetableRequests) {
+                hideError()
+                showLoading()
+
+                loadTimetable(getUserPrefs(), request.page)
+                    .flowOn(Dispatchers.IO)
+                    .onEach {
+                        hideLoading()
+                        showTimetable(it, request.isReset)
+                    }
+                    .handleErrors(TAG)
+                    .collect()
+            }
         }
     }
 

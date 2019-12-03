@@ -26,6 +26,7 @@ import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_today.*
+import kotlinx.coroutines.runBlocking
 
 class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
@@ -117,10 +118,15 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
         }
     }
 
-    override fun loadData() {}
-
     private fun loadTimetable() {
-        model?.loadTodayTimetable(model?.currentPage?.value!!)
+        runBlocking {
+            model?.timetableRequests!!.send(
+                TimetableViewModel.TimetableRequest(
+                    page = model?.currentPage?.value!!,
+                    isReset = true
+                )
+            )
+        }
     }
 
     private fun showStatusView(error: TimetableViewModel.TimetableError) {

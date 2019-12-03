@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.Course
 import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 
@@ -48,6 +49,18 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         NOT_LOADING
     }
 
+    /**
+     * Data class representing the request for a new timetable.
+     *
+     * @author Riccardo Busetti
+     */
+    data class TimetableRequest(
+        val fromDate: String? = null,
+        val toDate: String? = null,
+        val page: String,
+        val isReset: Boolean
+    )
+
     companion object {
         const val DEFAULT_PAGE = "1"
     }
@@ -58,6 +71,16 @@ abstract class TimetableViewModel : AdvancedViewModel() {
     private val _timetable = MutableLiveData<List<DisplayableCourseGroup>>()
     val timetable: LiveData<List<DisplayableCourseGroup>>
         get() = _timetable
+
+    /**
+     * Live data object containing the current page.
+     */
+    private val _currentPage = MutableLiveData<String>().apply {
+        this.value =
+            DEFAULT_PAGE
+    }
+    val currentPage: LiveData<String>
+        get() = _currentPage
 
     /**
      * Live data object containing the error which will be displayed. If empty we consider
@@ -77,15 +100,14 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         get() = _loadingState
 
     /**
-     * Live data object containing the current page.
+     * Channel that will produce [TimetableRequest] which are sent by the UI and produced
+     * by the [ViewModel] in order to sequentially process requests for the timetable.
+     *
+     * This is done because of paging, so we will load one page after the other in order
+     * to avoid receiving a greater page before a lower one, resulting in an inconsistent
+     * list.
      */
-    private val _currentPage = MutableLiveData<String>().apply {
-        this.value =
-            DEFAULT_PAGE
-    }
-    val currentPage: LiveData<String>
-        get() = _currentPage
-
+    val timetableRequests = Channel<TimetableRequest>()
 
     abstract fun coursesToCourseGroups(courses: List<Course>): List<DisplayableCourseGroup>
 
@@ -112,15 +134,36 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         _error.value = null
     }
 
-    fun showTimetable(courses: List<Course>?) {
+    fun showTimetable(courses: List<Course>?, isReset: Boolean) {
         coursesToCourseGroups(courses!!).let {
             if (it.isEmpty() && isCurrentPageFirstPage()) {
                 showError(TimetableError.EMPTY_TIMETABLE)
-            } else {
+            } else if (it.isNotEmpty()) {
                 hideError()
-                _timetable.value = it
+
+                if (isReset) {
+                    _timetable.value = it
+                } else {
+                    _timetable.value = joinPrevAndNewTimetable(
+                        _timetable.value ?: emptyList(),
+                        it
+                    )
+                }
+
             }
         }
+    }
+
+    private fun joinPrevAndNewTimetable(
+        prevTimetable: List<DisplayableCourseGroup>,
+        newTimetable: List<DisplayableCourseGroup>
+    ): List<DisplayableCourseGroup> {
+        val joinedList = mutableListOf<DisplayableCourseGroup>()
+
+        joinedList.addAll(prevTimetable)
+        joinedList.addAll(newTimetable)
+
+        return joinedList
     }
 
     fun <T> Flow<T>.handleErrors(tag: String): Flow<T> =
