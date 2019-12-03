@@ -76,6 +76,7 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
     override fun attachObservers() {
         model?.let {
             it.timetable.observe(this, Observer { timetable ->
+                if (animateList) recyclerView.scheduleLayoutAnimation()
                 groupAdapter.clearAndAddTimetable(timetable)
             })
 

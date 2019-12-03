@@ -25,6 +25,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_today.*
 
+
 class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
@@ -83,6 +84,7 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
     override fun attachObservers() {
         model?.let {
             it.timetable.observe(this, Observer { timetable ->
+                if (animateList) recyclerView.scheduleLayoutAnimation()
                 groupAdapter.clearAndAddTimetable(timetable)
             })
 

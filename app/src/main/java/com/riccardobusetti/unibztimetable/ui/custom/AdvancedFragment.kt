@@ -27,6 +27,8 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
 
     protected lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
+    protected var animateList = true
+
     /**
      * [RecyclerView] extension function which will handle the endless scroll of the list, by
      * calling a specific function whenever the end has been reached.
@@ -122,6 +124,8 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
 
             add(section)
         }
+
+        animateList = false
     }
 
 
