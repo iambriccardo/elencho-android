@@ -39,41 +39,41 @@ class MainActivity : AppCompatActivity() {
 
     private val appFragments: List<AppFragment>
         get() = listOf(
-        AppFragment(
-            0,
-            R.id.action_today,
-            TodayFragment()
-        ),
-        AppFragment(
-            1,
-            R.id.action_next_7_days,
-            Next7DaysFragment()
-        ),
-        AppFragment(
-            2,
-            R.id.action_time_machine,
-            TimeMachineFragment()
-        ),
-        AppFragment(
-            3,
-            R.id.action_canteen,
-            CanteenFragment()
-        ),
-        AppFragment(
-            4,
-            R.id.action_settings,
-            SettingsFragment()
+            AppFragment(
+                0,
+                R.id.action_today,
+                TodayFragment()
+            ),
+            AppFragment(
+                1,
+                R.id.action_next_7_days,
+                Next7DaysFragment()
+            ),
+            AppFragment(
+                2,
+                R.id.action_time_machine,
+                TimeMachineFragment()
+            ),
+            AppFragment(
+                3,
+                R.id.action_canteen,
+                CanteenFragment()
+            ),
+            AppFragment(
+                4,
+                R.id.action_settings,
+                SettingsFragment()
+            )
         )
-    )
 
     private val notificationChannels: List<AndroidNotificationChannel>
         get() = listOf(
-        AndroidNotificationChannel(
-            NotificationUtils.DAILY_UPDATES_CHANNEL_ID,
-            "Daily updates",
-            "This channel contains all the daily updates from the app."
+            AndroidNotificationChannel(
+                NotificationUtils.DAILY_UPDATES_CHANNEL_ID,
+                "Daily updates",
+                "This channel contains all the daily updates from the app."
+            )
         )
-    )
 
     private lateinit var viewPager: NonSwipeableViewPager
 

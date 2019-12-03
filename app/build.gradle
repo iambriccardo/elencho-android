@@ -59,8 +59,6 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.12.1'
     implementation "com.xwray:groupie:2.6.0"
     implementation "com.xwray:groupie-kotlin-android-extensions:2.6.0"
-    implementation 'com.ethanhua:skeleton:1.1.2'
-    implementation 'io.supercharge:shimmerlayout:2.1.0'
     implementation 'com.afollestad.material-dialogs:core:3.1.1'
     implementation 'com.afollestad.material-dialogs:datetime:3.1.1'
     implementation 'com.airbnb.android:lottie:2.8.0'

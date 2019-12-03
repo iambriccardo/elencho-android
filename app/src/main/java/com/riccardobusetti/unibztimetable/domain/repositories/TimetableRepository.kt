@@ -82,7 +82,8 @@ class TimetableRepository(
         localTimetableStrategy.deleteTimetable()
     }
 
-    fun getRemoteTimetable(webSiteUrl: WebSiteUrl) = remoteTimetableStrategy.getTimetable(webSiteUrl)
+    fun getRemoteTimetable(webSiteUrl: WebSiteUrl) =
+        remoteTimetableStrategy.getTimetable(webSiteUrl)
 
     private fun isLocalTodayTimetableOld(localTimetable: List<Course>) =
         localTimetable.first().isDayPassed()

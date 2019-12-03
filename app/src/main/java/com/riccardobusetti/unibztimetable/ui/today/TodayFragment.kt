@@ -8,8 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ethanhua.skeleton.Skeleton
-import com.ethanhua.skeleton.SkeletonScreen
+import com.airbnb.lottie.LottieAnimationView
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
@@ -21,12 +20,10 @@ import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCa
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.custom.AdvancedFragment
 import com.riccardobusetti.unibztimetable.ui.custom.TimetableViewModel
-import com.riccardobusetti.unibztimetable.utils.ColorUtils
 import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_today.*
-import kotlinx.coroutines.runBlocking
 
 class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
@@ -34,7 +31,7 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
     private lateinit var statusView: StatusView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var skeleton: SkeletonScreen
+    private lateinit var loadingView: LottieAnimationView
 
     override val appSection: AppSection
         get() = AppSection.TODAY
@@ -80,17 +77,7 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
             adapter = groupAdapter
         }
 
-        skeleton = Skeleton.bind(recyclerView)
-            .adapter(groupAdapter)
-            .load(R.layout.item_skeleton)
-            .color(
-                ColorUtils.themeAttributeToResId(
-                    context!!,
-                    R.attr.colorSkeletonShimmer,
-                    R.color.colorSkeletonShimmerDay
-                )
-            )
-            .show()
+        loadingView = fragment_today_lottie_loading_view
     }
 
     override fun attachObservers() {
@@ -109,30 +96,39 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
             it.loadingState.observe(this, Observer { loadingState ->
                 when (loadingState) {
-                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH,
-                    TimetableViewModel.TimetableLoadingState.LOADING_WITH_DATA -> skeleton.show()
-                    TimetableViewModel.TimetableLoadingState.NOT_LOADING -> skeleton.hide()
-                    else -> skeleton.hide()
+                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH -> showLoadingView()
+                    TimetableViewModel.TimetableLoadingState.LOADING_WITH_DATA -> {
+                    }
+                    TimetableViewModel.TimetableLoadingState.NOT_LOADING -> hideLoadingView()
+                    else -> hideLoadingView()
                 }
             })
         }
     }
 
     private fun loadTimetable() {
-        runBlocking {
-            model?.timetableRequests!!.send(
-                TimetableViewModel.TimetableRequest(
-                    page = model?.currentPage?.value!!,
-                    isReset = true
-                )
+        model?.requestTimetable(
+            TimetableViewModel.TimetableRequest(
+                page = model?.currentPage?.value!!,
+                isReset = true
             )
-        }
+        )
     }
+
+    private fun showLoadingView() {
+        loadingView.visibility = View.VISIBLE
+    }
+
+    private fun hideLoadingView() {
+        loadingView.visibility = View.GONE
+    }
+
 
     private fun showStatusView(error: TimetableViewModel.TimetableError) {
         statusView.setError(error)
         statusView.visibility = View.VISIBLE
         recyclerView.visibility = View.GONE
+        hideLoadingView()
     }
 
     private fun hideStatusView() {

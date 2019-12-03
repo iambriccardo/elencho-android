@@ -9,6 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/fragment_time_machine_lottie_loading_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading" />
+
     <com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
         android:id="@+id/fragment_time_machine_status_view"
         android:layout_width="match_parent"

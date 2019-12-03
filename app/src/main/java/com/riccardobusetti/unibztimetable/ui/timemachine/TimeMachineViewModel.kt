@@ -66,8 +66,8 @@ class TimeMachineViewModel(
                 loadTimetable(getUserPrefs(), request.fromDate!!, request.toDate!!, request.page)
                     .flowOn(Dispatchers.IO)
                     .onEach {
-                        hideLoading()
                         showTimetable(it, request.isReset)
+                        hideLoading()
                     }
                     .handleErrors(TAG)
                     .collect()

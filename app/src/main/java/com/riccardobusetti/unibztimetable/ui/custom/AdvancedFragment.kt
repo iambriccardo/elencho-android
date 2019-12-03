@@ -25,15 +25,21 @@ import com.xwray.groupie.Section
  */
 abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
 
+    protected lateinit var scrollListener: EndlessRecyclerViewScrollListener
+
     /**
      * [RecyclerView] extension function which will handle the endless scroll of the list, by
      * calling a specific function whenever the end has been reached.
      */
-    fun RecyclerView.onEndReached(block: (String) -> Unit) {
-        this.addOnScrollListener(
+    fun RecyclerView.onEndReached(block: (String) -> Unit): EndlessRecyclerViewScrollListener {
+        val scrollListener =
             EndlessRecyclerViewScrollListener(this.layoutManager as LinearLayoutManager) {
                 block("${it + 1}")
-            })
+            }
+
+        this.addOnScrollListener(scrollListener)
+
+        return scrollListener
     }
 
     /**
@@ -102,11 +108,7 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
      */
     @TargetApi(Build.VERSION_CODES.O)
     fun GroupAdapter<GroupieViewHolder>.addTimetable(courseGroups: List<DisplayableCourseGroup>) {
-        courseGroups
-            .filter {
-                it.isAppendable
-            }
-            .forEach { header ->
+        courseGroups.forEach { header ->
             val section = Section()
             section.setHeader(CourseGroupItem(header))
 

@@ -33,8 +33,8 @@ class Next7DaysViewModel(
                 loadTimetable(getUserPrefs(), request.page)
                     .flowOn(Dispatchers.IO)
                     .onEach {
-                        hideLoading()
                         showTimetable(it, request.isReset)
+                        hideLoading()
                     }
                     .handleErrors(TAG)
                     .collect()

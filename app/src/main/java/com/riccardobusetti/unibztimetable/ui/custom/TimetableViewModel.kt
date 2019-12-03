@@ -13,6 +13,7 @@ import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.runBlocking
 
 /**
  * Extension class of the [ViewModel] which provides the basics [MutableLiveData] objects that are
@@ -109,7 +110,21 @@ abstract class TimetableViewModel : AdvancedViewModel() {
      */
     val timetableRequests = Channel<TimetableRequest>()
 
+    /**
+     * Converts a list of [Course] to a list of [DisplayableCourseGroup] which is the same entity
+     * but displayable.
+     */
     abstract fun coursesToCourseGroups(courses: List<Course>): List<DisplayableCourseGroup>
+
+    fun updateCurrentPage(newCurrentPage: String) {
+        _currentPage.value = newCurrentPage
+    }
+
+    fun requestTimetable(timetableRequest: TimetableRequest) {
+        runBlocking {
+            timetableRequests.send(timetableRequest)
+        }
+    }
 
     fun showLoading() {
         if (isCurrentTimetableEmpty()) {
@@ -154,20 +169,17 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         }
     }
 
+    /**
+     * Joins the previous timetable with the new one in case we want to load a new page of the
+     * same timetable.
+     */
     private fun joinPrevAndNewTimetable(
         prevTimetable: List<DisplayableCourseGroup>,
         newTimetable: List<DisplayableCourseGroup>
     ): List<DisplayableCourseGroup> {
         val joinedList = mutableListOf<DisplayableCourseGroup>()
 
-        joinedList.addAll(prevTimetable.map {
-            DisplayableCourseGroup(
-                title = it.title,
-                isNow = it.isNow,
-                courses = it.courses,
-                isAppendable = false
-            )
-        })
+        joinedList.addAll(prevTimetable)
         joinedList.addAll(newTimetable)
 
         return joinedList
@@ -181,10 +193,6 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         showError(TimetableError.ERROR_WHILE_GETTING_TIMETABLE)
     }
 
-    fun updateCurrentPage(newCurrentPage: String) {
-        _currentPage.value = newCurrentPage
-    }
-
     fun isCurrentPageFirstPage() = currentPage.value == DEFAULT_PAGE
 
     /**
@@ -195,13 +203,13 @@ abstract class TimetableViewModel : AdvancedViewModel() {
      * the OS when it is low on memory. So we load again the data if and only if the view model
      * has been cleared.
      */
-    fun isViewModelEmpty() = timetable.value == null
+    fun isViewModelEmpty() = _timetable.value == null
 
     private fun isCurrentTimetableEmpty(): Boolean {
-        timetable.value?.let {
+        _timetable.value?.let {
             return it.isEmpty()
         }
 
-        return false
+        return true
     }
 }
