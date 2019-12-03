@@ -112,6 +112,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         timeTravelButton = bottomSheetView.bottom_sheet_date_interval_button
         timeTravelButton.setOnClickListener { _ ->
             model?.let {
+                // TODO: reset paging when the new timetravel is started
                 it.updateCurrentPage(TimetableViewModel.DEFAULT_PAGE)
                 loadTimetable(true)
             }
@@ -146,12 +147,14 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
                 )
             )
             .show()
+        skeleton.hide()
     }
 
     override fun attachObservers() {
         model?.let {
             it.timetable.observe(this, Observer { timetable ->
                 groupAdapter.apply {
+                    // TODO: implement here the mapping from isAppendable to isNotAppendable
                     if (model?.isCurrentPageFirstPage()!!) clear()
                     addTimetable(timetable)
                 }
@@ -166,11 +169,12 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
             })
 
             it.loadingState.observe(this, Observer { loadingState ->
-                when (loadingState) {
-                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH -> skeleton.show()
-                    TimetableViewModel.TimetableLoadingState.NOT_LOADING -> skeleton.hide()
-                    else -> skeleton.hide()
-                }
+                //                when (loadingState) {
+//                    TimetableViewModel.TimetableLoadingState.LOADING_FROM_SCRATCH -> skeleton.show()
+//                    TimetableViewModel.TimetableLoadingState.LOADING_WITH_DATA -> {}
+//                    TimetableViewModel.TimetableLoadingState.NOT_LOADING -> skeleton.hide()
+//                    else -> skeleton.hide()
+//                }
             })
 
             it.selectedDateInterval.observe(this, Observer { interval ->

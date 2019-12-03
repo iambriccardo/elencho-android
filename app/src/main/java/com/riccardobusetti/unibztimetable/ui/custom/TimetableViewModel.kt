@@ -160,7 +160,14 @@ abstract class TimetableViewModel : AdvancedViewModel() {
     ): List<DisplayableCourseGroup> {
         val joinedList = mutableListOf<DisplayableCourseGroup>()
 
-        joinedList.addAll(prevTimetable)
+        joinedList.addAll(prevTimetable.map {
+            DisplayableCourseGroup(
+                title = it.title,
+                isNow = it.isNow,
+                courses = it.courses,
+                isAppendable = false
+            )
+        })
         joinedList.addAll(newTimetable)
 
         return joinedList

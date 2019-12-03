@@ -5,7 +5,8 @@ import com.riccardobusetti.unibztimetable.utils.DateUtils
 data class DisplayableCourseGroup(
     val title: String,
     val isNow: Boolean = false,
-    val courses: List<DisplayableCourse>
+    val courses: List<DisplayableCourse>,
+    val isAppendable: Boolean = true
 ) {
 
 

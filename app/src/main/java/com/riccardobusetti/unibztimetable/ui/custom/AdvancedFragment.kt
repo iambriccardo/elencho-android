@@ -102,7 +102,11 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
      */
     @TargetApi(Build.VERSION_CODES.O)
     fun GroupAdapter<GroupieViewHolder>.addTimetable(courseGroups: List<DisplayableCourseGroup>) {
-        courseGroups.forEach { header ->
+        courseGroups
+            .filter {
+                it.isAppendable
+            }
+            .forEach { header ->
             val section = Section()
             section.setHeader(CourseGroupItem(header))
 
