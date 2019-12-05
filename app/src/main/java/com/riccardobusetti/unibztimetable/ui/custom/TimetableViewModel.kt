@@ -62,6 +62,17 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         val isReset: Boolean
     )
 
+    /**
+     * Data class representing the state of the list.
+     *
+     * @author Riccardo Busetti
+     */
+    data class ListState(
+        var currentPage: Int = 0,
+        var previousTotalItemCount: Int = 0,
+        var loading: Boolean = true
+    )
+
     companion object {
         const val DEFAULT_PAGE = "1"
     }
@@ -110,6 +121,11 @@ abstract class TimetableViewModel : AdvancedViewModel() {
      */
     val timetableRequests = Channel<TimetableRequest>()
 
+    /**
+     * State of the list which needs to be kept on configuration changes.
+     */
+    var listState = ListState()
+
     var animateList = true
 
     /**
@@ -117,6 +133,12 @@ abstract class TimetableViewModel : AdvancedViewModel() {
      * but displayable.
      */
     abstract fun coursesToCourseGroups(courses: List<Course>): List<DisplayableCourseGroup>
+
+    fun resetListState() {
+        listState.currentPage = 0
+        listState.previousTotalItemCount = 0
+        listState.loading = true
+    }
 
     fun enableListAnimation() {
         animateList = true

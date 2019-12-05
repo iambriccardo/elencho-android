@@ -117,7 +117,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
             layoutManager = LinearLayoutManager(activity)
             adapter = groupAdapter
             // TODO: preserve scroll state on rotation change.
-            scrollListener = onEndReached { page ->
+            scrollListener = onEndReached(model?.listState!!) { page ->
                 loadTimetableNewPage(page)
             }
         }
@@ -186,7 +186,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
     private fun reloadTimetable() {
         model?.let {
-            scrollListener.resetState()
+            it.resetListState()
             it.updateCurrentPage(TimetableViewModel.DEFAULT_PAGE)
             loadTimetable(true)
         }

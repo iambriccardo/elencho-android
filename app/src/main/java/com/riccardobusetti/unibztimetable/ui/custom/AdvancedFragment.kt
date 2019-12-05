@@ -34,9 +34,15 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
      * [RecyclerView] extension function which will handle the endless scroll of the list, by
      * calling a specific function whenever the end has been reached.
      */
-    fun RecyclerView.onEndReached(block: (String) -> Unit): EndlessRecyclerViewScrollListener {
+    fun RecyclerView.onEndReached(
+        listState: TimetableViewModel.ListState,
+        block: (String) -> Unit
+    ): EndlessRecyclerViewScrollListener {
         val scrollListener =
-            EndlessRecyclerViewScrollListener(this.layoutManager as LinearLayoutManager) {
+            EndlessRecyclerViewScrollListener(
+                this.layoutManager as LinearLayoutManager,
+                listState
+            ) {
                 block("${it + 1}")
             }
 
