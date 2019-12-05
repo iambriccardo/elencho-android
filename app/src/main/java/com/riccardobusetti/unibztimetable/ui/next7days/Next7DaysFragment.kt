@@ -68,6 +68,9 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = groupAdapter
+            scrollListener = onEndReached(model?.listState!!) { page ->
+                loadTimetableNewPage(page)
+            }
         }
 
         loadingView = fragment_next_7_days_lottie_loading_view
@@ -100,12 +103,23 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
     }
 
     override fun loadData() {
+        loadTimetable(true)
+    }
+
+    private fun loadTimetable(isReset: Boolean) {
         model?.requestTimetable(
             TimetableViewModel.TimetableRequest(
-                page = model?.currentPage?.value!!,
-                isReset = true
+                page = model!!.currentPage,
+                isReset = isReset
             )
         )
+    }
+
+    private fun loadTimetableNewPage(page: String) {
+        model?.let {
+            it.updateCurrentPage(page)
+            loadTimetable(false)
+        }
     }
 
     private fun showLoadingView() {

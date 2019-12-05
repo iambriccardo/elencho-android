@@ -85,16 +85,6 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         get() = _timetable
 
     /**
-     * Live data object containing the current page.
-     */
-    private val _currentPage = MutableLiveData<String>().apply {
-        this.value =
-            DEFAULT_PAGE
-    }
-    val currentPage: LiveData<String>
-        get() = _currentPage
-
-    /**
      * Live data object containing the error which will be displayed. If empty we consider
      * that no error is present.
      *
@@ -122,10 +112,27 @@ abstract class TimetableViewModel : AdvancedViewModel() {
     val timetableRequests = Channel<TimetableRequest>()
 
     /**
+     * Current page of the list that represents the actual page of the website from
+     * where we query data.
+     */
+    var currentPage = DEFAULT_PAGE
+
+    /**
      * State of the list which needs to be kept on configuration changes.
+     *
+     * The state is mutable in order to have a cleaner codebase, because we pass
+     * the instance to the [EndlessRecyclerViewScrollListener] that changes the state
+     * internally. This is beneficial because the view model holds the state so whenever
+     * there is a configuration change the list will be reinitiated but it will have its
+     * old state.
      */
     var listState = ListState()
 
+    /**
+     * Boolean stating if the list needs to be animated.
+     *
+     * In this case the animation will be only triggered on the app start.
+     */
     var animateList = true
 
     /**
@@ -149,7 +156,7 @@ abstract class TimetableViewModel : AdvancedViewModel() {
     }
 
     fun updateCurrentPage(newCurrentPage: String) {
-        _currentPage.value = newCurrentPage
+        currentPage = newCurrentPage
     }
 
     fun requestTimetable(timetableRequest: TimetableRequest) {
@@ -225,7 +232,7 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         showError(TimetableError.ERROR_WHILE_GETTING_TIMETABLE)
     }
 
-    fun isCurrentPageFirstPage() = currentPage.value == DEFAULT_PAGE
+    fun isCurrentPageFirstPage() = currentPage == DEFAULT_PAGE
 
     /**
      * Checks if the view model is empty, in order to know if data needs to be loaded

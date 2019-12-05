@@ -120,7 +120,7 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
     private fun loadTimetable() {
         model?.requestTimetable(
             TimetableViewModel.TimetableRequest(
-                page = model?.currentPage?.value!!,
+                page = model!!.currentPage,
                 isReset = true
             )
         )

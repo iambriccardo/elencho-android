@@ -116,7 +116,6 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = groupAdapter
-            // TODO: preserve scroll state on rotation change.
             scrollListener = onEndReached(model?.listState!!) { page ->
                 loadTimetableNewPage(page)
             }
@@ -176,9 +175,9 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     private fun loadTimetable(isReset: Boolean) {
         model?.requestTimetable(
             TimetableViewModel.TimetableRequest(
-                model?.selectedDateInterval?.value!!.first,
-                model?.selectedDateInterval?.value!!.second,
-                model?.currentPage?.value!!,
+                model!!.selectedDateInterval.value!!.first,
+                model!!.selectedDateInterval.value!!.second,
+                model!!.currentPage,
                 isReset
             )
         )
@@ -201,7 +200,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
     private fun changeBottomSheetState() {
         model?.updateBottomSheetState(
-            when (model?.bottomSheetState?.value) {
+            when (model!!.bottomSheetState.value) {
                 TimeMachineViewModel.BottomSheetState.CLOSED -> TimeMachineViewModel.BottomSheetState.OPENED
                 TimeMachineViewModel.BottomSheetState.OPENED -> TimeMachineViewModel.BottomSheetState.CLOSED
                 null -> TimeMachineViewModel.BottomSheetState.CLOSED
