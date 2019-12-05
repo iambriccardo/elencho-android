@@ -4,9 +4,11 @@ import android.annotation.TargetApi
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils.loadLayoutAnimation
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
 import com.riccardobusetti.unibztimetable.ui.items.CourseGroupItem
@@ -17,6 +19,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 
+
 /**
  * Extension of the [Fragment] class which enhances its functionality by creating a standardized
  * structure for all the fragments which are using the view models and live data.
@@ -26,8 +29,6 @@ import com.xwray.groupie.Section
 abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
 
     protected lateinit var scrollListener: EndlessRecyclerViewScrollListener
-
-    protected var animateList = true
 
     /**
      * [RecyclerView] extension function which will handle the endless scroll of the list, by
@@ -42,6 +43,19 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
         this.addOnScrollListener(scrollListener)
 
         return scrollListener
+    }
+
+    private fun RecyclerView.enableAnimation() {
+        if (layoutAnimation == null) {
+            val animation = loadLayoutAnimation(activity, R.anim.layout_animation_slide_from_bottom)
+            layoutAnimation = animation
+        }
+
+        scheduleLayoutAnimation()
+    }
+
+    private fun RecyclerView.disableAnimation() {
+        layoutAnimation = null
     }
 
     /**
@@ -109,7 +123,10 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
      * This method doesn't remove the existing items, so the logic must be handled separately.
      */
     @TargetApi(Build.VERSION_CODES.O)
-    fun GroupAdapter<GroupieViewHolder>.addTimetable(courseGroups: List<DisplayableCourseGroup>) {
+    fun GroupAdapter<GroupieViewHolder>.addTimetable(
+        courseGroups: List<DisplayableCourseGroup>,
+        recyclerView: RecyclerView
+    ) {
         courseGroups.forEach { header ->
             val section = Section()
             section.setHeader(CourseGroupItem(header))
@@ -125,15 +142,22 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
             add(section)
         }
 
-        animateList = false
-    }
+        model?.let {
+            if (it.animateList)
+                recyclerView.enableAnimation()
 
+            it.disableListAnimation()
+        }
+    }
 
     /**
      * Clears the list and adds the new timetable.
      */
-    fun GroupAdapter<GroupieViewHolder>.clearAndAddTimetable(courseGroups: List<DisplayableCourseGroup>) {
+    fun GroupAdapter<GroupieViewHolder>.clearAndAddTimetable(
+        courseGroups: List<DisplayableCourseGroup>,
+        recyclerView: RecyclerView
+    ) {
         clear()
-        addTimetable(courseGroups)
+        addTimetable(courseGroups, recyclerView)
     }
 }

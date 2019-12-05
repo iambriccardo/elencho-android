@@ -110,11 +110,21 @@ abstract class TimetableViewModel : AdvancedViewModel() {
      */
     val timetableRequests = Channel<TimetableRequest>()
 
+    var animateList = true
+
     /**
      * Converts a list of [Course] to a list of [DisplayableCourseGroup] which is the same entity
      * but displayable.
      */
     abstract fun coursesToCourseGroups(courses: List<Course>): List<DisplayableCourseGroup>
+
+    fun enableListAnimation() {
+        animateList = true
+    }
+
+    fun disableListAnimation() {
+        animateList = false
+    }
 
     fun updateCurrentPage(newCurrentPage: String) {
         _currentPage.value = newCurrentPage

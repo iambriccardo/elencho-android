@@ -132,8 +132,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         model?.let {
             it.timetable.observe(this, Observer { timetable ->
                 groupAdapter.apply {
-                    if (animateList) recyclerView.scheduleLayoutAnimation()
-                    clearAndAddTimetable(timetable)
+                    clearAndAddTimetable(timetable, recyclerView)
                 }
             })
 

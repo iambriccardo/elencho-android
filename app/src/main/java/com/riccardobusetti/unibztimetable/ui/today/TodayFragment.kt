@@ -66,7 +66,13 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
     override fun onResume() {
         super.onResume()
 
-        loadTimetable()
+        model?.let {
+            if (!it.isFirstLaunch) {
+                loadTimetable()
+            }
+
+            it.isFirstLaunch = false
+        }
     }
 
     override fun setupUi() {
@@ -84,8 +90,7 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
     override fun attachObservers() {
         model?.let {
             it.timetable.observe(this, Observer { timetable ->
-                if (animateList) recyclerView.scheduleLayoutAnimation()
-                groupAdapter.clearAndAddTimetable(timetable)
+                groupAdapter.clearAndAddTimetable(timetable, recyclerView)
             })
 
             it.error.observe(this, Observer { error ->
@@ -106,6 +111,10 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
                 }
             })
         }
+    }
+
+    override fun loadData() {
+        loadTimetable()
     }
 
     private fun loadTimetable() {

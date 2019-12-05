@@ -13,6 +13,8 @@ import kotlinx.coroutines.supervisorScope
  */
 abstract class AdvancedViewModel : ViewModel() {
 
+    var isFirstLaunch = true
+
     /**
      * Launches a coroutine and wraps it into the supervisorScope in order to avoid error propagation
      * of children to the parent.

@@ -7,8 +7,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_next_7_days_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layoutAnimation="@anim/layout_animation_slide_from_bottom" />
+        android:layout_height="match_parent" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/fragment_next_7_days_lottie_loading_view"
