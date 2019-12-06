@@ -30,10 +30,15 @@ abstract class TimetableViewModel : AdvancedViewModel() {
      */
     enum class TimetableError(
         @IdRes @StringRes val descriptionResId: Int,
-        @IdRes @DrawableRes val imageResId: Int
+        @IdRes @DrawableRes val imageResId: Int,
+        val overlapContent: Boolean
     ) {
-        EMPTY_TIMETABLE(R.string.empty_timetable, R.drawable.ic_happy),
-        ERROR_WHILE_GETTING_TIMETABLE(R.string.error_while_getting_timetable, R.drawable.ic_warning)
+        EMPTY_TIMETABLE(R.string.empty_timetable, R.drawable.ic_happy, true),
+        ERROR_WHILE_GETTING_TIMETABLE(
+            R.string.error_while_getting_timetable,
+            R.drawable.ic_warning,
+            true
+        )
     }
 
     /**

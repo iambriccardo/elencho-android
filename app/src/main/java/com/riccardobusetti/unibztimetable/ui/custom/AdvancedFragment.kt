@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils.loadLayoutAnimation
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
@@ -15,6 +16,7 @@ import com.riccardobusetti.unibztimetable.ui.items.CourseGroupItem
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.OngoingCourseItem
 import com.riccardobusetti.unibztimetable.utils.custom.EndlessRecyclerViewScrollListener
+import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
@@ -29,6 +31,10 @@ import com.xwray.groupie.Section
 abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
 
     protected lateinit var scrollListener: EndlessRecyclerViewScrollListener
+
+    protected lateinit var recyclerView: RecyclerView
+    protected lateinit var loadingView: LottieAnimationView
+    protected lateinit var statusView: StatusView
 
     /**
      * [RecyclerView] extension function which will handle the endless scroll of the list, by
@@ -75,6 +81,7 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         model = initModel()
+        model?.start()
 
         setupUi()
 
@@ -165,5 +172,25 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
     ) {
         clear()
         addTimetable(courseGroups, recyclerView)
+    }
+
+    protected fun showLoadingView() {
+        loadingView.visibility = View.VISIBLE
+    }
+
+    protected fun hideLoadingView() {
+        loadingView.visibility = View.GONE
+    }
+
+    protected fun showError(error: TimetableViewModel.TimetableError) {
+        statusView.setError(error)
+        statusView.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+        hideLoadingView()
+    }
+
+    protected fun hideError() {
+        statusView.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
     }
 }

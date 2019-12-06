@@ -53,10 +53,6 @@ class TimeMachineViewModel(
     val bottomSheetState: LiveData<BottomSheetState>
         get() = _bottomSheetState
 
-    init {
-        start()
-    }
-
     override fun start() {
         viewModelScope.launchWithSupervisor {
             for (request in timetableRequests) {

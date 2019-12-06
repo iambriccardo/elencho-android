@@ -24,10 +24,6 @@ class TodayViewModel(
         private const val TAG = "TodayViewModel"
     }
 
-    init {
-        start()
-    }
-
     override fun start() {
         viewModelScope.launchWithSupervisor {
             for (request in timetableRequests) {

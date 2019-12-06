@@ -20,10 +20,6 @@ class Next7DaysViewModel(
         private const val TAG = "Next7DaysViewModel"
     }
 
-    init {
-        start()
-    }
-
     override fun start() {
         viewModelScope.launchWithSupervisor {
             for (request in timetableRequests) {

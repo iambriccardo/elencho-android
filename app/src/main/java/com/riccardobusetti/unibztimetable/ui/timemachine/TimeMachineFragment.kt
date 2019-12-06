@@ -8,10 +8,8 @@ import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
-import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.riccardobusetti.unibztimetable.R
@@ -26,7 +24,6 @@ import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.custom.AdvancedFragment
 import com.riccardobusetti.unibztimetable.ui.custom.TimetableViewModel
 import com.riccardobusetti.unibztimetable.utils.DateUtils
-import com.riccardobusetti.unibztimetable.utils.custom.views.StatusView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.bottom_sheet_date_interval.view.*
@@ -38,12 +35,9 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
     private lateinit var bottomSheetView: View
     private lateinit var bottomSheetDialog: BottomSheetDialog
-    private lateinit var statusView: StatusView
     private lateinit var fromDateText: Button
     private lateinit var toDateText: Button
     private lateinit var timeTravelButton: Button
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var loadingView: LottieAnimationView
     private lateinit var floatingActionButton: FloatingActionButton
 
     override val appSection: AppSection
@@ -81,6 +75,8 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         bottomSheetDialog = BottomSheetDialog(context!!)
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.setOnCancelListener { changeBottomSheetState() }
+
+        loadingView = fragment_time_machine_lottie_loading_view
 
         statusView = fragment_time_machine_status_view
 
@@ -121,8 +117,6 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
             }
         }
 
-        loadingView = fragment_time_machine_lottie_loading_view
-
         floatingActionButton = fragment_time_machine_fab
         floatingActionButton.setOnClickListener { changeBottomSheetState() }
     }
@@ -137,9 +131,9 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
             it.error.observe(this, Observer { error ->
                 if (error != null) {
-                    showStatusView(error)
+                    showError(error)
                 } else {
-                    hideStatusView()
+                    hideError()
                 }
             })
 
@@ -206,25 +200,5 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
                 null -> TimeMachineViewModel.BottomSheetState.CLOSED
             }
         )
-    }
-
-    private fun showLoadingView() {
-        loadingView.visibility = View.VISIBLE
-    }
-
-    private fun hideLoadingView() {
-        loadingView.visibility = View.GONE
-    }
-
-    private fun showStatusView(error: TimetableViewModel.TimetableError) {
-        statusView.setError(error)
-        statusView.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
-        hideLoadingView()
-    }
-
-    private fun hideStatusView() {
-        statusView.visibility = View.GONE
-        recyclerView.visibility = View.VISIBLE
     }
 }
