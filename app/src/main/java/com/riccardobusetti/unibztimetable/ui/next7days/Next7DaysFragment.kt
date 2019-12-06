@@ -61,8 +61,10 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
 
         statusView = fragment_next_7_days_status_view
 
+        swipeToRefreshLayout = fragment_next_7_days_swipe_refresh
+
         recyclerView = fragment_next_7_days_recycler_view
-        recyclerView.apply {
+        recyclerView?.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = groupAdapter
             scrollListener = onEndReached(model?.listState!!) { page ->
@@ -74,7 +76,9 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
     override fun attachObservers() {
         model?.let {
             it.timetable.observe(this, Observer { timetable ->
-                groupAdapter.clearAndAddTimetable(timetable, recyclerView)
+                recyclerView?.let { recyclerView ->
+                    groupAdapter.clearAndAddTimetable(timetable, recyclerView)
+                }
             })
 
             it.error.observe(this, Observer { error ->
@@ -101,6 +105,10 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
         loadTimetable(true)
     }
 
+    override fun reloadData() {
+        reloadTimetable()
+    }
+
     private fun loadTimetable(isReset: Boolean) {
         model?.requestTimetable(
             TimetableViewModel.TimetableRequest(
@@ -108,6 +116,16 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
                 isReset = isReset
             )
         )
+    }
+
+    private fun reloadTimetable() {
+        model?.let {
+            recyclerView?.scrollToPosition(0)
+            it.enableListAnimation()
+            it.resetListState()
+            it.updateCurrentPage(TimetableViewModel.DEFAULT_PAGE)
+            loadTimetable(true)
+        }
     }
 
     private fun loadTimetableNewPage(page: String) {

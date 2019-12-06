@@ -75,8 +75,10 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
 
         statusView = fragment_today_status_view
 
+        swipeToRefreshLayout = fragment_today_swipe_refresh
+
         recyclerView = fragment_today_recycler_view
-        recyclerView.apply {
+        recyclerView?.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = groupAdapter
         }
@@ -85,7 +87,9 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
     override fun attachObservers() {
         model?.let {
             it.timetable.observe(this, Observer { timetable ->
-                groupAdapter.clearAndAddTimetable(timetable, recyclerView)
+                recyclerView?.let { recyclerView ->
+                    groupAdapter.clearAndAddTimetable(timetable, recyclerView)
+                }
             })
 
             it.error.observe(this, Observer { error ->
@@ -112,6 +116,10 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
         loadTimetable()
     }
 
+    override fun reloadData() {
+        reloadTimetable()
+    }
+
     private fun loadTimetable() {
         model?.requestTimetable(
             TimetableViewModel.TimetableRequest(
@@ -119,5 +127,13 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
                 isReset = true
             )
         )
+    }
+
+    private fun reloadTimetable() {
+        model?.let {
+            recyclerView?.scrollToPosition(0)
+            it.enableListAnimation()
+            loadTimetable()
+        }
     }
 }

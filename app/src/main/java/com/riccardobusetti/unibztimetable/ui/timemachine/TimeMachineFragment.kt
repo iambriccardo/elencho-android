@@ -110,8 +110,10 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
             changeBottomSheetState()
         }
 
+        swipeToRefreshLayout = fragment_time_machine_swipe_refresh
+
         recyclerView = fragment_time_machine_recycler_view
-        recyclerView.apply {
+        recyclerView?.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = groupAdapter
             scrollListener = onEndReached(model?.listState!!) { page ->
@@ -127,7 +129,9 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         model?.let {
             it.timetable.observe(this, Observer { timetable ->
                 groupAdapter.apply {
-                    clearAndAddTimetable(timetable, recyclerView)
+                    recyclerView?.let { recyclerView ->
+                        groupAdapter.clearAndAddTimetable(timetable, recyclerView)
+                    }
                 }
             })
 
@@ -168,6 +172,10 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         loadTimetable(true)
     }
 
+    override fun reloadData() {
+        reloadTimetable()
+    }
+
     private fun loadTimetable(isReset: Boolean) {
         model?.requestTimetable(
             TimetableViewModel.TimetableRequest(
@@ -181,6 +189,8 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
 
     private fun reloadTimetable() {
         model?.let {
+            recyclerView?.scrollToPosition(0)
+            it.enableListAnimation()
             it.resetListState()
             it.updateCurrentPage(TimetableViewModel.DEFAULT_PAGE)
             loadTimetable(true)

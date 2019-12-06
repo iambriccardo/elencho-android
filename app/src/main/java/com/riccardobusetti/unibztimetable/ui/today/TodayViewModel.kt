@@ -28,7 +28,7 @@ class TodayViewModel(
         viewModelScope.launchWithSupervisor {
             for (request in timetableRequests) {
                 hideError()
-                showLoading()
+                showLoading(request.isReset)
 
                 loadTimetable(getUserPrefs(), request.page)
                     .flowOn(Dispatchers.IO)

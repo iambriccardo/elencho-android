@@ -168,8 +168,8 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         }
     }
 
-    fun showLoading() {
-        if (isCurrentTimetableEmpty()) {
+    fun showLoading(isReset: Boolean = true) {
+        if (isReset || isCurrentTimetableEmpty()) {
             _loadingState.value =
                 TimetableLoadingState.LOADING_FROM_SCRATCH
         } else {

@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils.loadLayoutAnimation
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.snackbar.Snackbar
 import com.riccardobusetti.unibztimetable.R
@@ -33,10 +34,11 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
 
     protected lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
-    protected lateinit var parentLayout: View
-    protected lateinit var recyclerView: RecyclerView
-    protected lateinit var loadingView: LottieAnimationView
-    protected lateinit var statusView: StatusView
+    protected var parentLayout: View? = null
+    protected var swipeToRefreshLayout: SwipeRefreshLayout? = null
+    protected var recyclerView: RecyclerView? = null
+    protected var loadingView: LottieAnimationView? = null
+    protected var statusView: StatusView? = null
 
     /**
      * [RecyclerView] extension function which will handle the endless scroll of the list, by
@@ -86,6 +88,10 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
         model?.start()
 
         setupUi()
+        swipeToRefreshLayout?.setOnRefreshListener {
+            reloadData()
+            swipeToRefreshLayout?.isRefreshing = false
+        }
 
         attachObservers()
 
@@ -133,6 +139,8 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
      */
     open fun loadData() {}
 
+    open fun reloadData() {}
+
     /**
      * Adds the timetable to a specific adapter.
      * This method doesn't remove the existing items, so the logic must be handled separately.
@@ -177,11 +185,13 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
     }
 
     protected fun showLoadingView() {
-        loadingView.visibility = View.VISIBLE
+        recyclerView?.visibility = View.GONE
+        loadingView?.visibility = View.VISIBLE
     }
 
     protected fun hideLoadingView() {
-        loadingView.visibility = View.GONE
+        loadingView?.visibility = View.GONE
+        recyclerView?.visibility = View.VISIBLE
     }
 
     protected fun showError(error: TimetableViewModel.TimetableError) {
@@ -201,17 +211,19 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
     }
 
     private fun showStatusView(error: TimetableViewModel.TimetableError) {
-        statusView.setError(error)
-        statusView.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
+        statusView?.setError(error)
+        statusView?.visibility = View.VISIBLE
+        recyclerView?.visibility = View.GONE
     }
 
     private fun hideStatusView() {
-        statusView.visibility = View.GONE
-        recyclerView.visibility = View.VISIBLE
+        statusView?.visibility = View.GONE
+        recyclerView?.visibility = View.VISIBLE
     }
 
     private fun showSnackbar(error: TimetableViewModel.TimetableError) {
-        Snackbar.make(parentLayout, error.descriptionResId, Snackbar.LENGTH_LONG).show()
+        parentLayout?.let {
+            Snackbar.make(it, error.descriptionResId, Snackbar.LENGTH_LONG).show()
+        }
     }
 }

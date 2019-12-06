@@ -57,7 +57,7 @@ class TimeMachineViewModel(
         viewModelScope.launchWithSupervisor {
             for (request in timetableRequests) {
                 hideError()
-                showLoading()
+                showLoading(request.isReset)
 
                 loadTimetable(getUserPrefs(), request.fromDate!!, request.toDate!!, request.page)
                     .flowOn(Dispatchers.IO)
