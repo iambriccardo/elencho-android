@@ -194,6 +194,8 @@ abstract class TimetableViewModel : AdvancedViewModel() {
     fun showTimetable(courses: List<Course>?, isReset: Boolean) {
         coursesToCourseGroups(courses!!).let {
             if (it.isEmpty() && isCurrentPageFirstPage()) {
+                _timetable.value = it
+
                 showError(TimetableError.EMPTY_TIMETABLE)
             } else if (it.isNotEmpty()) {
                 hideError()
