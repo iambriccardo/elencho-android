@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
+import com.google.android.material.snackbar.Snackbar
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
@@ -32,6 +33,7 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
 
     protected lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
+    protected lateinit var parentLayout: View
     protected lateinit var recyclerView: RecyclerView
     protected lateinit var loadingView: LottieAnimationView
     protected lateinit var statusView: StatusView
@@ -183,14 +185,33 @@ abstract class AdvancedFragment<ViewModel : TimetableViewModel> : Fragment() {
     }
 
     protected fun showError(error: TimetableViewModel.TimetableError) {
-        statusView.setError(error)
-        statusView.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
-        hideLoadingView()
+        model?.let {
+            if (it.isCurrentTimetableEmpty()) {
+                showStatusView(error)
+            } else {
+                showSnackbar(error)
+            }
+
+            hideLoadingView()
+        }
     }
 
     protected fun hideError() {
+        hideStatusView()
+    }
+
+    private fun showStatusView(error: TimetableViewModel.TimetableError) {
+        statusView.setError(error)
+        statusView.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+    }
+
+    private fun hideStatusView() {
         statusView.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
+    }
+
+    private fun showSnackbar(error: TimetableViewModel.TimetableError) {
+        Snackbar.make(parentLayout, error.descriptionResId, Snackbar.LENGTH_LONG).show()
     }
 }

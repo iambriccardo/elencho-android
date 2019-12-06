@@ -70,6 +70,8 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     }
 
     override fun setupUi() {
+        parentLayout = fragment_time_machine_parent
+
         bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_date_interval, null)
 
         bottomSheetDialog = BottomSheetDialog(context!!)

@@ -55,6 +55,8 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
     }
 
     override fun setupUi() {
+        parentLayout = fragment_next_7_days_parent
+
         loadingView = fragment_next_7_days_lottie_loading_view
 
         statusView = fragment_next_7_days_status_view

@@ -30,14 +30,12 @@ abstract class TimetableViewModel : AdvancedViewModel() {
      */
     enum class TimetableError(
         @IdRes @StringRes val descriptionResId: Int,
-        @IdRes @DrawableRes val imageResId: Int,
-        val overlapContent: Boolean
+        @IdRes @DrawableRes val imageResId: Int
     ) {
-        EMPTY_TIMETABLE(R.string.empty_timetable, R.drawable.ic_happy, true),
+        EMPTY_TIMETABLE(R.string.empty_timetable, R.drawable.ic_happy),
         ERROR_WHILE_GETTING_TIMETABLE(
             R.string.error_while_getting_timetable,
-            R.drawable.ic_warning,
-            true
+            R.drawable.ic_warning
         )
     }
 
@@ -230,10 +228,10 @@ abstract class TimetableViewModel : AdvancedViewModel() {
     }
 
     fun <T> Flow<T>.handleErrors(tag: String): Flow<T> =
-        catch { e -> handleTimetableException(tag, e.message) }
+        catch { e -> handleTimetableException(tag, e) }
 
-    private fun handleTimetableException(tag: String, message: String?) {
-        Log.d(tag, "Error while loading the timetable: $message")
+    private fun handleTimetableException(tag: String, exception: Throwable) {
+        Log.d(tag, "Error while loading the timetable [${exception}]: ${exception.message}")
         showError(TimetableError.ERROR_WHILE_GETTING_TIMETABLE)
     }
 
@@ -249,7 +247,7 @@ abstract class TimetableViewModel : AdvancedViewModel() {
      */
     fun isViewModelEmpty() = _timetable.value == null
 
-    private fun isCurrentTimetableEmpty(): Boolean {
+    fun isCurrentTimetableEmpty(): Boolean {
         _timetable.value?.let {
             return it.isEmpty()
         }
