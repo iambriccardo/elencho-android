@@ -29,4 +29,11 @@ class UserPrefsHelper(context: Context) {
     }
 
     fun getString(key: String) = sharedPreferences.getString(key, DEFAULT_VALUE)!!
+
+    fun removeString(key: String) {
+        with(sharedPreferences.edit()) {
+            remove(key)
+            commit()
+        }
+    }
 }

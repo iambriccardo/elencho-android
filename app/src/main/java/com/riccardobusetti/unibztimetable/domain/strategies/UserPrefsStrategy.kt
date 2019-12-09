@@ -20,4 +20,9 @@ interface UserPrefsStrategy : Strategy {
      * strategy implementation.
      */
     fun getUserPrefs(): UserPrefs
+
+    /**
+     * Deletes the preferences that have a key contained in the given list.
+     */
+    fun deleteUserPrefs(prefsKeys: List<UserPrefs.Pref>)
 }

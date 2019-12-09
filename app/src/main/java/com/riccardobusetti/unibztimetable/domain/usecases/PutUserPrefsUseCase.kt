@@ -25,14 +25,4 @@ class PutUserPrefsUseCase(
 
         false
     }
-
-    fun putUserPrefs(departmentId: String, degreeId: String, studyPlanId: String) = putUserPrefs(
-        UserPrefs(
-            mapOf(
-                UserPrefs.Pref.DEPARTMENT_ID to departmentId,
-                UserPrefs.Pref.DEGREE_ID to degreeId,
-                UserPrefs.Pref.STUDY_PLAN_ID to studyPlanId
-            )
-        )
-    )
 }

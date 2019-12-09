@@ -36,4 +36,12 @@ class SharedPreferencesUserPrefsStrategy(
             }.toMap()
         )
     }
+
+    override fun deleteUserPrefs(prefsKeys: List<UserPrefs.Pref>) {
+        val usersPrefsHelper = UserPrefsHelper(context)
+
+        prefsKeys.forEach {
+            usersPrefsHelper.removeString(it.key)
+        }
+    }
 }
