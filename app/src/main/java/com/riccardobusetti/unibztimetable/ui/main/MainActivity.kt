@@ -1,7 +1,6 @@
 package com.riccardobusetti.unibztimetable.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.work.Constraints
@@ -118,7 +117,7 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val todayTimetableUpdateRequest =
-            PeriodicWorkRequestBuilder<TodayTimetableUpdateWorker>(6, TimeUnit.HOURS)
+            PeriodicWorkRequestBuilder<TodayTimetableUpdateWorker>(3, TimeUnit.HOURS)
                 .setConstraints(constraints)
                 .addTag(TodayTimetableUpdateWorker.TAG)
                 .build()
@@ -127,8 +126,6 @@ class MainActivity : AppCompatActivity() {
 
         if (!workManager.isAnyWorkScheduled(TodayTimetableUpdateWorker.TAG)) {
             workManager.enqueue(todayTimetableUpdateRequest)
-        } else {
-            Log.d("MAIN", "Work already scheduled")
         }
     }
 

@@ -28,7 +28,10 @@ class UserPrefsHelper(context: Context) {
         }
     }
 
-    fun getString(key: String) = sharedPreferences.getString(key, DEFAULT_VALUE)!!
+    fun getString(key: String): String? {
+        return if (sharedPreferences.contains(key))
+            sharedPreferences.getString(key, DEFAULT_VALUE) else null
+    }
 
     fun removeString(key: String) {
         with(sharedPreferences.edit()) {

@@ -42,14 +42,18 @@ class ShowTodayTimetableIntentService : JobIntentService() {
 
     override fun onHandleWork(intent: Intent) {
         runBlocking {
-            val localTimetable = withContext(Dispatchers.IO) {
-                getTodayTimetableUseCase.getLocalTodayTimetable()
-            }
+            try {
+                val localTimetable = withContext(Dispatchers.IO) {
+                    getTodayTimetableUseCase.getLocalTodayTimetable()
+                }
 
-            if (localTimetable.isNotEmpty())
-                showCoursesNotification(localTimetable)
-            else
-                showNoCoursesNotification()
+                if (localTimetable.isNotEmpty())
+                    showCoursesNotification(localTimetable)
+                else
+                    showNoCoursesNotification()
+            } catch (e: Exception) {
+                showNotification("Notification error", "${e.message}", "${e.stackTrace}")
+            }
         }
     }
 

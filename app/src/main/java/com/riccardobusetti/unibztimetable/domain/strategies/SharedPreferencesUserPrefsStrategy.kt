@@ -31,8 +31,10 @@ class SharedPreferencesUserPrefsStrategy(
         val usersPrefsHelper = UserPrefsHelper(context)
 
         return UserPrefs(
-            UserPrefs.Pref.values().map {
-                it to usersPrefsHelper.getString(it.key)
+            UserPrefs.Pref.values().mapNotNull {
+                val value = usersPrefsHelper.getString(it.key)
+
+                if (value != null) it to value else null
             }.toMap()
         )
     }
