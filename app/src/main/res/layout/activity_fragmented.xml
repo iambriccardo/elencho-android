@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity">
+    tools:context=".ui.custom.FragmentedActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/activity_main_app_bar"
+        android:id="@+id/activity_fragmented_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/activity_main_toolbar"
+            android:id="@+id/activity_fragmented_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -22,24 +22,13 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.riccardobusetti.unibztimetable.utils.custom.views.NonSwipeableViewPager
-        android:id="@+id/activity_main_view_pager"
+    <FrameLayout
+        android:id="@+id/activity_fragmented_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/activity_main_bottom_navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activity_main_app_bar" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/activity_main_bottom_navigation"
-        style="@style/Widget.MaterialComponents.BottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:itemIconTint="@color/color_bottom_navigation_item"
-        app:itemTextColor="@color/color_bottom_navigation_item"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_bottom_navigation" />
+        app:layout_constraintTop_toBottomOf="@id/activity_fragmented_app_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

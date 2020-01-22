@@ -16,20 +16,20 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
-import com.riccardobusetti.unibztimetable.ui.custom.AdvancedFragment
+import com.riccardobusetti.unibztimetable.ui.custom.TimetableFragment
 import com.riccardobusetti.unibztimetable.ui.custom.TimetableViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_next_7_days.*
 
-class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
+class Next7DaysFragment : TimetableFragment<Next7DaysViewModel>() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     override val appSection: AppSection
         get() = AppSection.NEXT_7_DAYS
 
-    override fun initModel(): Next7DaysViewModel {
+    override fun initViewModel(): Next7DaysViewModel {
         val timetableRepository =
             TimetableRepository(
                 LocalTimetableStrategy(activity!!.applicationContext),
@@ -54,7 +54,7 @@ class Next7DaysFragment : AdvancedFragment<Next7DaysViewModel>() {
         return inflater.inflate(R.layout.fragment_next_7_days, container, false)
     }
 
-    override fun setupUi() {
+    override fun setupUI() {
         parentLayout = fragment_next_7_days_parent
 
         loadingView = fragment_next_7_days_lottie_loading_view

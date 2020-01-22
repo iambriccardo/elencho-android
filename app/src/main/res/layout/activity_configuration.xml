@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.configuration.ConfigurationActivity">
 
     <ImageView
@@ -44,19 +44,19 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_configuration_recycler_view"
         android:layout_width="match_parent"
-        android:layout_below="@id/activity_configuration_description"
         android:layout_height="match_parent"
-        android:paddingBottom="56dp"
-        android:layout_marginTop="8dp" />
+        android:layout_below="@id/activity_configuration_description"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="56dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/activity_configuration_save_button"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        app:cornerRadius="20dp"
         android:layout_margin="16dp"
-        android:text="@string/save_configuration" />
+        android:text="@string/save_configuration"
+        app:cornerRadius="20dp" />
 
     <ProgressBar
         android:id="@+id/activity_configuration_progress_bar"

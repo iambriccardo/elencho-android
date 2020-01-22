@@ -1,6 +1,8 @@
 package com.riccardobusetti.unibztimetable.ui.main
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.work.Constraints
@@ -10,7 +12,9 @@ import androidx.work.WorkManager
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.ui.adapters.FragmentsAdapter
 import com.riccardobusetti.unibztimetable.ui.canteen.CanteenFragment
+import com.riccardobusetti.unibztimetable.ui.custom.FragmentedActivity
 import com.riccardobusetti.unibztimetable.ui.next7days.Next7DaysFragment
+import com.riccardobusetti.unibztimetable.ui.roomcheck.RoomCheckFragment
 import com.riccardobusetti.unibztimetable.ui.settings.SettingsFragment
 import com.riccardobusetti.unibztimetable.ui.timemachine.TimeMachineFragment
 import com.riccardobusetti.unibztimetable.ui.today.TodayFragment
@@ -88,6 +92,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUi() {
         val toolbar = activity_main_toolbar
+        setSupportActionBar(toolbar)
         toolbar.setTitle(R.string.app_name)
         toolbar.setTitleTextAppearance(this, R.style.LogoTextAppearance)
 
@@ -95,6 +100,22 @@ class MainActivity : AppCompatActivity() {
         viewPager.offscreenPageLimit = appFragments.size
         viewPager.adapter = FragmentsAdapter(appFragments, supportFragmentManager)
         viewPager.currentItem = appFragments[0].index
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_room_check -> {
+                FragmentedActivity.launch(this, RoomCheckFragment::class.java)
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun attachListeners() {

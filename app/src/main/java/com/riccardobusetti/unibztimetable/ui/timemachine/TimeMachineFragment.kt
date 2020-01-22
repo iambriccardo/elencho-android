@@ -21,7 +21,7 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
-import com.riccardobusetti.unibztimetable.ui.custom.AdvancedFragment
+import com.riccardobusetti.unibztimetable.ui.custom.TimetableFragment
 import com.riccardobusetti.unibztimetable.ui.custom.TimetableViewModel
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.xwray.groupie.GroupAdapter
@@ -29,7 +29,7 @@ import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.bottom_sheet_date_interval.view.*
 import kotlinx.android.synthetic.main.fragment_time_machine.*
 
-class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
+class TimeMachineFragment : TimetableFragment<TimeMachineViewModel>() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
@@ -43,7 +43,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
     override val appSection: AppSection
         get() = AppSection.TIME_MACHINE
 
-    override fun initModel(): TimeMachineViewModel {
+    override fun initViewModel(): TimeMachineViewModel {
         val timetableRepository =
             TimetableRepository(
                 LocalTimetableStrategy(activity!!.applicationContext),
@@ -69,7 +69,7 @@ class TimeMachineFragment : AdvancedFragment<TimeMachineViewModel>() {
         return inflater.inflate(R.layout.fragment_time_machine, container, false)
     }
 
-    override fun setupUi() {
+    override fun setupUI() {
         parentLayout = fragment_time_machine_parent
 
         bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_date_interval, null)

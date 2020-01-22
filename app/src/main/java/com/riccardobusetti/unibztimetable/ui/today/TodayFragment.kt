@@ -16,21 +16,21 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
-import com.riccardobusetti.unibztimetable.ui.custom.AdvancedFragment
+import com.riccardobusetti.unibztimetable.ui.custom.TimetableFragment
 import com.riccardobusetti.unibztimetable.ui.custom.TimetableViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_today.*
 
 
-class TodayFragment : AdvancedFragment<TodayViewModel>() {
+class TodayFragment : TimetableFragment<TodayViewModel>() {
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     override val appSection: AppSection
         get() = AppSection.TODAY
 
-    override fun initModel(): TodayViewModel {
+    override fun initViewModel(): TodayViewModel {
         val timetableRepository =
             TimetableRepository(
                 LocalTimetableStrategy(activity!!.applicationContext),
@@ -68,7 +68,7 @@ class TodayFragment : AdvancedFragment<TodayViewModel>() {
         }
     }
 
-    override fun setupUi() {
+    override fun setupUI() {
         parentLayout = fragment_today_parent
 
         loadingView = fragment_today_lottie_loading_view

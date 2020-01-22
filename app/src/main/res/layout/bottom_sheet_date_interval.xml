@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -19,8 +19,8 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        app:cornerRadius="20dp"
-        android:textAlignment="viewStart" />
+        android:textAlignment="viewStart"
+        app:cornerRadius="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,15 +36,15 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        app:cornerRadius="20dp"
-        android:textAlignment="viewStart" />
+        android:textAlignment="viewStart"
+        app:cornerRadius="20dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bottom_sheet_date_interval_button"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
-        app:cornerRadius="20dp"
-        android:text="@string/time_travel" />
+        android:text="@string/time_travel"
+        app:cornerRadius="20dp" />
 
 </LinearLayout>
