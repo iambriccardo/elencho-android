@@ -13,7 +13,7 @@ import com.riccardobusetti.unibztimetable.domain.entities.Course
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy
 import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
-import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
+import com.riccardobusetti.unibztimetable.domain.usecases.GetTodaysLocalTimetableUseCase
 import com.riccardobusetti.unibztimetable.ui.main.MainActivity
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import com.riccardobusetti.unibztimetable.utils.NotificationUtils
@@ -33,7 +33,7 @@ class ShowTodayTimetableIntentService : JobIntentService() {
         }
     }
 
-    private val getTodayTimetableUseCase = GetTodayTimetableUseCase(
+    private val getLocalTodayTimetableUseCase = GetTodaysLocalTimetableUseCase(
         TimetableRepository(
             LocalTimetableStrategy(this),
             RemoteTimetableStrategy()
@@ -44,7 +44,7 @@ class ShowTodayTimetableIntentService : JobIntentService() {
         runBlocking {
             try {
                 val localTimetable = withContext(Dispatchers.IO) {
-                    getTodayTimetableUseCase.getLocalTodayTimetable()
+                    getLocalTodayTimetableUseCase.execute(null)
                 }
 
                 if (localTimetable.isNotEmpty())

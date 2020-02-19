@@ -7,7 +7,6 @@ import com.riccardobusetti.unibztimetable.domain.entities.*
 import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.custom.TimetableViewModel
-import com.riccardobusetti.unibztimetable.utils.NetworkUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
@@ -43,18 +42,19 @@ class TodayViewModel(
     }
 
     private suspend fun getUserPrefs() = withContext(Dispatchers.IO) {
-        getUserPrefsUseCase.getUserPrefs()
+        getUserPrefsUseCase.execute(null)
     }
 
     private fun loadTimetable(
         userPrefs: UserPrefs,
         page: String
-    ) = getTodayTimetableUseCase.getTodayTimetableFiltered(
-        userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_ID),
-        userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_ID),
-        userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),
-        page,
-        NetworkUtils.isConnectedToInternet(context)
+    ) = getTodayTimetableUseCase.execute(
+        TimetableParams(
+            department = userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_ID),
+            degree = userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_ID),
+            studyPlan = userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),
+            page = page
+        )
     )
 
     override fun coursesToCourseGroups(courses: List<Course>): List<DisplayableCourseGroup> {

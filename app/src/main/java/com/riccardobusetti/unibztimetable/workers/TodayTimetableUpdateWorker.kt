@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.riccardobusetti.unibztimetable.domain.entities.TimetableParams
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.entities.safeGet
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
@@ -55,15 +56,17 @@ class TodayTimetableUpdateWorker(
     }
 
     private suspend fun getUserPrefs() = withContext(Dispatchers.IO) {
-        getUserPrefsUseCase.getUserPrefs()
+        getUserPrefsUseCase.execute(null)
     }
 
     private fun updateTodayTimetable(
         userPrefs: UserPrefs
-    ) = updateLocalTodayTimetableUseCase.updateLocalTodayTimetable(
-        userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_ID),
-        userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_ID),
-        userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),
-        "0"
+    ) = updateLocalTodayTimetableUseCase.execute(
+        TimetableParams(
+            department = userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_ID),
+            degree = userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_ID),
+            studyPlan = userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),
+            page = "0"
+        )
     )
 }

@@ -2,6 +2,7 @@ package com.riccardobusetti.unibztimetable.domain.usecases
 
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
+import com.riccardobusetti.unibztimetable.domain.entities.TimetableParams
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 
 /**
@@ -15,23 +16,20 @@ import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepositor
  */
 class UpdateLocalTodayTimetableUseCase(
     private val timetableRepository: TimetableRepository
-) : UseCase {
+) : UseCase<TimetableParams, Boolean> {
 
-    fun updateLocalTodayTimetable(
-        department: String,
-        degree: String,
-        studyPlan: String,
-        page: String
-    ) {
+    override fun execute(params: TimetableParams): Boolean {
         val websiteUrl = WebSiteUrl.Builder()
             .useDeviceLanguage()
-            .withDepartment(department)
-            .withDegree(degree)
-            .withStudyPlan(studyPlan)
+            .withDepartment(params.department)
+            .withDegree(params.degree)
+            .withStudyPlan(params.studyPlan)
             .onlyToday()
-            .atPage(page)
+            .atPage(params.page)
             .build()
 
         timetableRepository.updateLocalTimetable(AppSection.TODAY, websiteUrl)
+
+        return true
     }
 }

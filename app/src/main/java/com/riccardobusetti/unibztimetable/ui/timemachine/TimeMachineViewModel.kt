@@ -1,5 +1,6 @@
 package com.riccardobusetti.unibztimetable.ui.timemachine
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -16,6 +17,7 @@ import kotlinx.coroutines.withContext
 import java.util.*
 
 class TimeMachineViewModel(
+    private val context: Context,
     private val getIntervalDateTimetableUseCase: GetIntervalDateTimetableUseCase,
     private val getUserPrefsUseCase: GetUserPrefsUseCase
 ) : TimetableViewModel() {
@@ -72,20 +74,22 @@ class TimeMachineViewModel(
     }
 
     private suspend fun getUserPrefs() = withContext(Dispatchers.IO) {
-        getUserPrefsUseCase.getUserPrefs()
+        getUserPrefsUseCase.execute(null)
     }
 
     private fun loadTimetable(
         userPrefs: UserPrefs, fromDate: String,
         toDate: String,
         page: String
-    ) = getIntervalDateTimetableUseCase.getTimetableInInterval(
-        userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_ID),
-        userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_ID),
-        userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),
-        fromDate,
-        toDate,
-        page
+    ) = getIntervalDateTimetableUseCase.execute(
+        TimetableParams(
+            department = userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_ID),
+            degree = userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_ID),
+            studyPlan = userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),
+            fromDate = fromDate,
+            toDate = toDate,
+            page = page
+        )
     )
 
     override fun coursesToCourseGroups(courses: List<Course>): List<DisplayableCourseGroup> {

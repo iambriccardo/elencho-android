@@ -9,6 +9,17 @@ import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.ui.roomcheck.RoomCheckFragment
 import kotlinx.android.synthetic.main.activity_fragmented.*
 
+/**
+ * Extension of [AppCompatActivity] which is responsible of housing a fragment
+ * inside of a standard activity.
+ *
+ * The purpose of this class is having the ability to start new fragmented activities
+ * so that we write all the UI code mainly in [Fragment] to allow for more flexibility.
+ * Having all the code in fragments enables the application to mount dynamically various parts
+ * of the application in any container available, thus reusing code.
+ *
+ * @author Riccardo Busetti
+ */
 class FragmentedActivity : AppCompatActivity() {
 
     companion object {

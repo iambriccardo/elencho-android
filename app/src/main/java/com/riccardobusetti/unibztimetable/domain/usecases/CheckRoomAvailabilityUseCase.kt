@@ -3,6 +3,7 @@ package com.riccardobusetti.unibztimetable.domain.usecases
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.Course
+import com.riccardobusetti.unibztimetable.domain.entities.TimetableParams
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -16,13 +17,13 @@ import kotlinx.coroutines.flow.take
  */
 class CheckRoomAvailabilityUseCase(
     private val timetableRepository: TimetableRepository
-) : UseCase {
+) : UseCase<TimetableParams, Flow<List<Course>>> {
 
-    fun checkTodaysRoomAvailability(room: String): Flow<List<Course>> {
+    override fun execute(params: TimetableParams): Flow<List<Course>> {
         val webSiteUrl = WebSiteUrl.Builder()
             .useDeviceLanguage()
             .onlyToday()
-            .withSearchKeywords(room)
+            .withSearchKeywords(params.searchKeyword)
             .build()
 
         return timetableRepository.getTimetable(AppSection.ROOM_CHECK, webSiteUrl)

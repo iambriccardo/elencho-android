@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
+import com.riccardobusetti.unibztimetable.domain.entities.UserPrefsParams
 import com.riccardobusetti.unibztimetable.domain.usecases.DeleteLocalTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.receivers.AlarmReceiver
@@ -66,7 +67,7 @@ class ConfigurationViewModel(
 
             val isSuccessful = withContext(Dispatchers.IO) {
                 userPrefs.value?.let {
-                    putUserPrefsUseCase.putUserPrefs(UserPrefs(it))
+                    putUserPrefsUseCase.execute(UserPrefsParams(UserPrefs(it)))
 
                     return@withContext true
                 }
@@ -78,7 +79,7 @@ class ConfigurationViewModel(
             // local timetable.
             if (isSuccessful) {
                 withContext(Dispatchers.IO) {
-                    deleteLocalTimetableUseCase.deleteLocalTimetable()
+                    deleteLocalTimetableUseCase.execute(null)
                 }
             }
 

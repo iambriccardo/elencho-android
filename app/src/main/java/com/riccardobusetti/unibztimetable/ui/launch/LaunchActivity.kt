@@ -39,7 +39,7 @@ class LaunchActivity : AppCompatActivity() {
             UserPrefsRepository(SharedPreferencesUserPrefsStrategy(this))
         )
 
-        val userPrefs = getUserPrefsUseCase.getUserPrefs()
+        val userPrefs = getUserPrefsUseCase.execute(null)
             .prefs
 
         Log.d("UserPrefs", "$userPrefs")

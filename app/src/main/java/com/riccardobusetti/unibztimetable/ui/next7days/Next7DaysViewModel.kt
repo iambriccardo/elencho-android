@@ -1,5 +1,6 @@
 package com.riccardobusetti.unibztimetable.ui.next7days
 
+import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.domain.entities.*
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 
 class Next7DaysViewModel(
+    private val context: Context,
     private val getNext7DaysTimetableUseCase: GetNext7DaysTimetableUseCase,
     private val getUserPrefsUseCase: GetUserPrefsUseCase
 ) : TimetableViewModel() {
@@ -39,17 +41,19 @@ class Next7DaysViewModel(
     }
 
     private suspend fun getUserPrefs() = withContext(Dispatchers.IO) {
-        getUserPrefsUseCase.getUserPrefs()
+        getUserPrefsUseCase.execute(null)
     }
 
     private fun loadTimetable(
         userPrefs: UserPrefs,
         page: String
-    ) = getNext7DaysTimetableUseCase.getNext7DaysTimetable(
-        userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_ID),
-        userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_ID),
-        userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),
-        page
+    ) = getNext7DaysTimetableUseCase.execute(
+        TimetableParams(
+            department = userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_ID),
+            degree = userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_ID),
+            studyPlan = userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),
+            page = page
+        )
     )
 
     override fun coursesToCourseGroups(courses: List<Course>): List<DisplayableCourseGroup> {

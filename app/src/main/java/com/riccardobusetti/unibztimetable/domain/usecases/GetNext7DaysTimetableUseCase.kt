@@ -3,6 +3,7 @@ package com.riccardobusetti.unibztimetable.domain.usecases
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.Course
+import com.riccardobusetti.unibztimetable.domain.entities.TimetableParams
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -15,26 +16,18 @@ import kotlinx.coroutines.flow.Flow
  */
 class GetNext7DaysTimetableUseCase(
     private val timetableRepository: TimetableRepository
-) : UseCase {
+) : UseCase<TimetableParams, Flow<List<Course>>> {
 
-    /**
-     * Gets the timetable for the next 7 days of the week.
-     */
-    fun getNext7DaysTimetable(
-        department: String,
-        degree: String,
-        studyPlan: String,
-        page: String
-    ): Flow<List<Course>> {
+    override fun execute(params: TimetableParams): Flow<List<Course>> {
         val webSiteUrl =
             WebSiteUrl.Builder()
                 .useDeviceLanguage()
-                .withDepartment(department)
-                .withDegree(degree)
-                .withStudyPlan(studyPlan)
+                .withDepartment(params.department)
+                .withDegree(params.degree)
+                .withStudyPlan(params.studyPlan)
                 .fromTomorrow()
                 .toNext7Days()
-                .atPage(page)
+                .atPage(params.page)
                 .build()
 
         return timetableRepository.getTimetable(AppSection.NEXT_7_DAYS, webSiteUrl)

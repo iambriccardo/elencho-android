@@ -1,5 +1,6 @@
 package com.riccardobusetti.unibztimetable.domain.usecases
 
+import com.riccardobusetti.unibztimetable.domain.entities.Params
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 
 /**
@@ -9,10 +10,12 @@ import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepositor
  */
 class DeleteLocalTimetableUseCase(
     private val timetableRepository: TimetableRepository
-) : UseCase {
+) : UseCase<Params?, Boolean> {
 
 
-    fun deleteLocalTimetable() {
+    override fun execute(params: Params?): Boolean {
         timetableRepository.deleteLocalTimetable()
+
+        return true
     }
 }

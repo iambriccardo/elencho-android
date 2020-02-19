@@ -55,6 +55,7 @@ class TimeMachineFragment : TimetableFragment<TimeMachineViewModel>() {
         return ViewModelProviders.of(
             this,
             TimeMachineViewModelFactory(
+                context!!,
                 GetIntervalDateTimetableUseCase(timetableRepository),
                 GetUserPrefsUseCase(userPrefsRepository)
             )

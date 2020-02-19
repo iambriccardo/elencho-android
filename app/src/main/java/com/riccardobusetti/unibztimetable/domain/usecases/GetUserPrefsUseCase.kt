@@ -1,5 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.usecases
 
+import com.riccardobusetti.unibztimetable.domain.entities.Params
+import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 
 /**
@@ -9,7 +11,7 @@ import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepositor
  */
 class GetUserPrefsUseCase(
     private val userPrefsRepository: UserPrefsRepository
-) : UseCase {
+) : UseCase<Params?, UserPrefs> {
 
-    fun getUserPrefs() = userPrefsRepository.getUserPrefs()
+    override fun execute(params: Params?) = userPrefsRepository.getUserPrefs()
 }

@@ -21,8 +21,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     UserPrefsRepository(
                         SharedPreferencesUserPrefsStrategy(context)
                     )
-                ).getUserPrefs()
-                    .prefs[UserPrefs.Pref.DAILY_NOTIFICATION_TIME]
+                ).execute(null).prefs[UserPrefs.Pref.DAILY_NOTIFICATION_TIME]
 
                 dailyNotificationTime?.let {
                     val hourOfTheDay = it.split(":")[0]

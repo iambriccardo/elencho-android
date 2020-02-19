@@ -1,5 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.usecases
 
+import com.riccardobusetti.unibztimetable.domain.entities.Params
+
 /**
  * Interface which describes the use case which is responsible of running business logic
  * on data queried by the repository.
@@ -11,4 +13,10 @@ package com.riccardobusetti.unibztimetable.domain.usecases
  *
  * @author Riccardo Busetti
  */
-interface UseCase
+interface UseCase<P : Params?, T> {
+
+    /**
+     * Executes some operations and returns the result.
+     */
+    fun execute(params: P): T
+}

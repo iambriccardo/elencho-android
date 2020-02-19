@@ -129,7 +129,7 @@ class ConfigurationActivity : AppCompatActivity() {
         webView.settings.domStorageEnabled = true
         webView.overScrollMode = WebView.OVER_SCROLL_NEVER
 
-        val client = StrictWebViewClient(this, listOf(WebSiteUrl.TIMETABLE_URL_REGEX))
+        val client = StrictWebViewClient(this, listOf(WebSiteUrl.TIMETABLE_URL_NOT_LOCATED_REGEX))
         client.listenForProgress({
             showWebViewLoading()
         }, {

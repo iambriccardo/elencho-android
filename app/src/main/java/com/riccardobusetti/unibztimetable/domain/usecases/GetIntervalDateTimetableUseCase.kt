@@ -3,6 +3,7 @@ package com.riccardobusetti.unibztimetable.domain.usecases
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.Course
+import com.riccardobusetti.unibztimetable.domain.entities.TimetableParams
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -14,28 +15,18 @@ import kotlinx.coroutines.flow.Flow
  */
 class GetIntervalDateTimetableUseCase(
     private val timetableRepository: TimetableRepository
-) : UseCase {
+) : UseCase<TimetableParams, Flow<List<Course>>> {
 
-    /**
-     * Gets the timetable between an interval of dates.
-     */
-    fun getTimetableInInterval(
-        department: String,
-        degree: String,
-        studyPlan: String,
-        fromDate: String,
-        toDate: String,
-        page: String
-    ): Flow<List<Course>> {
+    override fun execute(params: TimetableParams): Flow<List<Course>> {
         val webSiteUrl =
             WebSiteUrl.Builder()
                 .useDeviceLanguage()
-                .withDepartment(department)
-                .withDegree(degree)
-                .withStudyPlan(studyPlan)
-                .fromDate(fromDate)
-                .toDate(toDate)
-                .atPage(page)
+                .withDepartment(params.department)
+                .withDegree(params.degree)
+                .withStudyPlan(params.studyPlan)
+                .fromDate(params.fromDate)
+                .toDate(params.toDate)
+                .atPage(params.page)
                 .build()
 
         return timetableRepository.getTimetable(AppSection.TIME_MACHINE, webSiteUrl)

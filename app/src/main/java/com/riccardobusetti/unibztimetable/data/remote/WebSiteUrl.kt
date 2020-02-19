@@ -30,10 +30,11 @@ class WebSiteUrl private constructor(val url: String) {
 
         const val DEFAULT_URL_PARAM_VALUE = "-1"
 
-        const val BASE_TIMETABLE_URL = "$BASE_URL/en/$TIMETABLE_URL_PATH"
+        const val BASE_TIMETABLE_URL = "$BASE_URL/$TIMETABLE_URL_PATH"
         const val BASE_CANTEEN_URL = "https://unibz.markas.info/menu"
 
-        const val TIMETABLE_URL_REGEX = "(https://www.unibz.it/)..(/timetable)"
+        const val TIMETABLE_URL_LOCATED_REGEX = "(https://www.unibz.it/)..(/timetable)"
+        const val TIMETABLE_URL_NOT_LOCATED_REGEX = "(https://www.unibz.it/timetable)"
         const val CANTEEN_URL_REGEX = "(https://unibz.markas.info/menu)"
 
         /**
@@ -55,7 +56,8 @@ class WebSiteUrl private constructor(val url: String) {
         }
 
         private fun validateUrl(url: String) =
-            StringUtils.isMatchingPartially(TIMETABLE_URL_REGEX, url)
+            StringUtils.isMatchingPartially(TIMETABLE_URL_NOT_LOCATED_REGEX, url)
+                    || StringUtils.isMatchingPartially(TIMETABLE_URL_LOCATED_REGEX, url)
     }
 
     /**
@@ -71,6 +73,10 @@ class WebSiteUrl private constructor(val url: String) {
         var toDate: String = "",
         var page: String = "1"
     ) {
+        companion object {
+            private const val NULL_VALUE = ""
+        }
+
         private fun String.replaceDefaultUrlParam() = this.replace(DEFAULT_URL_PARAM_VALUE, "")
 
         private fun String.encodeSpaces() = this.replace(" ", "+")
@@ -87,16 +93,17 @@ class WebSiteUrl private constructor(val url: String) {
         fun useDeviceLanguage() =
             apply { this.language = Locale.ENGLISH.language }
 
-        fun withSearchKeywords(searchByKeywords: String) =
-            apply { this.searchByKeywords = searchByKeywords }
+        fun withSearchKeywords(searchByKeywords: String?) =
+            apply { this.searchByKeywords = searchByKeywords ?: NULL_VALUE }
 
-        fun withLanguage(language: String) = apply { this.language = language }
+        fun withLanguage(language: String?) = apply { this.language = language ?: NULL_VALUE }
 
-        fun withDepartment(department: String) = apply { this.department = department }
+        fun withDepartment(department: String?) =
+            apply { this.department = department ?: NULL_VALUE }
 
-        fun withDegree(degree: String) = apply { this.degree = degree }
+        fun withDegree(degree: String?) = apply { this.degree = degree ?: NULL_VALUE }
 
-        fun withStudyPlan(studyPlan: String) = apply { this.studyPlan = studyPlan }
+        fun withStudyPlan(studyPlan: String?) = apply { this.studyPlan = studyPlan ?: NULL_VALUE }
 
         fun onlyToday() = apply {
             this.fromDate = getTodayDate()
@@ -107,15 +114,15 @@ class WebSiteUrl private constructor(val url: String) {
 
         fun fromTomorrow() = apply { this.fromDate = DateUtils.getCurrentDatePlusDaysFormatted(1) }
 
-        fun fromDate(fromDate: String) = apply { this.fromDate = fromDate }
+        fun fromDate(fromDate: String?) = apply { this.fromDate = fromDate ?: NULL_VALUE }
 
         fun toNext7Days() = apply { this.toDate = DateUtils.getCurrentDatePlusDaysFormatted(7) }
 
         fun toOneYear() = apply { this.toDate = DateUtils.getCurrentDatePlusYearsFormatted(1) }
 
-        fun toDate(toDate: String) = apply { this.toDate = toDate }
+        fun toDate(toDate: String?) = apply { this.toDate = toDate ?: NULL_VALUE }
 
-        fun atPage(page: String) = apply { this.page = page }
+        fun atPage(page: String?) = apply { this.page = page ?: NULL_VALUE }
 
         fun build() = WebSiteUrl(
             BASE_URL +
