@@ -27,7 +27,6 @@ class TimetableRepository(
         appSection: AppSection,
         webSiteUrl: WebSiteUrl
     ) = flow {
-        // TODO: handle DB related error.
         val localTimetable = getLocalTimetable(appSection)
 
         // Checking if the timetable saved on the database is of the same day.
@@ -41,7 +40,7 @@ class TimetableRepository(
             Log.d(TAG, "Emitted timetable from the database")
         }
 
-        // TODO: handle remote error.
+        // TODO: investigate app blocking while we reached page 2 with no items and we prompt for a reload.
         val remoteTimetable = getRemoteTimetable(webSiteUrl)
         Log.d(TAG, "Emittig timetable from remote: $remoteTimetable")
         emit(remoteTimetable)

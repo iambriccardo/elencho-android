@@ -24,6 +24,8 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
 
     companion object {
         private const val TAG = "WebSiteScraper"
+
+        private const val NO_LOCATION = "N/A"
     }
 
     /**
@@ -114,7 +116,7 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
         //  Mathematics I
         //  Mathematics II
         // These two courses are on the same class but on the HTML the location is only contained once.
-        var prevRoom = "Error while getting location"
+        var prevRoom = NO_LOCATION
         val currentYear = DateUtils.getCurrentYear()
 
         return day.selectAllCourses().map { course ->
@@ -135,7 +137,8 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
                 type = course.selectCourseType()
             )
 
-            prevRoom = course.selectCourseRoom()
+            prevRoom =
+                if (course.selectCourseRoom().isBlank()) NO_LOCATION else course.selectCourseRoom()
 
             return@map mappedCourse
         }
