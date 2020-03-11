@@ -99,10 +99,10 @@ class ConfigurationViewModel(
 
         urlValues?.let {
             result =
-                putUserPref(UserPrefs.Pref.DEPARTMENT_ID, urlValues[UserPrefs.Pref.DEPARTMENT_ID])
-            result = putUserPref(UserPrefs.Pref.DEGREE_ID, urlValues[UserPrefs.Pref.DEGREE_ID])
+                putUserPref(UserPrefs.Pref.DEPARTMENT_KEY, urlValues[UserPrefs.Pref.DEPARTMENT_KEY])
+            result = putUserPref(UserPrefs.Pref.DEGREE_KEY, urlValues[UserPrefs.Pref.DEGREE_KEY])
             result =
-                putUserPref(UserPrefs.Pref.STUDY_PLAN_ID, urlValues[UserPrefs.Pref.STUDY_PLAN_ID])
+                putUserPref(UserPrefs.Pref.STUDY_PLAN_KEY, urlValues[UserPrefs.Pref.STUDY_PLAN_KEY])
         }
 
         return result

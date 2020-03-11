@@ -46,11 +46,11 @@ class WebSiteUrl private constructor(val url: String) {
             val uri = Uri.parse(url)
 
             return mapOf(
-                UserPrefs.Pref.DEPARTMENT_ID to (uri.getQueryParameter(DEPARTMENT_URL_PARAM)
+                UserPrefs.Pref.DEPARTMENT_KEY to (uri.getQueryParameter(DEPARTMENT_URL_PARAM)
                     ?: DEFAULT_URL_PARAM_VALUE),
-                UserPrefs.Pref.DEGREE_ID to (uri.getQueryParameter(DEGREE_URL_PARAM)
+                UserPrefs.Pref.DEGREE_KEY to (uri.getQueryParameter(DEGREE_URL_PARAM)
                     ?: DEFAULT_URL_PARAM_VALUE),
-                UserPrefs.Pref.STUDY_PLAN_ID to (uri.getQueryParameter(STUDY_PLAN_URL_PARAM)
+                UserPrefs.Pref.STUDY_PLAN_KEY to (uri.getQueryParameter(STUDY_PLAN_URL_PARAM)
                     ?: DEFAULT_URL_PARAM_VALUE)
             )
         }

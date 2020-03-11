@@ -1,8 +1,8 @@
 package com.riccardobusetti.unibztimetable.data.remote.retrofit
 
-import com.riccardobusetti.unibztimetable.domain.entities.Degree
-import com.riccardobusetti.unibztimetable.domain.entities.Department
-import com.riccardobusetti.unibztimetable.domain.entities.StudyPlan
+import com.riccardobusetti.unibztimetable.domain.entities.choices.Degree
+import com.riccardobusetti.unibztimetable.domain.entities.choices.Department
+import com.riccardobusetti.unibztimetable.domain.entities.choices.StudyPlan
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -78,7 +78,6 @@ abstract class TimetableFragment<ViewModel : TimetableViewModel> : BaseFragment<
         super.onViewCreated(view, savedInstanceState)
 
         model?.let {
-            it.start()
             if (it.isViewModelEmpty()) {
                 loadData()
             }

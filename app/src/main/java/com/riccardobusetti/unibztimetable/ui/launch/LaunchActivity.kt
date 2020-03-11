@@ -11,6 +11,7 @@ import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUse
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.configuration.ConfigurationActivity
 import com.riccardobusetti.unibztimetable.ui.main.MainActivity
+import com.riccardobusetti.unibztimetable.ui.setup.SetupActivity
 
 class LaunchActivity : AppCompatActivity() {
 
@@ -30,7 +31,7 @@ class LaunchActivity : AppCompatActivity() {
         if (isApplicationConfigured()) {
             launchMain()
         } else {
-            launchConfiguration()
+            launchSetup()
         }
     }
 
@@ -57,8 +58,8 @@ class LaunchActivity : AppCompatActivity() {
         }
     }
 
-    private fun launchConfiguration() {
-        Intent(this, ConfigurationActivity::class.java).apply {
+    private fun launchSetup() {
+        Intent(this, SetupActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             putExtra(ConfigurationActivity.IS_FIRST_CONFIGURATION_KEY, true)

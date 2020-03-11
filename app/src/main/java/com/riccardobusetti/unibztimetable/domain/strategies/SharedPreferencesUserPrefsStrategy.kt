@@ -20,7 +20,11 @@ class SharedPreferencesUserPrefsStrategy(
         val userPrefsHelper = UserPrefsHelper(context)
 
         userPrefs.prefs.forEach {
-            userPrefsHelper.putString(it.key.key, it.value)
+            if (it.value != UserPrefs.NO_VALUE) {
+                userPrefsHelper.putString(it.key.key, it.value)
+            } else {
+                userPrefsHelper.removeString(it.key.key)
+            }
         }
     }
 

@@ -55,9 +55,9 @@ class TodayViewModel(
         page: String
     ) = getTodayTimetableUseCase.execute(
         TimetableParams(
-            department = userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_ID),
-            degree = userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_ID),
-            studyPlan = userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_ID),
+            department = userPrefs.prefs.safeGet(UserPrefs.Pref.DEPARTMENT_KEY),
+            degree = userPrefs.prefs.safeGet(UserPrefs.Pref.DEGREE_KEY),
+            studyPlan = userPrefs.prefs.safeGet(UserPrefs.Pref.STUDY_PLAN_KEY),
             page = page
         )
     )

@@ -9,6 +9,10 @@ import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
  */
 class UserPrefs(val prefs: Map<Pref, String> = mutableMapOf()) {
 
+    companion object {
+        const val NO_VALUE = ""
+    }
+
     /**
      * Enum containing all the types of preferences.
      *
@@ -28,9 +32,9 @@ class UserPrefs(val prefs: Map<Pref, String> = mutableMapOf()) {
      * @author Riccardo Busetti
      */
     enum class Pref(val key: String, val type: PrefType) {
-        DEPARTMENT_ID("DEPARTMENT", PrefType.MANDATORY),
-        DEGREE_ID("DEGREE", PrefType.MANDATORY),
-        STUDY_PLAN_ID("STUDY_PLAN", PrefType.MANDATORY),
+        DEPARTMENT_KEY("DEPARTMENT", PrefType.MANDATORY),
+        DEGREE_KEY("DEGREE", PrefType.MANDATORY),
+        STUDY_PLAN_KEY("STUDY_PLAN", PrefType.MANDATORY),
         DAILY_NOTIFICATION_TIME("DAILY_NOTIFICATION_TIME", PrefType.NOT_MANDATORY)
     }
 }
