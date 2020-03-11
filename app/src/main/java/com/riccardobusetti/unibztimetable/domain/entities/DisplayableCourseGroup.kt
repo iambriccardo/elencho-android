@@ -1,5 +1,6 @@
 package com.riccardobusetti.unibztimetable.domain.entities
 
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 
 data class DisplayableCourseGroup(

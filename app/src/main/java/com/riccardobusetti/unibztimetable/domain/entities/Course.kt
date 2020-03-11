@@ -3,6 +3,7 @@ package com.riccardobusetti.unibztimetable.domain.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import org.threeten.bp.LocalDateTime
 

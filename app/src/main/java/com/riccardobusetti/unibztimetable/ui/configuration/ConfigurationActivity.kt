@@ -22,7 +22,6 @@ import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrat
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.DeleteLocalTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
-import com.riccardobusetti.unibztimetable.ui.choosefaculty.ChooseFacultyActivity
 import com.riccardobusetti.unibztimetable.ui.items.ConfigurationItem
 import com.riccardobusetti.unibztimetable.ui.main.MainActivity
 import com.riccardobusetti.unibztimetable.utils.DateUtils
@@ -143,9 +142,7 @@ class ConfigurationActivity : AppCompatActivity() {
     }
 
     private fun studyPlan(successful: (Boolean) -> Unit) {
-        Intent(this, ChooseFacultyActivity::class.java).apply {
-            startActivity(this)
-        }
+
     }
 
     private fun dailyNotification(successful: (Boolean) -> Unit) {

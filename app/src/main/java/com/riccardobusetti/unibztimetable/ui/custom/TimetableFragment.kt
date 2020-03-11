@@ -12,8 +12,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.snackbar.Snackbar
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import com.riccardobusetti.unibztimetable.ui.items.CourseGroupItem
 import com.riccardobusetti.unibztimetable.ui.items.CourseItem
 import com.riccardobusetti.unibztimetable.ui.items.OngoingCourseItem

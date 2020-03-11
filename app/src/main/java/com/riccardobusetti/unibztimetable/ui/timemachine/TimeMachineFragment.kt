@@ -13,7 +13,7 @@ import com.afollestad.materialdialogs.datetime.datePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.domain.entities.AppSection
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy

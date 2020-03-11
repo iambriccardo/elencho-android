@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.domain.entities.AppSection
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy
 import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy

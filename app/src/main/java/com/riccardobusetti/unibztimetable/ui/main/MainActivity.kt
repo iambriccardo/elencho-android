@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.ui.adapters.FragmentsAdapter
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppFragment
+import com.riccardobusetti.unibztimetable.ui.adapters.MainFragmentsAdapter
 import com.riccardobusetti.unibztimetable.ui.canteen.CanteenFragment
 import com.riccardobusetti.unibztimetable.ui.custom.FragmentedActivity
 import com.riccardobusetti.unibztimetable.ui.next7days.Next7DaysFragment
@@ -28,19 +28,13 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    data class AppFragment(
-        val index: Int,
-        val itemId: Int,
-        val fragment: Fragment
-    )
-
     data class AndroidNotificationChannel(
         val id: String,
         val name: String,
         val description: String
     )
 
-    private val appFragments: List<AppFragment>
+    private val mainFragments: List<AppFragment>
         get() = listOf(
             AppFragment(
                 0,
@@ -85,21 +79,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         createNotificationChannels()
-        setupUi()
+        setupUI()
         attachListeners()
         startWorkers()
     }
 
-    private fun setupUi() {
+    private fun setupUI() {
         val toolbar = activity_main_toolbar
         setSupportActionBar(toolbar)
         toolbar.setTitle(R.string.app_name)
         toolbar.setTitleTextAppearance(this, R.style.LogoTextAppearance)
 
         viewPager = activity_main_view_pager
-        viewPager.offscreenPageLimit = appFragments.size
-        viewPager.adapter = FragmentsAdapter(appFragments, supportFragmentManager)
-        viewPager.currentItem = appFragments[0].index
+        viewPager.offscreenPageLimit = mainFragments.size
+        viewPager.adapter = MainFragmentsAdapter(mainFragments, supportFragmentManager)
+        viewPager.currentItem = mainFragments[0].index
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -120,7 +114,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun attachListeners() {
         activity_main_bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
-            viewPager.currentItem = appFragments.find { it.itemId == menuItem.itemId }!!.index
+            viewPager.currentItem = mainFragments.find { it.itemId == menuItem.itemId }!!.index
 
             true
         }

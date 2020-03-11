@@ -34,7 +34,7 @@
 
         <activity android:name=".ui.custom.FragmentedActivity" />
 
-        <activity android:name=".ui.choosefaculty.ChooseFacultyActivity" />
+        <activity android:name=".ui.setup.SetupActivity" />
 
         <service
             android:name=".services.ShowTodayTimetableIntentService"

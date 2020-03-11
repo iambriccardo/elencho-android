@@ -1,7 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.usecases
 
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
-import com.riccardobusetti.unibztimetable.domain.entities.AppSection
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.params.TimetableParams
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 

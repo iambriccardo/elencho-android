@@ -57,4 +57,5 @@
     <string name="daily_notification_courses_big_text">%1$s - %2$s</string>
     <string name="daily_notification_no_courses_title">You don\'t have any courses today</string>
     <string name="daily_notification_no_courses_text">Enjoy your day</string>
+    <string name="next">Next</string>
 </resources>

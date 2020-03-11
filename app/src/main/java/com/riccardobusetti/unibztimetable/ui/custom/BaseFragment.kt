@@ -3,7 +3,7 @@ package com.riccardobusetti.unibztimetable.ui.custom
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.riccardobusetti.unibztimetable.domain.entities.AppSection
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import java.io.Serializable
 
 abstract class BaseFragment<ViewModel> : Fragment(), Serializable {
@@ -60,6 +60,7 @@ abstract class BaseFragment<ViewModel> : Fragment(), Serializable {
      * It is important to note that the model is only available after the [onCreate] method will
      * be called, thus it is nullable.
      */
+    // TODO: find a way to replace this with [by viewModels {}].
     protected var model: ViewModel? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

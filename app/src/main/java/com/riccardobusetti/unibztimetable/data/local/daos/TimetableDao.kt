@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.Course
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 
 @Dao
 interface TimetableDao {

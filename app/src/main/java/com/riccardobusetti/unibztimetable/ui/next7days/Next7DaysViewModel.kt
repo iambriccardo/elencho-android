@@ -2,8 +2,12 @@ package com.riccardobusetti.unibztimetable.ui.next7days
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
-import com.riccardobusetti.unibztimetable.domain.entities.*
+import com.riccardobusetti.unibztimetable.domain.entities.Course
+import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
+import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.params.TimetableParams
+import com.riccardobusetti.unibztimetable.domain.entities.safeGet
 import com.riccardobusetti.unibztimetable.domain.usecases.GetNext7DaysTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.custom.TimetableViewModel

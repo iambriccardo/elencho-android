@@ -1,7 +1,7 @@
 package com.riccardobusetti.unibztimetable.data.local.converters
 
 import androidx.room.TypeConverter
-import com.riccardobusetti.unibztimetable.domain.entities.AppSection
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 
 class AppSectionConverter {
 

@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.domain.entities.AppSection
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy

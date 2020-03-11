@@ -3,8 +3,8 @@ package com.riccardobusetti.unibztimetable.domain.strategies
 import android.content.Context
 import androidx.room.Room
 import com.riccardobusetti.unibztimetable.data.local.AppDatabase
-import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.Course
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 
 /**
  * Local implementation for fetching the timetable.

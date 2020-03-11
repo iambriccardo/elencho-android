@@ -2,8 +2,8 @@ package com.riccardobusetti.unibztimetable.domain.repositories
 
 import android.util.Log
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
-import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.Course
+import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy
 import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
 import kotlinx.coroutines.flow.flow
