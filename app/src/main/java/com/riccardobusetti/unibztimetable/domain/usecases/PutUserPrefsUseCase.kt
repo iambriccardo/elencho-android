@@ -1,7 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.usecases
 
 import android.util.Log
-import com.riccardobusetti.unibztimetable.domain.entities.UserPrefsParams
+import com.riccardobusetti.unibztimetable.domain.entities.params.UserPrefsParams
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 
 /**

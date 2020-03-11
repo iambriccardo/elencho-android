@@ -84,7 +84,7 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
      * the algorithm is going to scrape.
      */
     private fun getWebSite(): Document {
-        Log.d(TAG, "Scraping the website at url -> ${webSiteUrl.url}")
+        Log.d(TAG, "scraping the website at url -> ${webSiteUrl.url}")
 
         return Jsoup.connect(webSiteUrl.url).get()
     }

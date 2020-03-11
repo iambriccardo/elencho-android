@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.*
+import com.riccardobusetti.unibztimetable.domain.entities.params.TimetableParams
 import com.riccardobusetti.unibztimetable.domain.usecases.GetTodayTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.custom.TimetableViewModel
@@ -24,7 +25,7 @@ class TodayViewModel(
     }
 
     override fun start() {
-        viewModelScope.launchWithSupervisor {
+        viewModelScope.safeLaunch(TAG) {
             for (request in timetableRequests) {
                 hideError()
                 showLoading(request.isReset)

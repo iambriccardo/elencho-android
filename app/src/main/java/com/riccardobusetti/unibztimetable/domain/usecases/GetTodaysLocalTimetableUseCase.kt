@@ -2,7 +2,7 @@ package com.riccardobusetti.unibztimetable.domain.usecases
 
 import com.riccardobusetti.unibztimetable.domain.entities.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.Course
-import com.riccardobusetti.unibztimetable.domain.entities.Params
+import com.riccardobusetti.unibztimetable.domain.entities.params.Params
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 
 /**

@@ -55,7 +55,7 @@ class CanteenFragment : Fragment() {
         }
 
         webView.webViewClient = StrictWebViewClient(
-            context!!,
+            requireContext(),
             listOf(WebSiteUrl.CANTEEN_URL_REGEX)
         )
     }

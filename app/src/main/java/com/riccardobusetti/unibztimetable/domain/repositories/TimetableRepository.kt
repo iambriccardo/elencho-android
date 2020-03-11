@@ -35,16 +35,16 @@ class TimetableRepository(
         if (appSection == AppSection.TODAY && showLocalData) {
             // We emit the local timetable first, so the user doesn't have to wait for the remote
             // data to be loaded.
-            Log.d(TAG, "Emittig timetable from the database: $localTimetable")
+            Log.d(TAG, "emittig timetable from the database: $localTimetable")
             emit(localTimetable)
-            Log.d(TAG, "Emitted timetable from the database")
+            Log.d(TAG, "emitted timetable from the database")
         }
 
         // TODO: investigate app blocking while we reached page 2 with no items and we prompt for a reload.
         val remoteTimetable = getRemoteTimetable(webSiteUrl)
-        Log.d(TAG, "Emittig timetable from remote: $remoteTimetable")
+        Log.d(TAG, "emittig timetable from remote: $remoteTimetable")
         emit(remoteTimetable)
-        Log.d(TAG, "Emitted timetable from remote")
+        Log.d(TAG, "emitted timetable from remote")
 
         // For now we support only the TODAY section in the database.
         if (appSection == AppSection.TODAY) {
@@ -68,7 +68,7 @@ class TimetableRepository(
             it.appendAppSection(appSection)
         })
 
-        Log.d(TAG, "Updating timetable")
+        Log.d(TAG, "updating timetable")
     }
 
     fun deleteLocalTimetable() {

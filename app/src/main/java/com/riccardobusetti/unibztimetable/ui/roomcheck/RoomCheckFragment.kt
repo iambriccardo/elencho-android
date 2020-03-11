@@ -22,7 +22,7 @@ class RoomCheckFragment : BaseFragment<RoomCheckViewModel>() {
     override fun initViewModel(): RoomCheckViewModel {
         val timetableRepository =
             TimetableRepository(
-                LocalTimetableStrategy(activity!!.applicationContext),
+                LocalTimetableStrategy(requireContext()),
                 RemoteTimetableStrategy()
             )
 

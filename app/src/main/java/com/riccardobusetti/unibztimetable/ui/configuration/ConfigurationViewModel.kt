@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.data.remote.WebSiteUrl
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
-import com.riccardobusetti.unibztimetable.domain.entities.UserPrefsParams
+import com.riccardobusetti.unibztimetable.domain.entities.params.UserPrefsParams
 import com.riccardobusetti.unibztimetable.domain.usecases.DeleteLocalTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.receivers.AlarmReceiver
@@ -31,6 +31,10 @@ class ConfigurationViewModel(
     private val putUserPrefsUseCase: PutUserPrefsUseCase,
     private val deleteLocalTimetableUseCase: DeleteLocalTimetableUseCase
 ) : AdvancedViewModel() {
+
+    companion object {
+        private const val TAG = "ConfigurationViewModel"
+    }
 
     enum class Configuration(
         @IdRes @StringRes val titleResId: Int,
@@ -55,19 +59,19 @@ class ConfigurationViewModel(
 
     val userPrefs = MutableLiveData<Map<UserPrefs.Pref, String>>().apply { this.value = mapOf() }
 
-    init {
-        start()
-    }
-
     override fun start() {}
 
     fun putUserPrefs() {
-        viewModelScope.launchWithSupervisor {
+        viewModelScope.safeLaunch(TAG) {
             loading.value = true
 
             val isSuccessful = withContext(Dispatchers.IO) {
                 userPrefs.value?.let {
-                    putUserPrefsUseCase.execute(UserPrefsParams(UserPrefs(it)))
+                    putUserPrefsUseCase.execute(
+                        UserPrefsParams(
+                            UserPrefs(it)
+                        )
+                    )
 
                     return@withContext true
                 }

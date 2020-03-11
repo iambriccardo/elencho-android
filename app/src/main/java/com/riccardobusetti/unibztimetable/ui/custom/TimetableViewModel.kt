@@ -233,11 +233,11 @@ abstract class TimetableViewModel : AdvancedViewModel() {
         catch { e -> handleTimetableException(tag, e) }
 
     private fun handleTimetableException(tag: String, exception: Throwable) {
-        Log.d(tag, "Error while loading the timetable [${exception}]: ${exception.message}")
+        Log.d(tag, "error while loading timetable: $exception -> ${exception.message}")
         showError(TimetableError.ERROR_WHILE_GETTING_TIMETABLE)
     }
 
-    fun isCurrentPageFirstPage() = currentPage == DEFAULT_PAGE
+    private fun isCurrentPageFirstPage() = currentPage == DEFAULT_PAGE
 
     /**
      * Checks if the view model is empty, in order to know if data needs to be loaded

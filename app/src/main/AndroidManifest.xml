@@ -34,6 +34,8 @@
 
         <activity android:name=".ui.custom.FragmentedActivity" />
 
+        <activity android:name=".ui.choosefaculty.ChooseFacultyActivity" />
+
         <service
             android:name=".services.ShowTodayTimetableIntentService"
             android:permission="android.permission.BIND_JOB_SERVICE" />

@@ -1,9 +1,10 @@
 package com.riccardobusetti.unibztimetable.ui.custom
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 
 /**
  * Extension class of [ViewModel] responsible of providing a common structure for all the viewmodels
@@ -13,19 +14,31 @@ import kotlinx.coroutines.supervisorScope
  */
 abstract class AdvancedViewModel : ViewModel() {
 
+    companion object {
+        private const val NO_TAG = "Untagged"
+    }
+
     var isFirstLaunch = true
 
-    /**
-     * Launches a coroutine and wraps it into the supervisorScope in order to avoid error propagation
-     * of children to the parent.
-     *
-     * This is done because we want to have error checking inside of the coroutine to make the code
-     * readable and easily mantainable.
-     *
-     * @author Riccardo Busetti
-     */
-    protected fun CoroutineScope.launchWithSupervisor(block: suspend CoroutineScope.() -> Unit) =
-        this.launch { supervisorScope { block() } }
+    protected fun CoroutineScope.safeLaunch(
+        tag: String? = NO_TAG,
+        block: suspend CoroutineScope.() -> Unit
+    ) = safeLaunch(tag, block, null)
+
+    protected fun CoroutineScope.safeLaunch(
+        tag: String? = NO_TAG,
+        block: suspend CoroutineScope.() -> Unit,
+        onError: ((Throwable) -> Unit)?
+    ) =
+        this.launch(catchError(tag, onError)) {
+            block()
+        }
+
+    private fun catchError(tag: String?, onError: ((Throwable) -> Unit)? = null) =
+        CoroutineExceptionHandler { _, throwable ->
+            Log.d(tag, "an error occurred in the viewmodel: $throwable")
+            onError?.let { it(throwable) }
+        }
 
     /**
      * Starts the view model and set ups everything needed for it to properly work.

@@ -1,4 +1,4 @@
-package com.riccardobusetti.unibztimetable.domain.entities
+package com.riccardobusetti.unibztimetable.domain.entities.params
 
 class TimetableParams(
     val searchKeyword: String? = null,

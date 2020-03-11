@@ -46,16 +46,17 @@ class TimeMachineFragment : TimetableFragment<TimeMachineViewModel>() {
     override fun initViewModel(): TimeMachineViewModel {
         val timetableRepository =
             TimetableRepository(
-                LocalTimetableStrategy(activity!!.applicationContext),
+                LocalTimetableStrategy(requireContext()),
                 RemoteTimetableStrategy()
             )
 
-        val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(context!!))
+        val userPrefsRepository =
+            UserPrefsRepository(SharedPreferencesUserPrefsStrategy(requireContext()))
 
         return ViewModelProviders.of(
             this,
             TimeMachineViewModelFactory(
-                context!!,
+                requireContext(),
                 GetIntervalDateTimetableUseCase(timetableRepository),
                 GetUserPrefsUseCase(userPrefsRepository)
             )
@@ -75,7 +76,7 @@ class TimeMachineFragment : TimetableFragment<TimeMachineViewModel>() {
 
         bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_date_interval, null)
 
-        bottomSheetDialog = BottomSheetDialog(context!!)
+        bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.setOnCancelListener { changeBottomSheetState() }
 
@@ -85,7 +86,7 @@ class TimeMachineFragment : TimetableFragment<TimeMachineViewModel>() {
 
         fromDateText = bottomSheetView.bottom_sheet_date_interval_from_text
         fromDateText.setOnClickListener {
-            MaterialDialog(context!!).show {
+            MaterialDialog(requireContext()).show {
                 datePicker(
                     currentDate = model?.getCurrentFromDate()
                 ) { _, date ->
@@ -96,7 +97,7 @@ class TimeMachineFragment : TimetableFragment<TimeMachineViewModel>() {
 
         toDateText = bottomSheetView.bottom_sheet_date_interval_to_text
         toDateText.setOnClickListener {
-            MaterialDialog(context!!).show {
+            MaterialDialog(requireContext()).show {
                 datePicker(
                     currentDate = model?.getCurrentToDate()
                 ) { _, date ->

@@ -33,15 +33,16 @@ class TodayFragment : TimetableFragment<TodayViewModel>() {
     override fun initViewModel(): TodayViewModel {
         val timetableRepository =
             TimetableRepository(
-                LocalTimetableStrategy(activity!!.applicationContext),
+                LocalTimetableStrategy(requireContext().applicationContext),
                 RemoteTimetableStrategy()
             )
-        val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(context!!))
+        val userPrefsRepository =
+            UserPrefsRepository(SharedPreferencesUserPrefsStrategy(requireContext()))
 
         return ViewModelProviders.of(
             this,
             TodayViewModelFactory(
-                context!!,
+                requireContext(),
                 GetTodayTimetableUseCase(timetableRepository),
                 GetUserPrefsUseCase(userPrefsRepository)
             )

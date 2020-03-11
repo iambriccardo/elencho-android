@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.riccardobusetti.unibztimetable.domain.entities.*
+import com.riccardobusetti.unibztimetable.domain.entities.params.TimetableParams
 import com.riccardobusetti.unibztimetable.domain.usecases.GetIntervalDateTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.ui.custom.TimetableViewModel
@@ -56,7 +57,7 @@ class TimeMachineViewModel(
         get() = _bottomSheetState
 
     override fun start() {
-        viewModelScope.launchWithSupervisor {
+        viewModelScope.safeLaunch(TAG) {
             for (request in timetableRequests) {
                 hideError()
                 showLoading(request.isReset)

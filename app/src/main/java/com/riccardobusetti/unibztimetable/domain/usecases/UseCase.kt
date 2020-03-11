@@ -1,6 +1,6 @@
 package com.riccardobusetti.unibztimetable.domain.usecases
 
-import com.riccardobusetti.unibztimetable.domain.entities.Params
+import com.riccardobusetti.unibztimetable.domain.entities.params.Params
 
 /**
  * Interface which describes the use case which is responsible of running business logic

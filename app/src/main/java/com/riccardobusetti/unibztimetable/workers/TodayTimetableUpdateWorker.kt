@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.riccardobusetti.unibztimetable.domain.entities.TimetableParams
 import com.riccardobusetti.unibztimetable.domain.entities.UserPrefs
+import com.riccardobusetti.unibztimetable.domain.entities.params.TimetableParams
 import com.riccardobusetti.unibztimetable.domain.entities.safeGet
 import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
@@ -48,7 +48,7 @@ class TodayTimetableUpdateWorker(
                 updateTodayTimetable(getUserPrefs())
             }
         } catch (e: Exception) {
-            Log.d(TAG, "There was an error while updating the today timetable -> $e")
+            Log.d(TAG, "an error occurred while updating the today timetable: $e")
             Result.retry()
         }
 

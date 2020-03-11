@@ -32,15 +32,16 @@ class Next7DaysFragment : TimetableFragment<Next7DaysViewModel>() {
     override fun initViewModel(): Next7DaysViewModel {
         val timetableRepository =
             TimetableRepository(
-                LocalTimetableStrategy(activity!!.applicationContext),
+                LocalTimetableStrategy(requireContext()),
                 RemoteTimetableStrategy()
             )
-        val userPrefsRepository = UserPrefsRepository(SharedPreferencesUserPrefsStrategy(context!!))
+        val userPrefsRepository =
+            UserPrefsRepository(SharedPreferencesUserPrefsStrategy(requireContext()))
 
         return ViewModelProviders.of(
             this,
             Next7DaysViewModelFactory(
-                context!!,
+                requireContext(),
                 GetNext7DaysTimetableUseCase(timetableRepository),
                 GetUserPrefsUseCase(userPrefsRepository)
             )
