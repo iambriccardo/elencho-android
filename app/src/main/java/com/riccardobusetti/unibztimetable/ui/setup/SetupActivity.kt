@@ -7,6 +7,7 @@ import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.app.AppFragment
 import com.riccardobusetti.unibztimetable.ui.adapters.SetupFragmentsAdapter
 import com.riccardobusetti.unibztimetable.ui.choosefaculty.ChooseFacultyFragment
+import com.riccardobusetti.unibztimetable.ui.custom.BackableFragment
 import com.riccardobusetti.unibztimetable.ui.main.MainActivity
 import com.riccardobusetti.unibztimetable.utils.custom.views.NonSwipeableViewPager
 import kotlinx.android.synthetic.main.activity_setup.*
@@ -57,4 +58,14 @@ class SetupActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    override fun onBackPressed() {
+        val currentVisibleFragment = getCurrentVisibleFragment()
+        if (currentVisibleFragment is BackableFragment) {
+            currentVisibleFragment.onBackPressed()
+        }
+    }
+
+    private fun getCurrentVisibleFragment() =
+        supportFragmentManager.findFragmentByTag("android:switcher:" + R.id.activity_setup_view_pager + ":" + viewPager.currentItem)
 }

@@ -53,3 +53,7 @@ fun Map<UserPrefs.Pref, String>.onlyMandatory() =
     this.filter { it.key.type == UserPrefs.PrefType.MANDATORY }
 
 fun Array<UserPrefs.Pref>.onlyMandatory() = this.filter { it.type == UserPrefs.PrefType.MANDATORY }
+
+fun Array<UserPrefs.Pref>.onlyChooseFaculty() = this.filter {
+    it == UserPrefs.Pref.DEPARTMENT_KEY || it == UserPrefs.Pref.DEGREE_KEY || it == UserPrefs.Pref.STUDY_PLAN_KEY
+}

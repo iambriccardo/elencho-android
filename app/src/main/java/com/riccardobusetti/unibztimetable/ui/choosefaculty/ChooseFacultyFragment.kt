@@ -11,14 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
-import com.riccardobusetti.unibztimetable.domain.entities.choices.Degree
-import com.riccardobusetti.unibztimetable.domain.entities.choices.Department
 import com.riccardobusetti.unibztimetable.domain.entities.choices.FacultyChoice
-import com.riccardobusetti.unibztimetable.domain.entities.choices.StudyPlan
 import com.riccardobusetti.unibztimetable.domain.repositories.ChooseFacultyRepository
+import com.riccardobusetti.unibztimetable.domain.repositories.TimetableRepository
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
+import com.riccardobusetti.unibztimetable.domain.strategies.LocalTimetableStrategy
+import com.riccardobusetti.unibztimetable.domain.strategies.RemoteTimetableStrategy
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
+import com.riccardobusetti.unibztimetable.domain.usecases.DeleteLocalTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
+import com.riccardobusetti.unibztimetable.ui.custom.BackableFragment
 import com.riccardobusetti.unibztimetable.ui.custom.BaseFragment
 import com.riccardobusetti.unibztimetable.ui.items.FacultyItem
 import com.riccardobusetti.unibztimetable.ui.setup.SetupActivity
@@ -26,7 +28,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_choose_faculty.*
 
-class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>() {
+class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFragment {
 
     override val appSection: AppSection
         get() = AppSection.CHOOSE_FACULTY
@@ -39,13 +41,18 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>() {
     override fun initViewModel(): ChooseFacultyViewModel {
         val userPrefsRepository =
             UserPrefsRepository(SharedPreferencesUserPrefsStrategy(requireContext()))
+        val timetableRepository = TimetableRepository(
+            LocalTimetableStrategy(requireContext()),
+            RemoteTimetableStrategy()
+        )
 
         return ViewModelProviders.of(
             this,
             ChooseFacultyViewModelFactory(
                 requireContext(),
                 ChooseFacultyRepository(),
-                PutUserPrefsUseCase(userPrefsRepository)
+                PutUserPrefsUseCase(userPrefsRepository),
+                DeleteLocalTimetableUseCase(timetableRepository)
             )
         ).get(ChooseFacultyViewModel::class.java)
     }
@@ -88,6 +95,10 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>() {
         }
     }
 
+    override fun onBackPressed() {
+        model?.goBack()
+    }
+
     private fun showChoices(choices: List<FacultyChoice>) {
         groupAdapter.clear()
         choices.forEach { choice ->
@@ -96,19 +107,7 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>() {
     }
 
     private fun handleChoiceClick(choice: FacultyChoice) {
-        model?.let {
-            when (choice) {
-                is Department -> {
-                    it.selectDepartment(choice)
-                }
-                is Degree -> {
-                    it.selectDegree(choice)
-                }
-                is StudyPlan -> {
-                    it.selectStudyPlan(choice)
-                }
-            }
-        }
+        model?.select(choice)
     }
 
     private fun showNextButton() {
