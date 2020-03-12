@@ -13,8 +13,8 @@ android {
         applicationId "com.riccardobusetti.unibztimetable"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 4
-        versionName "0.2.0b"
+        versionCode 5
+        versionName "0.3.0b"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
