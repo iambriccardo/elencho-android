@@ -36,7 +36,7 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var nextButton: Button
+    private lateinit var continueButton: Button
 
     override fun initViewModel(): ChooseFacultyViewModel {
         val userPrefsRepository =
@@ -72,10 +72,10 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
             adapter = groupAdapter
         }
 
-        nextButton = fragment_choose_faculty_next_button
-        nextButton.setOnClickListener {
+        continueButton = fragment_choose_faculty_continue_button
+        continueButton.setOnClickListener {
             model?.saveUserPrefs()
-            (requireActivity() as SetupActivity).finishSetup()
+            (requireActivity() as SetupActivity).nextSetupPhase()
         }
     }
 
@@ -85,18 +85,24 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
                 showChoices(choices)
             })
 
-            it.showNextButton.observe(this@ChooseFacultyFragment, Observer { show ->
+            it.showContinueButton.observe(this@ChooseFacultyFragment, Observer { show ->
                 if (show) {
-                    showNextButton()
+                    showContinueButton()
                 } else {
-                    hideNextButton()
+                    hideContinueButton()
                 }
             })
         }
     }
 
     override fun onBackPressed() {
-        model?.goBack()
+        model?.let {
+            if (it.canGoBack()) {
+                it.goBack()
+            } else {
+                (requireActivity() as SetupActivity).previousSetupPhase()
+            }
+        }
     }
 
     private fun showChoices(choices: List<FacultyChoice>) {
@@ -110,11 +116,11 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
         model?.select(choice)
     }
 
-    private fun showNextButton() {
-        nextButton.visibility = View.VISIBLE
+    private fun showContinueButton() {
+        continueButton.visibility = View.VISIBLE
     }
 
-    private fun hideNextButton() {
-        nextButton.visibility = View.GONE
+    private fun hideContinueButton() {
+        continueButton.visibility = View.GONE
     }
 }

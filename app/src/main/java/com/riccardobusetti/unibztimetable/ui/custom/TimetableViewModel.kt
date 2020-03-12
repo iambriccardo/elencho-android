@@ -21,7 +21,7 @@ import kotlinx.coroutines.runBlocking
  *
  * @author Riccardo Busetti
  */
-abstract class TimetableViewModel : AdvancedViewModel() {
+abstract class TimetableViewModel : BaseViewModel() {
 
     /**
      * Enum class representing all the errors which can occur while getting the timetable.

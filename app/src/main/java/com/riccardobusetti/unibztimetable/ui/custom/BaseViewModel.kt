@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
  *
  * @author Riccardo Busetti
  */
-abstract class AdvancedViewModel : ViewModel() {
+abstract class BaseViewModel : ViewModel() {
 
     companion object {
         private const val NO_TAG = "Untagged"

@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import java.io.Serializable
 
-abstract class BaseFragment<ViewModel : AdvancedViewModel> : Fragment(), Serializable {
+abstract class BaseFragment<ViewModel : BaseViewModel> : Fragment(), Serializable {
 
     /**
      * Variables that holds the section of the app that inherits this advanced fragment behavior.

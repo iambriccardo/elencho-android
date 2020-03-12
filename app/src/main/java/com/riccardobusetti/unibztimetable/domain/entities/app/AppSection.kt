@@ -5,5 +5,6 @@ enum class AppSection(val type: Int) {
     NEXT_7_DAYS(1),
     TIME_MACHINE(2),
     ROOM_CHECK(3),
-    CHOOSE_FACULTY(4)
+    CHOOSE_FACULTY(4),
+    CHOOSE_NOTIFICATION_TIME(4)
 }

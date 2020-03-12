@@ -60,4 +60,8 @@
     <string name="next">Next</string>
     <string name="choose_faculty_header">Choose courses</string>
     <string name="choose_faculty_description">It\'s time to select which courses you want to track!</string>
+    <string name="choose_time">Choose time</string>
+    <string name="finish">Finish</string>
+    <string name="choose_notification_time_header">Choose notification time</string>
+    <string name="choose_notification_time_description">The app can help you remeber the daily courses, so that you won\'t miss one.</string>
 </resources>

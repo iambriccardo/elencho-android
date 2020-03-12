@@ -14,7 +14,7 @@ import com.riccardobusetti.unibztimetable.domain.entities.params.UserPrefsParams
 import com.riccardobusetti.unibztimetable.domain.usecases.DeleteLocalTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
 import com.riccardobusetti.unibztimetable.receivers.AlarmReceiver
-import com.riccardobusetti.unibztimetable.ui.custom.AdvancedViewModel
+import com.riccardobusetti.unibztimetable.ui.custom.BaseViewModel
 import com.riccardobusetti.unibztimetable.utils.AlarmUtils
 import com.riccardobusetti.unibztimetable.utils.DateUtils
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +30,7 @@ class ConfigurationViewModel(
     private val context: Context,
     private val putUserPrefsUseCase: PutUserPrefsUseCase,
     private val deleteLocalTimetableUseCase: DeleteLocalTimetableUseCase
-) : AdvancedViewModel() {
+) : BaseViewModel() {
 
     companion object {
         private const val TAG = "ConfigurationViewModel"

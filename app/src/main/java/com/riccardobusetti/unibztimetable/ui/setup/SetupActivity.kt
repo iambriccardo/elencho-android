@@ -7,6 +7,7 @@ import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.app.AppFragment
 import com.riccardobusetti.unibztimetable.ui.adapters.SetupFragmentsAdapter
 import com.riccardobusetti.unibztimetable.ui.choosefaculty.ChooseFacultyFragment
+import com.riccardobusetti.unibztimetable.ui.choosenotificationtime.ChooseNotificationTimeFragment
 import com.riccardobusetti.unibztimetable.ui.custom.BackableFragment
 import com.riccardobusetti.unibztimetable.ui.main.MainActivity
 import com.riccardobusetti.unibztimetable.utils.custom.views.NonSwipeableViewPager
@@ -21,6 +22,10 @@ class SetupActivity : AppCompatActivity() {
             AppFragment(
                 index = 0,
                 fragment = ChooseFacultyFragment()
+            ),
+            AppFragment(
+                index = 1,
+                fragment = ChooseNotificationTimeFragment()
             )
         )
 
@@ -41,16 +46,26 @@ class SetupActivity : AppCompatActivity() {
     fun nextSetupPhase() {
         if (currentSetupPhaseIndex < setupFragments.size) {
             currentSetupPhaseIndex++
+            updateViewPagerPosition()
+        } else {
+            finishSetup()
         }
     }
 
     fun previousSetupPhase() {
-        if (currentSetupPhaseIndex > 0) {
+        if (currentSetupPhaseIndex > 1) {
             currentSetupPhaseIndex--
+            updateViewPagerPosition()
+        } else {
+            finish()
         }
     }
 
-    fun finishSetup() {
+    private fun updateViewPagerPosition() {
+        viewPager.currentItem = currentSetupPhaseIndex
+    }
+
+    private fun finishSetup() {
         Intent(this, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

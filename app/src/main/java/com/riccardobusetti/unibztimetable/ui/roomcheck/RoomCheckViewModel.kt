@@ -7,14 +7,14 @@ import com.riccardobusetti.unibztimetable.domain.entities.DisplayableCourseGroup
 import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.params.TimetableParams
 import com.riccardobusetti.unibztimetable.domain.usecases.CheckRoomAvailabilityUseCase
-import com.riccardobusetti.unibztimetable.ui.custom.AdvancedViewModel
+import com.riccardobusetti.unibztimetable.ui.custom.BaseViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class RoomCheckViewModel(
     private val checkRoomAvailabilityUseCase: CheckRoomAvailabilityUseCase
-) : AdvancedViewModel() {
+) : BaseViewModel() {
 
     private val _nextRoomTimetable = MutableLiveData<DisplayableCourseGroup>()
     val nextRoomTimetable: LiveData<DisplayableCourseGroup>

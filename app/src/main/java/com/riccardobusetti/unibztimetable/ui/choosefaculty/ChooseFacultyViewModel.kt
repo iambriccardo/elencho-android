@@ -14,7 +14,7 @@ import com.riccardobusetti.unibztimetable.domain.entities.params.UserPrefsParams
 import com.riccardobusetti.unibztimetable.domain.repositories.ChooseFacultyRepository
 import com.riccardobusetti.unibztimetable.domain.usecases.DeleteLocalTimetableUseCase
 import com.riccardobusetti.unibztimetable.domain.usecases.PutUserPrefsUseCase
-import com.riccardobusetti.unibztimetable.ui.custom.AdvancedViewModel
+import com.riccardobusetti.unibztimetable.ui.custom.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -24,7 +24,7 @@ class ChooseFacultyViewModel(
     private val repository: ChooseFacultyRepository,
     private val putUserPrefsUseCase: PutUserPrefsUseCase,
     private val deleteLocalTimetableUseCase: DeleteLocalTimetableUseCase
-) : AdvancedViewModel() {
+) : BaseViewModel() {
 
     companion object {
         private const val TAG = "ChooseFacultyViewModel"
@@ -34,9 +34,9 @@ class ChooseFacultyViewModel(
     val choices: LiveData<List<FacultyChoice>>
         get() = _choices
 
-    private val _showNextButton = MutableLiveData<Boolean>(false)
-    val showNextButton: LiveData<Boolean>
-        get() = _showNextButton
+    private val _showContinueButton = MutableLiveData<Boolean>(false)
+    val showContinueButton: LiveData<Boolean>
+        get() = _showContinueButton
 
     private val choicesStack: Stack<Pair<UserPrefs.Pref, FacultyChoice>> = Stack()
 
@@ -45,7 +45,7 @@ class ChooseFacultyViewModel(
     }
 
     private fun loadData() {
-        hideNextButton()
+        hideContinueButton()
         if (choicesStack.empty()) {
             loadDepartments()
         } else {
@@ -53,7 +53,7 @@ class ChooseFacultyViewModel(
             when (currentChoice.first) {
                 UserPrefs.Pref.DEPARTMENT_KEY -> loadDegrees((currentChoice.second as Department))
                 UserPrefs.Pref.DEGREE_KEY -> loadStudyPlans((currentChoice.second as Degree))
-                UserPrefs.Pref.STUDY_PLAN_KEY -> showNextButton()
+                UserPrefs.Pref.STUDY_PLAN_KEY -> showContinueButton()
             }
         }
     }
@@ -67,7 +67,7 @@ class ChooseFacultyViewModel(
             // If we don't get data from the server it means that a specific department... has no
             // degrees...
             if (result.isEmpty())
-                showNextButton()
+                showContinueButton()
             else
                 mutableLiveData.value = result
         }
@@ -152,11 +152,13 @@ class ChooseFacultyViewModel(
         loadData()
     }
 
-    private fun showNextButton() {
-        _showNextButton.value = true
+    fun canGoBack() = choicesStack.isNotEmpty()
+
+    private fun showContinueButton() {
+        _showContinueButton.value = true
     }
 
-    private fun hideNextButton() {
-        _showNextButton.value = false
+    private fun hideContinueButton() {
+        _showContinueButton.value = false
     }
 }
