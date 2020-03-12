@@ -36,7 +36,7 @@
     <!-- Preferences -->
     <string name="preference_category_personalization_title">Personalization</string>
     <string name="preference_configuration_title">Configure the app</string>
-    <string name="preference_configuration_summary">Configure the application in order to see the cours for your study plan.</string>
+    <string name="preference_configuration_summary">Reconfigure the app so that you can track new courses or set a new time for the daily notification.</string>
     <string name="preference_category_information_title">Information</string>
     <string name="preference_contact_title">Contact developer</string>
     <string name="preference_contact_summary">This application was developed by Riccardo Busetti, if you have any questions feel free to contact me.</string>
@@ -57,11 +57,13 @@
     <string name="daily_notification_courses_big_text">%1$s - %2$s</string>
     <string name="daily_notification_no_courses_title">You don\'t have any courses today</string>
     <string name="daily_notification_no_courses_text">Enjoy your day</string>
+
+    <!-- Setup -->
     <string name="next">Next</string>
     <string name="choose_faculty_header">Choose courses</string>
-    <string name="choose_faculty_description">It\'s time to select which courses you want to track!</string>
+    <string name="choose_faculty_description">It\'s time to select which courses you want to track.</string>
     <string name="choose_time">Choose time</string>
     <string name="finish">Finish</string>
-    <string name="choose_notification_time_header">Choose notification time</string>
+    <string name="choose_notification_time_header">Choose daily notification time</string>
     <string name="choose_notification_time_description">The app can help you remeber the daily courses, so that you won\'t miss one.</string>
 </resources>

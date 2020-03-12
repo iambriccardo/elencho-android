@@ -36,7 +36,7 @@
     <!-- Preferences -->
     <string name="preference_category_personalization_title">Personalizzazione</string>
     <string name="preference_configuration_title">Configura l\'app</string>
-    <string name="preference_configuration_summary">Configura l\'applicazione per visualizzare i tuoi corsi.</string>
+    <string name="preference_configuration_summary">Riconfigurare l\'app in modo da poter tenere traccia dei nuovi corsi o impostare un nuovo orario per la notifica giornaliera.</string>
     <string name="preference_category_information_title">Informazioni</string>
     <string name="preference_contact_title">Contatta sviluppatore</string>
     <string name="preference_contact_summary">Questa applicazione è stata create da Riccardo Busetti, per qualsiasi domanda sentiti libero di contattarmi.</string>
@@ -57,4 +57,13 @@
     <string name="daily_notification_courses_big_text">%1$s - %2$s</string>
     <string name="daily_notification_no_courses_title">Non hai nessun corso oggi</string>
     <string name="daily_notification_no_courses_text">Goditi la giornata</string>
+
+    <!-- Setup -->
+    <string name="next">Avanti</string>
+    <string name="finish">Fine</string>
+    <string name="choose_notification_time_header">Scegliere l\'ora di notifica giornalier</string>
+    <string name="choose_notification_time_description">Questa app ti ricorderà dei corsi giornalieri, così non ne perderai nessuno.</string>
+    <string name="choose_time">Seleziona il tempo</string>
+    <string name="choose_faculty_description">È il momento di selezionare quali corsi vuoi tracciare!</string>
+    <string name="choose_faculty_header">Scegliere i corsi</string>
 </resources>

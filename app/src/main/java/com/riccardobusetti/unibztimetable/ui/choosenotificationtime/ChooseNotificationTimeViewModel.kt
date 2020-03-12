@@ -29,7 +29,7 @@ class ChooseNotificationTimeViewModel(
     val showContinueButton: LiveData<Boolean>
         get() = _showContinueButton
 
-    private val _selectedTime = MutableLiveData<String>(formatCalendar(Calendar.getInstance()))
+    private val _selectedTime = MutableLiveData<String>()
     val selectedTime: LiveData<String>
         get() = _selectedTime
 

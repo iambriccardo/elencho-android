@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.riccardobusetti.unibztimetable.R
-import com.riccardobusetti.unibztimetable.ui.configuration.ConfigurationActivity
 import com.riccardobusetti.unibztimetable.ui.setup.SetupActivity
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -19,7 +18,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun setupListeners() {
         findPreference<Preference>("preference_configuration")?.setOnPreferenceClickListener {
             Intent(context, SetupActivity::class.java).apply {
-                putExtra(ConfigurationActivity.IS_FIRST_CONFIGURATION_KEY, false)
                 startActivity(this)
             }
 

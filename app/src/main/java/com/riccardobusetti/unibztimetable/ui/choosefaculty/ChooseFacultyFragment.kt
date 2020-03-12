@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +36,7 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
 
     private val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
+    private lateinit var progressBar: ProgressBar
     private lateinit var recyclerView: RecyclerView
     private lateinit var continueButton: Button
 
@@ -66,6 +68,8 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
     }
 
     override fun setupUI() {
+        progressBar = fragment_choose_faculty_progress_bar
+
         recyclerView = fragment_choose_faculty_recyclerview
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -90,6 +94,14 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
                     showContinueButton()
                 } else {
                     hideContinueButton()
+                }
+            })
+
+            it.loading.observe(this@ChooseFacultyFragment, Observer { isLoading ->
+                if (isLoading) {
+                    showLoading()
+                } else {
+                    hideLoading()
                 }
             })
         }
@@ -122,5 +134,15 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
 
     private fun hideContinueButton() {
         continueButton.visibility = View.GONE
+    }
+
+    private fun showLoading() {
+        progressBar.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+    }
+
+    private fun hideLoading() {
+        progressBar.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
     }
 }

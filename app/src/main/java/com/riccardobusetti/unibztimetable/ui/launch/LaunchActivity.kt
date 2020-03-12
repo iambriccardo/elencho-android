@@ -9,7 +9,6 @@ import com.riccardobusetti.unibztimetable.domain.entities.onlyMandatory
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
 import com.riccardobusetti.unibztimetable.domain.strategies.SharedPreferencesUserPrefsStrategy
 import com.riccardobusetti.unibztimetable.domain.usecases.GetUserPrefsUseCase
-import com.riccardobusetti.unibztimetable.ui.configuration.ConfigurationActivity
 import com.riccardobusetti.unibztimetable.ui.main.MainActivity
 import com.riccardobusetti.unibztimetable.ui.setup.SetupActivity
 
@@ -62,7 +61,6 @@ class LaunchActivity : AppCompatActivity() {
         Intent(this, SetupActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            putExtra(ConfigurationActivity.IS_FIRST_CONFIGURATION_KEY, true)
             startActivity(this)
         }
     }

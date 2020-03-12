@@ -37,7 +37,7 @@
     <!-- Preferences -->
     <string name="preference_category_personalization_title">Personalisierung</string>
     <string name="preference_configuration_title">Konfigurieren der App</string>
-    <string name="preference_configuration_summary">Konfigurieren Sie die Anwendung, um die Kurse für Ihren Studienplan anzuzeigen.</string>
+    <string name="preference_configuration_summary">Konfigurieren Sie die App neu, so dass Sie neue Kurse verfolgen oder eine neue Zeit für die tägliche Benachrichtigung festlegen können.</string>
     <string name="preference_category_information_title">Informationen</string>
     <string name="preference_contact_title">Entwickler kontaktieren</string>
     <string name="preference_contact_summary">Diese Anwendung wurde von Riccardo Busetti entwickelt, wenn Sie Fragen haben, können Sie mich gerne kontaktieren.</string>
@@ -58,4 +58,13 @@
     <string name="daily_notification_courses_big_text">%1$s - %2$s</string>
     <string name="daily_notification_no_courses_title">Du hast heute keine Kurse</string>
     <string name="daily_notification_no_courses_text">Genießen Sie den Tag</string>
+
+    <!-- Setup -->
+    <string name="next">Nächste</string>
+    <string name="choose_faculty_header">Kurse auswählen</string>
+    <string name="choose_faculty_description">Es ist an der Zeit, die Kurse auszuwählen, die Sie verfolgen möchten.</string>
+    <string name="choose_time">Zeit wählen</string>
+    <string name="finish">Beenden Sie</string>
+    <string name="choose_notification_time_header">Wählen Sie die tägliche Benachrichtigungszeit</string>
+    <string name="choose_notification_time_description">Die App kann Ihnen helfen, sich an die täglichen Kurse zu erinnern, so dass Sie keinen einzigen verpassen.</string>
 </resources>

@@ -38,6 +38,10 @@ class ChooseFacultyViewModel(
     val showContinueButton: LiveData<Boolean>
         get() = _showContinueButton
 
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean>
+        get() = _loading
+
     private val choicesStack: Stack<Pair<UserPrefs.Pref, FacultyChoice>> = Stack()
 
     override fun start() {
@@ -63,7 +67,9 @@ class ChooseFacultyViewModel(
         block: suspend () -> List<FacultyChoice>
     ) {
         viewModelScope.safeLaunch(TAG) {
+            showLoading()
             val result = withContext(Dispatchers.IO) { block() }
+            hideLoading()
             // If we don't get data from the server it means that a specific department... has no
             // degrees...
             if (result.isEmpty())
@@ -126,7 +132,7 @@ class ChooseFacultyViewModel(
         val choicesList = choicesStack.toList()
 
         UserPrefs.Pref.values().onlyChooseFaculty().forEach { pref ->
-            val choice = choicesList.find { it.first == pref }
+            val choice = choicesList.findLast { it.first == pref }
             userPrefsMap[pref] = getFacultyChoiceKey(choice?.second)
         }
 
@@ -160,5 +166,13 @@ class ChooseFacultyViewModel(
 
     private fun hideContinueButton() {
         _showContinueButton.value = false
+    }
+
+    private fun showLoading() {
+        _loading.value = true
+    }
+
+    private fun hideLoading() {
+        _loading.value = false
     }
 }
