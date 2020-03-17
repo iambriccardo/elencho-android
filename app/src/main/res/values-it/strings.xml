@@ -66,4 +66,6 @@
     <string name="choose_time">Seleziona il tempo</string>
     <string name="choose_faculty_description">È il momento di selezionare quali corsi vuoi tracciare!</string>
     <string name="choose_faculty_header">Scegliere i corsi</string>
+    <string name="retry">Riprova</string>
+    <string name="error_message">Si è verificato un errore, riprova.</string>
 </resources>

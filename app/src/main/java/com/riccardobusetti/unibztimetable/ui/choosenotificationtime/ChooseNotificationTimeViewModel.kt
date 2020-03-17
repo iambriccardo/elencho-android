@@ -33,6 +33,10 @@ class ChooseNotificationTimeViewModel(
     val selectedTime: LiveData<String>
         get() = _selectedTime
 
+    private val _error = MutableLiveData<Throwable>()
+    val error: LiveData<Throwable>
+        get() = _error
+
     private var selectedCalendar: Calendar? = null
 
     override fun start() {}
@@ -44,12 +48,14 @@ class ChooseNotificationTimeViewModel(
     }
 
     fun saveUserPrefs() {
-        viewModelScope.safeLaunch(TAG) {
+        viewModelScope.safeLaunch(TAG, {
             withContext(Dispatchers.IO) {
                 putUserPrefsUseCase.execute(UserPrefsParams(buildUserPrefs()))
                 scheduleAlarm()
             }
-        }
+        }, {
+            _error.value = it
+        })
     }
 
     private fun buildUserPrefs(): UserPrefs {

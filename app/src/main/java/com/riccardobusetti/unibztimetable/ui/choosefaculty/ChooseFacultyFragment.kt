@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import com.riccardobusetti.unibztimetable.domain.entities.choices.FacultyChoice
@@ -38,6 +39,7 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
 
     private lateinit var progressBar: ProgressBar
     private lateinit var recyclerView: RecyclerView
+    private lateinit var retryButton: Button
     private lateinit var continueButton: Button
 
     override fun initViewModel(): ChooseFacultyViewModel {
@@ -76,6 +78,11 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
             adapter = groupAdapter
         }
 
+        retryButton = fragment_choose_faculty_retry_button
+        retryButton.setOnClickListener {
+            model?.start()
+        }
+
         continueButton = fragment_choose_faculty_continue_button
         continueButton.setOnClickListener {
             model?.saveUserPrefs()
@@ -103,6 +110,11 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
                 } else {
                     hideLoading()
                 }
+            })
+
+            it.error.observe(this@ChooseFacultyFragment, Observer {
+                showRetryButton()
+                Snackbar.make(requireView(), R.string.error_message, Snackbar.LENGTH_LONG).show()
             })
         }
     }
@@ -139,10 +151,21 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
     private fun showLoading() {
         progressBar.visibility = View.VISIBLE
         recyclerView.visibility = View.GONE
+        hideRetryButton()
     }
 
     private fun hideLoading() {
         progressBar.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
+    }
+
+    private fun showRetryButton() {
+        retryButton.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
+        recyclerView.visibility = View.GONE
+    }
+
+    private fun hideRetryButton() {
+        retryButton.visibility = View.GONE
     }
 }

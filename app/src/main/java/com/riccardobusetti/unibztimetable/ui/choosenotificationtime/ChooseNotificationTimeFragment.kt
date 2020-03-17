@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.timePicker
+import com.google.android.material.snackbar.Snackbar
 import com.riccardobusetti.unibztimetable.R
 import com.riccardobusetti.unibztimetable.domain.entities.app.AppSection
 import com.riccardobusetti.unibztimetable.domain.repositories.UserPrefsRepository
@@ -75,6 +76,10 @@ class ChooseNotificationTimeFragment : BaseFragment<ChooseNotificationTimeViewMo
 
             it.selectedTime.observe(this@ChooseNotificationTimeFragment, Observer { selectedTime ->
                 chooseTimeButton.text = selectedTime
+            })
+
+            it.error.observe(this@ChooseNotificationTimeFragment, Observer {
+                Snackbar.make(requireView(), R.string.error_message, Snackbar.LENGTH_LONG).show()
             })
         }
     }

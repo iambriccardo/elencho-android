@@ -67,4 +67,6 @@
     <string name="finish">Beenden Sie</string>
     <string name="choose_notification_time_header">Wählen Sie die tägliche Benachrichtigungszeit</string>
     <string name="choose_notification_time_description">Die App kann Ihnen helfen, sich an die täglichen Kurse zu erinnern, so dass Sie keinen einzigen verpassen.</string>
+    <string name="retry">Nochmals versuchen</string>
+    <string name="error_message">Es ist ein Fehler aufgetreten, versuchen Sie es erneut.</string>
 </resources>

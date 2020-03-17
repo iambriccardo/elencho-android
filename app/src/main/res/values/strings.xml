@@ -66,4 +66,6 @@
     <string name="finish">Finish</string>
     <string name="choose_notification_time_header">Choose daily notification time</string>
     <string name="choose_notification_time_description">The app can help you remeber the daily courses, so that you won\'t miss one.</string>
+    <string name="retry">Retry</string>
+    <string name="error_message">An error occurred, try again.</string>
 </resources>

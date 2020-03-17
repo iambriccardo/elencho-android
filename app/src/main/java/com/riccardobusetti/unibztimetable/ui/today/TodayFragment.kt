@@ -70,8 +70,6 @@ class TodayFragment : TimetableFragment<TodayViewModel>() {
     }
 
     override fun setupUI() {
-        parentLayout = fragment_today_parent
-
         loadingView = fragment_today_lottie_loading_view
 
         statusView = fragment_today_status_view

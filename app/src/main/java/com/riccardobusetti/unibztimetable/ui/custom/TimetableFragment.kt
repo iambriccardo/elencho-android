@@ -34,7 +34,6 @@ abstract class TimetableFragment<ViewModel : TimetableViewModel> : BaseFragment<
 
     protected lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
-    protected var parentLayout: View? = null
     protected var swipeToRefreshLayout: SwipeRefreshLayout? = null
     protected var recyclerView: RecyclerView? = null
     protected var loadingView: LottieAnimationView? = null
@@ -170,8 +169,6 @@ abstract class TimetableFragment<ViewModel : TimetableViewModel> : BaseFragment<
     }
 
     private fun showSnackbar(error: TimetableViewModel.TimetableError) {
-        parentLayout?.let {
-            Snackbar.make(it, error.descriptionResId, Snackbar.LENGTH_LONG).show()
-        }
+        Snackbar.make(requireView(), error.descriptionResId, Snackbar.LENGTH_LONG).show()
     }
 }

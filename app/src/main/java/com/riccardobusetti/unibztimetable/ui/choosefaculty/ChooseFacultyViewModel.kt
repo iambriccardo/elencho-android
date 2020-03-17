@@ -42,6 +42,10 @@ class ChooseFacultyViewModel(
     val loading: LiveData<Boolean>
         get() = _loading
 
+    private val _error = MutableLiveData<Throwable>()
+    val error: LiveData<Throwable>
+        get() = _error
+
     private val choicesStack: Stack<Pair<UserPrefs.Pref, FacultyChoice>> = Stack()
 
     override fun start() {
@@ -66,7 +70,7 @@ class ChooseFacultyViewModel(
         mutableLiveData: MutableLiveData<List<FacultyChoice>>,
         block: suspend () -> List<FacultyChoice>
     ) {
-        viewModelScope.safeLaunch(TAG) {
+        viewModelScope.safeLaunch(TAG, {
             showLoading()
             val result = withContext(Dispatchers.IO) { block() }
             hideLoading()
@@ -76,7 +80,9 @@ class ChooseFacultyViewModel(
                 showContinueButton()
             else
                 mutableLiveData.value = result
-        }
+        }, {
+            _error.value = it
+        })
     }
 
     private fun loadDepartments() {
