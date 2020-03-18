@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='Unibz Timetable'
+rootProject.name='elencho'
