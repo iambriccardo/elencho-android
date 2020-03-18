@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ProgressBar
 import androidx.lifecycle.Observer
@@ -76,6 +77,10 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = groupAdapter
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(
+                    activity,
+                    R.anim.layout_animation_slide_from_bottom
+            )
         }
 
         retryButton = fragment_choose_faculty_retry_button
@@ -134,6 +139,7 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
         choices.forEach { choice ->
             groupAdapter.add(FacultyItem(choice) { clickedChoice -> handleChoiceClick(clickedChoice) })
         }
+        recyclerView.scheduleLayoutAnimation()
     }
 
     private fun handleChoiceClick(choice: FacultyChoice) {
