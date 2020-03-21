@@ -1,7 +1,7 @@
 package com.riccardobusetti.unibztimetable.domain.repositories
 
-import com.riccardobusetti.unibztimetable.data.remote.retrofit.ChooseFacultyRetrofitClient
-import com.riccardobusetti.unibztimetable.data.remote.retrofit.ChooseFacultyService
+import com.riccardobusetti.unibztimetable.data.remote.retrofit.BackendRetrofitClient
+import com.riccardobusetti.unibztimetable.data.remote.retrofit.BackendService
 
 /**
  * Repository implementation for the fetch of all the faculty courses available.
@@ -10,8 +10,9 @@ import com.riccardobusetti.unibztimetable.data.remote.retrofit.ChooseFacultyServ
  */
 class ChooseFacultyRepository : Repository {
 
-    private val webservice: ChooseFacultyService
-        get() = ChooseFacultyRetrofitClient.webservice
+    // TODO: implement also local storage for the faculties.
+    private val webservice: BackendService
+        get() = BackendRetrofitClient.webservice
 
     suspend fun getDepartments() = webservice.getDepartments()
 

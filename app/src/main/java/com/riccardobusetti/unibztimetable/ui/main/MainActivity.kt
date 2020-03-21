@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
@@ -105,7 +106,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_room_check -> {
-                FragmentedActivity.launch(this, RoomCheckFragment::class.java)
+                val fragment = RoomCheckFragment()
+                fragment.show(supportFragmentManager, "tag")
             }
         }
 

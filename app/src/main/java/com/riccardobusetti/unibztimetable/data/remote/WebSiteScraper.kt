@@ -25,7 +25,7 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
     companion object {
         private const val TAG = "WebSiteScraper"
 
-        private const val NO_LOCATION = "N/A"
+        private const val NO_ROOM = "N/A"
     }
 
     /**
@@ -38,8 +38,8 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
         GET_ALL_DAYS("article"),
         GET_ALL_COURSES(".u-pbi-avoid"),
         GET_DAY_DATE("h2"),
-        GET_COURSE_TITLE(".u-push-btm-1"),
-        GET_COURSE_LOCATION(".u-push-btm-quarter"),
+        GET_COURSE_ROOM(".u-push-btm-quarter"),
+        GET_COURSE_DESCRIPTION(".u-push-btm-1"),
         GET_COURSE_PROFESSOR(".actionLink"),
         GET_COURSE_TIME_AND_TYPE(".u-push-btm-none:first-of-type")
     }
@@ -61,10 +61,10 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
     private fun Element.selectDayDateFormatted() = formatDate(this.selectDayDate())
 
     private fun Element.selectCourseDescription() =
-        this.select(CSSQueries.GET_COURSE_TITLE.cssQuery).text()
+        this.select(CSSQueries.GET_COURSE_DESCRIPTION.cssQuery).text()
 
     private fun Element.selectCourseRoom() =
-        this.select(CSSQueries.GET_COURSE_LOCATION.cssQuery).text()
+        this.select(CSSQueries.GET_COURSE_ROOM.cssQuery).text()
 
     private fun Element.selectCourseProfessor() =
         this.select(CSSQueries.GET_COURSE_PROFESSOR.cssQuery).text()
@@ -108,15 +108,15 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
     @TargetApi(Build.VERSION_CODES.O)
     private fun getAllCourses(day: Element): List<Course> {
         // This variable is used because there is a possibility in which
-        // the location is not specified, thus we will use the previous location.
-        // This is done because the previous location following the website design
+        // the room is not specified, thus we will use the previous room.
+        // This is done because the previous room following the website design
         // corresponds to the same one.
         // For example:
         // BZ C2.01
         //  Mathematics I
         //  Mathematics II
-        // These two courses are on the same class but on the HTML the location is only contained once.
-        var prevRoom = NO_LOCATION
+        // These two courses are on the same class but on the HTML the room is only contained once.
+        var prevRoom = NO_ROOM
         val currentYear = DateUtils.getCurrentYear()
 
         return day.selectAllCourses().map { course ->
@@ -138,7 +138,7 @@ class WebSiteScraper(private val webSiteUrl: WebSiteUrl) {
             )
 
             prevRoom =
-                if (course.selectCourseRoom().isBlank()) NO_LOCATION else course.selectCourseRoom()
+                if (course.selectCourseRoom().isBlank()) NO_ROOM else course.selectCourseRoom()
 
             return@map mappedCourse
         }

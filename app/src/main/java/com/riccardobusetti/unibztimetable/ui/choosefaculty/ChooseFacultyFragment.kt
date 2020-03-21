@@ -97,11 +97,11 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
 
     override fun attachObservers() {
         model?.let {
-            it.choices.observe(this@ChooseFacultyFragment, Observer { choices ->
+            it.choices.observe(this, Observer { choices ->
                 showChoices(choices)
             })
 
-            it.showContinueButton.observe(this@ChooseFacultyFragment, Observer { show ->
+            it.showContinueButton.observe(this, Observer { show ->
                 if (show) {
                     showContinueButton()
                 } else {
@@ -109,7 +109,7 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
                 }
             })
 
-            it.loading.observe(this@ChooseFacultyFragment, Observer { isLoading ->
+            it.loading.observe(this, Observer { isLoading ->
                 if (isLoading) {
                     showLoading()
                 } else {
@@ -117,7 +117,7 @@ class ChooseFacultyFragment : BaseFragment<ChooseFacultyViewModel>(), BackableFr
                 }
             })
 
-            it.error.observe(this@ChooseFacultyFragment, Observer {
+            it.error.observe(this, Observer {
                 showRetryButton()
                 Snackbar.make(requireView(), R.string.error_message, Snackbar.LENGTH_LONG).show()
             })

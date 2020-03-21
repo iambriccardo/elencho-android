@@ -9,6 +9,8 @@
     <color name="colorBackgroundNight">#121212</color>
     <color name="colorBackgroundAccentNight">#2D2D2D</color>
 
+    <color name="colorGreenSuccess">#00e676</color>
+
     <color name="colorBlack">#000000</color>
     <color name="colorBlack12">#1F000000</color>
     <color name="colorBlack87">#DE000000</color>

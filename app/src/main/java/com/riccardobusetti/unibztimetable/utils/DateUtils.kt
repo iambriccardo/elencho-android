@@ -7,9 +7,14 @@ import java.util.*
 
 object DateUtils {
 
-    const val WEBSITE_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm"
-    const val URL_DATE_FORMAT = "yyyy-MM-dd"
-    private val LOCAL_CALENDAR_FORMAT = "yyyy-MM-dd HH:mm"
+    // Format used to parse the date from the unibz website.
+    const val UNIBZ_DATE_TIME_FORMAT = "EEE, dd MMM yyyy HH:mm"
+    // Format used to make a request to the unibz website.
+    const val URL_REQUEST_DATE_FORMAT = "yyyy-MM-dd"
+    // Format used throughout the app.
+    const val DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm"
+    // Format used in the backend (this must be the default in future).
+    const val BACKEND_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'"
 
     private val supportedLocales = listOf("en", "it", "de")
 
@@ -36,7 +41,7 @@ object DateUtils {
 
     fun getCurrentYear() = getCurrentCalendar().get(Calendar.YEAR)
 
-    fun getCurrentDateFormatted(dateFormat: String = URL_DATE_FORMAT) =
+    fun getCurrentDateFormatted(dateFormat: String = URL_REQUEST_DATE_FORMAT) =
         formatDateToString(getCurrentDate(), dateFormat)
 
     fun getCurrentTimeFormatted(isMidnight: Boolean = false): String {
@@ -52,7 +57,7 @@ object DateUtils {
     }
 
     fun getCurrentLocalDateTime(isMidnight: Boolean = false): LocalDateTime =
-        parseLocalDateTime(getCurrentTimeFormatted(isMidnight), LOCAL_CALENDAR_FORMAT, true)
+        parseLocalDateTime(getCurrentTimeFormatted(isMidnight), DATE_TIME_FORMAT, true)
 
     fun getCurrentDatePlusDaysFormatted(days: Int) =
         formatDateToString((getCurrentCalendar() addDays days).time)
@@ -67,20 +72,20 @@ object DateUtils {
         return calendar
     }
 
-    fun formatDateToString(date: Date, dateFormat: String = URL_DATE_FORMAT): String {
+    fun formatDateToString(date: Date, dateFormat: String = URL_REQUEST_DATE_FORMAT): String {
         val dateFormatter = SimpleDateFormat(dateFormat, getDefaultLocaleGuarded())
 
         return dateFormatter.format(date)
     }
 
-    fun formatStringToDate(date: String, dateFormat: String = URL_DATE_FORMAT): Date? {
+    fun formatStringToDate(date: String, dateFormat: String = URL_REQUEST_DATE_FORMAT): Date? {
         val dateFormatter = SimpleDateFormat(dateFormat, getDefaultLocaleGuarded())
 
         return dateFormatter.parse(date)
     }
 
     fun formatCourseDateTime(dateTime: LocalDateTime): String =
-        formatLocalDateTime(dateTime, WEBSITE_DATE_FORMAT, true)
+        formatLocalDateTime(dateTime, UNIBZ_DATE_TIME_FORMAT, true)
 
     fun parseCourseDateTime(
         date: String,
@@ -89,7 +94,7 @@ object DateUtils {
     ): LocalDateTime = parseCourseDateTime("$date $year $time")
 
     fun parseCourseDateTime(dateTime: String): LocalDateTime =
-        parseLocalDateTime(dateTime, WEBSITE_DATE_FORMAT, true)
+        parseLocalDateTime(dateTime, UNIBZ_DATE_TIME_FORMAT, true)
 
     fun formatLocalDateTime(
         dateTime: LocalDateTime,
@@ -98,7 +103,7 @@ object DateUtils {
     ): String =
         dateTime.format(getDateTimeFormatter(pattern, forceEnglish))
 
-    private fun parseLocalDateTime(
+    fun parseLocalDateTime(
         dateTime: String,
         pattern: String,
         forceEnglish: Boolean

@@ -48,7 +48,7 @@ class TodayTimetableUpdateWorker(
                 updateTodayTimetable(getUserPrefs())
             }
         } catch (e: Exception) {
-            Log.d(TAG, "an error occurred while updating the today timetable: $e")
+            Log.d(TAG, "an sad_face occurred while updating the today timetable: $e")
             Result.retry()
         }
 

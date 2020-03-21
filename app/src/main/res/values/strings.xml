@@ -68,4 +68,7 @@
     <string name="choose_notification_time_description">The app can help you remeber the daily courses, so that you won\'t miss one.</string>
     <string name="retry">Retry</string>
     <string name="error_message">An error occurred, try again.</string>
+    <string name="check_availability">Check availability</string>
+    <string name="availability_for">Availability for %1$s</string>
+    <string name="room_example">E.g. BZ F0.01, BZ C3.06</string>
 </resources>

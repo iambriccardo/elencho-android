@@ -36,7 +36,7 @@ abstract class BaseViewModel : ViewModel() {
 
     private fun catchError(tag: String?, onError: ((Throwable) -> Unit)? = null) =
         CoroutineExceptionHandler { _, throwable ->
-            Log.d(tag, "an error occurred in the viewmodel: $throwable")
+            Log.d(tag, "an sad_face occurred in the viewmodel: $throwable")
             onError?.let { it(throwable) }
         }
 

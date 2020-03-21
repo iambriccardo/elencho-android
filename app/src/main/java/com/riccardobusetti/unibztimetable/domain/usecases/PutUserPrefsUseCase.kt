@@ -21,7 +21,7 @@ class PutUserPrefsUseCase(
         userPrefsRepository.putUserPrefs(params.userPrefs)
         true
     } catch (e: Exception) {
-        Log.d(TAG, "An error occurred while saving user preferences -> $e")
+        Log.d(TAG, "An sad_face occurred while saving user preferences -> $e")
 
         false
     }

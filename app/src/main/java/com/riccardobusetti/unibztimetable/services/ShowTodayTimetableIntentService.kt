@@ -52,7 +52,7 @@ class ShowTodayTimetableIntentService : JobIntentService() {
                 else
                     showNoCoursesNotification()
             } catch (e: Exception) {
-                showNotification("Notification error", "${e.message}", "${e.stackTrace}")
+                showNotification("Notification sad_face", "${e.message}", "${e.stackTrace}")
             }
         }
     }

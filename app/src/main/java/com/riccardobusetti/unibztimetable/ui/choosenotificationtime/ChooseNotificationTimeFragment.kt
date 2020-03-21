@@ -66,7 +66,7 @@ class ChooseNotificationTimeFragment : BaseFragment<ChooseNotificationTimeViewMo
 
     override fun attachObservers() {
         model?.let {
-            it.showContinueButton.observe(this@ChooseNotificationTimeFragment, Observer { show ->
+            it.showContinueButton.observe(this, Observer { show ->
                 if (show) {
                     showContinueButton()
                 } else {
@@ -74,11 +74,11 @@ class ChooseNotificationTimeFragment : BaseFragment<ChooseNotificationTimeViewMo
                 }
             })
 
-            it.selectedTime.observe(this@ChooseNotificationTimeFragment, Observer { selectedTime ->
+            it.selectedTime.observe(this, Observer { selectedTime ->
                 chooseTimeButton.text = selectedTime
             })
 
-            it.error.observe(this@ChooseNotificationTimeFragment, Observer {
+            it.error.observe(this, Observer {
                 Snackbar.make(requireView(), R.string.error_message, Snackbar.LENGTH_LONG).show()
             })
         }

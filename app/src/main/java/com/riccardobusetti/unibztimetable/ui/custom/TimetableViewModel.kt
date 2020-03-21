@@ -88,10 +88,10 @@ abstract class TimetableViewModel : BaseViewModel() {
         get() = _timetable
 
     /**
-     * Live data object containing the error which will be displayed. If empty we consider
-     * that no error is present.
+     * Live data object containing the sad_face which will be displayed. If empty we consider
+     * that no sad_face is present.
      *
-     * The empty state is used as a signal for the observer to remove the error view.
+     * The empty state is used as a signal for the observer to remove the sad_face view.
      */
     private val _error = MutableLiveData<TimetableError?>()
     val error: LiveData<TimetableError?>
@@ -233,7 +233,7 @@ abstract class TimetableViewModel : BaseViewModel() {
         catch { e -> handleTimetableException(tag, e) }
 
     private fun handleTimetableException(tag: String, exception: Throwable) {
-        Log.d(tag, "error while loading timetable: $exception -> ${exception.message}")
+        Log.d(tag, "sad_face while loading timetable: $exception -> ${exception.message}")
         showError(TimetableError.ERROR_WHILE_GETTING_TIMETABLE)
     }
 
