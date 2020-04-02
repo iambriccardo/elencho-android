@@ -23,7 +23,7 @@ interface BackendService {
     @GET("studyPlans")
     suspend fun getStudyPlans(@Query("degreeId") degreeId: String): List<StudyPlan>
 
-    @GET("checkAvailability")
+    @GET("availability")
     suspend fun checkAvailability(
         @Query("room") room: String,
         @Query("deviceTime") deviceTime: String
